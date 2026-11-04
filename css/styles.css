@@ -502,3 +502,6 @@ body {
     background: #FFFFFF !important;
   }
 }
+
+/* Printing the status pass: hide the in-progress registration pass */
+body.print-status #registrationPassSection { display: none !important; }

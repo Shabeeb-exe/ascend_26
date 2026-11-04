@@ -569,6 +569,52 @@
           </p>
         </div>
 
+        <!-- Check status / get pass (works after refresh, on any device) -->
+        <div id="statusCheckSection" class="mb-10 max-w-3xl mx-auto">
+          <div class="surface-card p-6 no-print">
+            <h2 class="font-display text-lg font-bold">Already registered? Check status &amp; get your pass</h2>
+            <p class="text-xs mt-1 mb-4" style="color: var(--text-secondary);">Enter the Reference ID you received and the mobile number you registered with. Once the ASCEND desk verifies your payment, your confirmed pass appears here.</p>
+            <form id="statusCheckForm" class="grid grid-cols-1 sm:grid-cols-7 gap-3 items-end" novalidate>
+              <div class="sm:col-span-3">
+                <label for="chkRef" class="block text-[11px] uppercase font-semibold mb-1" style="color: var(--text-muted);">Reference ID</label>
+                <input type="text" id="chkRef" class="input-field uppercase" placeholder="ASC26-XXXXXXX" maxlength="13" autocomplete="off" />
+              </div>
+              <div class="sm:col-span-2">
+                <label for="chkPhone" class="block text-[11px] uppercase font-semibold mb-1" style="color: var(--text-muted);">Mobile number</label>
+                <input type="tel" id="chkPhone" class="input-field" placeholder="98765 43210" />
+              </div>
+              <button type="submit" id="chkBtn" class="btn-gold sm:col-span-2 py-3 text-xs sm:text-sm">Check status</button>
+            </form>
+            <div id="statusCheckMsg" class="is-hidden mt-3 text-xs font-semibold" role="status"></div>
+          </div>
+
+          <div id="statusResult" class="is-hidden surface-platinum rounded-2xl p-6 sm:p-8 mt-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b pb-4 mb-4" style="border-color: var(--gold-border);">
+              <div>
+                <div class="text-xs uppercase tracking-widest font-bold" style="color: var(--gold-primary);">ASCEND '26 Delegate Pass</div>
+                <h2 id="stName" class="font-display text-xl sm:text-2xl font-bold"></h2>
+              </div>
+              <div class="sm:text-right">
+                <div class="text-xs uppercase tracking-wider" style="color: var(--text-muted);">Reference ID</div>
+                <div id="stRef" class="font-display text-lg font-extrabold text-gold-gradient"></div>
+              </div>
+            </div>
+            <div id="stBanner" class="p-4 rounded-xl text-xs sm:text-sm text-center font-semibold mb-4"></div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+              <div class="sm:col-span-2"><span class="text-xs uppercase block" style="color: var(--text-muted);">Institution</span><strong id="stCollege"></strong></div>
+              <div class="sm:col-span-2"><span class="text-xs uppercase block" style="color: var(--text-muted);">Event(s)</span><strong id="stEvents"></strong></div>
+              <div id="stTeamWrap" class="sm:col-span-2"><span class="text-xs uppercase block" style="color: var(--text-muted);">Team members</span><strong id="stTeam" class="text-xs"></strong></div>
+              <div><span class="text-xs uppercase block" style="color: var(--text-muted);">Total fee</span><strong id="stFee" class="text-amber-400"></strong></div>
+              <div><span class="text-xs uppercase block" style="color: var(--text-muted);">Accommodation</span><strong id="stAccom" class="text-xs"></strong></div>
+            </div>
+            <div class="mt-5 flex flex-wrap gap-2.5 no-print">
+              <button type="button" id="stPrintBtn" class="btn-gold px-5 py-2.5 text-xs sm:text-sm is-hidden">Print / Save Pass</button>
+              <button type="button" id="stRefreshBtn" class="btn-outline px-5 py-2.5 text-xs sm:text-sm">Refresh status</button>
+              <a id="stHelpBtn" href="#" target="_blank" rel="noopener noreferrer" class="btn-outline px-5 py-2.5 text-xs sm:text-sm is-hidden">Contact the desk on WhatsApp ↗</a>
+            </div>
+          </div>
+        </div>
+
         <!-- Provisional Registration & Payment Gateway Section -->
         <div id="registrationPassSection" class="is-hidden mb-12">
           <div class="surface-platinum rounded-2xl p-6 sm:p-8 max-w-3xl mx-auto">

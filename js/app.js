@@ -642,6 +642,9 @@
 
     setSyncNotice('ok');
     syncToSheet(sheetPayloadOf(lastPayload));
+    rememberRegistration(latestRefId, phone);
+    document.getElementById('chkRef').value = latestRefId;
+    document.getElementById('chkPhone').value = phone;
 
     document.getElementById('registrationPassSection').classList.remove('is-hidden');
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -691,6 +694,98 @@
       setPassStatus('submitted');
       showToast('Payment submitted — your registration is pending verification by the ASCEND desk.');
     });
+  }
+
+  // ---- Status check: delegate sees confirmed pass after the desk marks YES in the sheet
+  const STORE_KEY = 'ascend26.registration';
+  function rememberRegistration(ref, phone) {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify({ ref: ref, phone: phone })); } catch (err) { /* private mode */ }
+  }
+  function recallRegistration() {
+    try { return JSON.parse(localStorage.getItem(STORE_KEY) || 'null'); } catch (err) { return null; }
+  }
+
+  const chkMsg = document.getElementById('statusCheckMsg');
+  function chkNotice(text, tone) {
+    chkMsg.textContent = text;
+    chkMsg.style.color = tone === 'bad' ? '#FCA5A5' : '#FBBF24';
+    chkMsg.classList.toggle('is-hidden', !text);
+  }
+
+  function renderStatus(d) {
+    const banner = document.getElementById('stBanner');
+    const tones = {
+      confirmed: ['✅ REGISTRATION CONFIRMED — your payment is verified. Show this pass (with your college ID) at the ASCEND registration desk.', 'rgba(16,185,129,.12)', '#6EE7B7'],
+      pending: ['⏳ Payment received from you — pending verification by the ASCEND desk. Check again later; this page updates automatically once verified.', 'rgba(245,158,11,.12)', '#FCD34D'],
+      unpaid: ['💳 Registration saved, but no payment has been reported yet. Complete the UPI payment to continue.', 'rgba(245,158,11,.12)', '#FCD34D'],
+      rejected: ['⚠️ We could not verify your payment. Please contact the ASCEND desk on WhatsApp with your payment screenshot.', 'rgba(239,68,68,.12)', '#FCA5A5']
+    };
+    const t = tones[d.state] || tones.pending;
+    banner.textContent = t[0];
+    banner.style.background = t[1];
+    banner.style.color = t[2];
+    document.getElementById('stName').textContent = d.name;
+    document.getElementById('stRef').textContent = d.refId;
+    document.getElementById('stCollege').textContent = d.college + ' (' + d.program + ', ' + d.year + ')';
+    document.getElementById('stEvents').textContent = d.events;
+    document.getElementById('stTeam').textContent = d.team || '';
+    document.getElementById('stTeamWrap').classList.toggle('is-hidden', !d.team);
+    document.getElementById('stFee').textContent = '₹' + d.total;
+    document.getElementById('stAccom').textContent = d.accommodation;
+    document.getElementById('stPrintBtn').classList.toggle('is-hidden', d.state !== 'confirmed');
+    const help = document.getElementById('stHelpBtn');
+    help.classList.toggle('is-hidden', d.state !== 'rejected');
+    help.setAttribute('href', 'https://wa.me/' + SITE_CONFIG.coordinatorWhatsApp + '?text=' + encodeURIComponent('Hello, my payment could not be verified. Ref ID: ' + d.refId));
+    document.getElementById('statusResult').classList.remove('is-hidden');
+  }
+
+  async function checkStatus(ref, phoneRaw, silent) {
+    const phone = normalizePhone(phoneRaw);
+    ref = String(ref).trim().toUpperCase();
+    if (!/^ASC26-[0-9A-Z]{7}$/.test(ref) || !phone) {
+      if (!silent) chkNotice('Enter your Reference ID (ASC26-XXXXXXX) and the 10-digit mobile number you registered with.', 'bad');
+      return;
+    }
+    const btn = document.getElementById('chkBtn');
+    btn.disabled = true;
+    if (!silent) chkNotice('Checking…');
+    try {
+      const res = await fetch(SITE_CONFIG.sheetEndpoint + '?action=status&ref=' + encodeURIComponent(ref) + '&phone=' + phone);
+      const d = await res.json();
+      if (d && d.found) {
+        chkNotice('');
+        renderStatus(d);
+        rememberRegistration(ref, phone);
+      } else if (!silent) {
+        document.getElementById('statusResult').classList.add('is-hidden');
+        chkNotice('No registration found for that Reference ID and mobile number. Check both, or wait a minute if you just registered.', 'bad');
+      }
+    } catch (err) {
+      if (!silent) chkNotice('Could not reach the server. Check your internet and try again.', 'bad');
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  document.getElementById('statusCheckForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    checkStatus(document.getElementById('chkRef').value, document.getElementById('chkPhone').value, false);
+  });
+  document.getElementById('stRefreshBtn').addEventListener('click', () => {
+    checkStatus(document.getElementById('chkRef').value, document.getElementById('chkPhone').value, false);
+  });
+  document.getElementById('stPrintBtn').addEventListener('click', () => {
+    document.body.classList.add('print-status');
+    window.addEventListener('afterprint', () => document.body.classList.remove('print-status'), { once: true });
+    window.print();
+  });
+
+  // After a page refresh, restore this delegate's status automatically
+  const saved = recallRegistration();
+  if (saved && saved.ref) {
+    document.getElementById('chkRef').value = saved.ref;
+    document.getElementById('chkPhone').value = saved.phone || '';
+    checkStatus(saved.ref, saved.phone || '', true);
   }
 
   document.getElementById('printPassBtn').addEventListener('click', () => {

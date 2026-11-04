@@ -29,8 +29,12 @@ npx serve .
 ## Registration flow
 1. Delegate fills the form → a Ref ID is generated, the row is saved to the Google Sheet as **Unpaid**.
 2. Delegate pays by UPI (QR / button) quoting the Ref ID and clicks **I Have Paid**.
-3. The row becomes **Paid by delegate — pending verification**. The desk checks the bank statement against the
-   Ref ID / UTR and marks the last column of the sheet.
+3. The same row becomes **Paid by delegate — pending verification** (UTR saved; a UTR already used by another
+   registration is flagged **DUPLICATE UTR**).
+4. The desk matches amount + UTR against the bank / UPI app history and types **YES** in the
+   *Verified by desk* column (column R, a YES/NO dropdown). The script never overwrites that column.
+5. The delegate opens **Register → Check status**, enters Ref ID + mobile number, and sees the confirmed pass
+   (also restored automatically after a refresh on the same device).
 
 ## Deploying the Apps Script
 See the instructions at the top of `apps-script/Code.gs`. Redeploy as a **new version** after any change.
