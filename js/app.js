@@ -180,7 +180,10 @@
             </div>
 
             <h2 class="font-display text-xl font-bold">${ev.title}</h2>
-            <div class="text-xs font-semibold mt-1" style="color: var(--gold-primary);">${ev.format}</div>
+            <div class="flex items-center justify-between mt-1">
+              <span class="text-xs font-semibold" style="color: var(--gold-primary);">${ev.format}</span>
+              <span class="text-xs font-bold text-amber-400">Fee: ₹${ev.fee}</span>
+            </div>
 
             <p class="text-xs sm:text-sm leading-relaxed mt-3" style="color: var(--text-secondary);">
               ${ev.desc}
@@ -303,9 +306,12 @@
                style="border: 1.5px solid var(--gold-primary); background: ${isChecked ? 'var(--gold-primary)' : 'transparent'}; color: #090A0F;">
             ${isChecked ? '✓' : ''}
           </div>
-          <div class="flex-grow">
-            <div class="font-bold text-sm">${ev.title}</div>
-            <div class="text-[11px]" style="color: var(--text-muted);">${ev.format} • Head: ${ev.head}</div>
+          <div class="flex-grow flex items-center justify-between">
+            <div>
+              <div class="font-bold text-sm">${ev.title}</div>
+              <div class="text-[11px]" style="color: var(--text-muted);">${ev.format} • Head: ${ev.head}</div>
+            </div>
+            <div class="text-xs font-bold text-amber-400">₹${ev.fee}</div>
           </div>
         </div>
       `;
@@ -411,23 +417,70 @@
     const randomCode = Math.floor(1000 + Math.random() * 9000);
     latestRefId = 'ASC26-' + randomCode;
 
-  const chosenEvents = EVENTS_DATA.filter((ev) => selectedEventIds.has(ev.id));
+    const chosenEvents = EVENTS_DATA.filter((ev) => selectedEventIds.has(ev.id));
     const teamNames = Array.from(document.querySelectorAll('.team-member-input'))
       .map((inp) => inp.value.trim())
       .filter(Boolean);
 
-    // Calculate total registration fee dynamically
+    // Calculate total fee dynamically
     const totalFee = chosenEvents.reduce((sum, ev) => sum + ev.fee, 0);
 
-    // --- DYNAMIC UPI LINK GENERATOR WITH CALCULATED AMOUNT ---
-    const festUpiId = "9188007846@ybl"; 
+    // Dynamic UPI link generator
+    const festUpiId = "9188007846@ybl";
     const payeeName = "ASCEND 26 DCMS";
     const upiLink = `upi://pay?pa=${festUpiId}&pn=${encodeURIComponent(payeeName)}&am=${totalFee}.00&cu=INR&tn=Reg_${latestRefId}`;
     
-    document.getElementById('upiRefDisplay').textContent = latestRefId;
-    document.getElementById('upiPayNowBtn').setAttribute('href', upiLink);
+    const upiRefDisplay = document.getElementById('upiRefDisplay');
+    const upiPayNowBtn = document.getElementById('upiPayNowBtn');
+    if (upiRefDisplay) upiRefDisplay.textContent = latestRefId;
+    if (upiPayNowBtn) upiPayNowBtn.setAttribute('href', upiLink);
 
-    // Send data silently to Google Sheet (including calculated total fee)
+    document.getElementById('passRefId').textContent = latestRefId;
+    document.getElementById('passName').textContent = name;
+    document.getElementById('passContact').textContent = phone + ' • ' + email;
+    document.getElementById('passCollege').textContent = college + ' (' + program + ', ' + year + ')';
+    document.getElementById('passAccom').textContent = accom;
+    document.getElementById('passDiet').textContent = diet;
+
+    document.getElementById('passEventsList').innerHTML = chosenEvents
+      .map(
+        (ev) => `<span class="px-2.5 py-1 rounded-full text-xs font-bold"
+                       style="background: var(--gold-tint); color: var(--gold-primary); border: 1px solid var(--gold-border);">
+                   ${ev.title} (₹${ev.fee})
+                 </span>`
+      )
+      .join('');
+
+    const passTeamBlock = document.getElementById('passTeamBlock');
+    if (teamNames.length > 0) {
+      passTeamBlock.classList.remove('is-hidden');
+      document.getElementById('passTeamMembers').textContent = teamNames.join(', ');
+    } else {
+      passTeamBlock.classList.add('is-hidden');
+    }
+
+    const waLines = [
+      '*ASCEND \'26 — PROVISIONAL REGISTRATION*',
+      'Ref ID: *' + latestRefId + '*',
+      'Lead Delegate: ' + name,
+      'Phone: ' + phone,
+      'Email: ' + email,
+      'Institution: ' + college + ' (' + program + ' - ' + year + ')',
+      'Events: ' + chosenEvents.map((c) => c.title + ' (₹' + c.fee + ')').join(', '),
+      'Total Fee: *₹' + totalFee + '*',
+      teamNames.length ? 'Team Members: ' + teamNames.join(', ') : '',
+      'Accommodation: ' + accom,
+      'Dietary: ' + diet,
+      notes ? 'Notes: ' + notes : ''
+    ]
+      .filter(Boolean)
+      .join('\n');
+
+    document
+      .getElementById('passWhatsappConfirmBtn')
+      .setAttribute('href', 'https://wa.me/919188007846?text=' + encodeURIComponent(waLines));
+
+    // Send data silently to Google Sheet
     const sheetPayload = {
       refId: latestRefId,
       name: name,
@@ -450,61 +503,10 @@
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(sheetPayload)
     }).catch(err => console.error('Sheet sync error:', err));
-    document.getElementById('passRefId').textContent = latestRefId;
-    document.getElementById('passName').textContent = name;
-    document.getElementById('passContact').textContent = phone + ' • ' + email;
-    document.getElementById('passCollege').textContent = college + ' (' + program + ', ' + year + ')';
-    document.getElementById('passAccom').textContent = accom;
-    document.getElementById('passDiet').textContent = diet;
 
-    document.getElementById('passEventsList').innerHTML = chosenEvents
-      .map(
-        (ev) => `<span class="px-2.5 py-1 rounded-full text-xs font-bold"
-                       style="background: var(--gold-tint); color: var(--gold-primary); border: 1px solid var(--gold-border);">
-                   ${ev.title}
-                 </span>`
-      )
-      .join('');
-
-    const passTeamBlock = document.getElementById('passTeamBlock');
-    if (teamNames.length > 0) {
-      passTeamBlock.classList.remove('is-hidden');
-      document.getElementById('passTeamMembers').textContent = teamNames.join(', ');
-    } else {
-      passTeamBlock.classList.add('is-hidden');
-    }
-
-    const waLines = [
-      '*ASCEND \'26 — PROVISIONAL REGISTRATION*',
-      'Ref ID: *' + latestRefId + '*',
-      'Lead Delegate: ' + name,
-      'Phone: ' + phone,
-      'Email: ' + email,
-      'Institution: ' + college + ' (' + program + ' - ' + year + ')',
-      'Events: ' + chosenEvents.map((c) => c.title).join(', '),
-      teamNames.length ? 'Team Members: ' + teamNames.join(', ') : '',
-      'Accommodation: ' + accom,
-      'Dietary: ' + diet,
-      notes ? 'Notes: ' + notes : ''
-    ]
-      .filter(Boolean)
-      .join('\n');
-
-    document
-      .getElementById('passWhatsappConfirmBtn')
-      .setAttribute('href', 'https://wa.me/919188007846?text=' + encodeURIComponent(waLines));
-    // --- DYNAMIC UPI LINK GENERATOR ---
-    const festUpiId = "muhammedshabeebkt2016@okicici"; // Replace with your coordinator or merchant UPI handle
-    const payeeName = "ASCEND 26 DCMS";
-    const registrationFee = "150.00"; // Change fee amount as needed
-    
-    const upiLink = `upi://pay?pa=${festUpiId}&pn=${encodeURIComponent(payeeName)}&am=${registrationFee}&cu=INR&tn=Reg_${latestRefId}`;
-    
-    document.getElementById('upiRefDisplay').textContent = latestRefId;
-    document.getElementById('upiPayNowBtn').setAttribute('href', upiLink);
     document.getElementById('registrationPassSection').classList.remove('is-hidden');
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    showToast('Provisional Pass ' + latestRefId + ' generated!');
+    showToast('Provisional Pass ' + latestRefId + ' generated! Total Fee: ₹' + totalFee);
   });
 
   document.getElementById('printPassBtn').addEventListener('click', () => {
