@@ -425,15 +425,26 @@
     // Calculate total fee dynamically
     const totalFee = chosenEvents.reduce((sum, ev) => sum + ev.fee, 0);
 
-    // Dynamic UPI link generator
-    const festUpiId = "9188007846@ybl";
+    const festUpiId = "muhammedshabeebkt2016@oksbi;
     const payeeName = "ASCEND 26 DCMS";
     const upiLink = `upi://pay?pa=${festUpiId}&pn=${encodeURIComponent(payeeName)}&am=${totalFee}.00&cu=INR&tn=Reg_${latestRefId}`;
     
+    const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiLink)}`;
+    const upiQrImg = document.getElementById('dynamicUpiQrImg');
     const upiRefDisplay = document.getElementById('upiRefDisplay');
     const upiPayNowBtn = document.getElementById('upiPayNowBtn');
+    const passTotalFeeDisplay = document.getElementById('passTotalFeeDisplay');
+
+    if (upiQrImg) upiQrImg.setAttribute('src', qrApiUrl);
     if (upiRefDisplay) upiRefDisplay.textContent = latestRefId;
     if (upiPayNowBtn) upiPayNowBtn.setAttribute('href', upiLink);
+    if (passTotalFeeDisplay) passTotalFeeDisplay.textContent = `₹${totalFee}`;
+
+    // Lock behind payment gateway box initially
+    const paymentGatewayBox = document.getElementById('paymentGatewayBox');
+    const finalConfirmedPassContent = document.getElementById('finalConfirmedPassContent');
+    if (paymentGatewayBox) paymentGatewayBox.classList.remove('is-hidden');
+    if (finalConfirmedPassContent) finalConfirmedPassContent.classList.add('is-hidden');
 
     document.getElementById('passRefId').textContent = latestRefId;
     document.getElementById('passName').textContent = name;
@@ -508,6 +519,15 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
     showToast('Provisional Pass ' + latestRefId + ' generated! Total Fee: ₹' + totalFee);
   });
+  // Unlock confirmed pass and WhatsApp buttons when user confirms payment
+  const confirmPaymentBtn = document.getElementById('confirmPaymentDoneBtn');
+  if (confirmPaymentBtn) {
+    confirmPaymentBtn.addEventListener('click', () => {
+      document.getElementById('paymentGatewayBox').classList.add('is-hidden');
+      document.getElementById('finalConfirmedPassContent').classList.remove('is-hidden');
+      showToast('Payment verified & registration unlocked!');
+    });
+  }
 
   document.getElementById('printPassBtn').addEventListener('click', () => {
     window.print();
