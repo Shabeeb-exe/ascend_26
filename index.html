@@ -573,7 +573,7 @@
         <div id="statusCheckSection" class="mb-10 max-w-3xl mx-auto">
           <div class="surface-card p-6 no-print">
             <h2 class="font-display text-lg font-bold">Already registered? Check status &amp; get your pass</h2>
-            <p class="text-xs mt-1 mb-4" style="color: var(--text-secondary);">Enter the Reference ID you received and the mobile number you registered with. Once the ASCEND desk verifies your payment, your confirmed pass appears here.</p>
+            <p class="text-xs mt-1 mb-4" style="color: var(--text-secondary);">Enter the Reference ID you received and the mobile number you registered with. Copy and save your Reference ID when you register—you’ll need it to check your payment status later. Once the ASCEND desk verifies your payment, your confirmed pass appears here.</p>
             <form id="statusCheckForm" class="grid grid-cols-1 sm:grid-cols-7 gap-3 items-end" novalidate>
               <div class="sm:col-span-3">
                 <label for="chkRef" class="block text-[11px] uppercase font-semibold mb-1" style="color: var(--text-muted);">Reference ID</label>
@@ -596,7 +596,10 @@
               </div>
               <div class="sm:text-right">
                 <div class="text-xs uppercase tracking-wider" style="color: var(--text-muted);">Reference ID</div>
-                <div id="stRef" class="font-display text-lg font-extrabold text-gold-gradient"></div>
+                <div class="flex items-center gap-2 sm:justify-end">
+                  <div id="stRef" class="font-display text-lg font-extrabold text-gold-gradient"></div>
+                  <button type="button" id="stCopyRefBtn" class="btn-outline px-2.5 py-1 text-xs" aria-label="Copy Reference ID">Copy</button>
+                </div>
               </div>
             </div>
             <div id="stBanner" class="p-4 rounded-xl text-xs sm:text-sm text-center font-semibold mb-4"></div>
@@ -634,7 +637,11 @@
               </div>
               <div class="text-left sm:text-right">
                 <div class="text-xs uppercase tracking-wider" style="color: var(--text-muted);">Reference ID</div>
-                <div id="passRefId" class="font-display text-lg font-extrabold text-gold-gradient">ASC26-0000</div>
+                <div class="flex items-center gap-2 sm:justify-end">
+                  <div id="passRefId" class="font-display text-lg font-extrabold text-gold-gradient">ASC26-0000</div>
+                  <button type="button" id="copyRefBtn" class="btn-outline px-2.5 py-1 text-xs" aria-label="Copy Reference ID">Copy</button>
+                </div>
+                <div class="text-[11px] mt-1" style="color: var(--text-secondary);">Copy and save this ID to check your payment status later.</div>
                 <div id="passStatusBadge" class="text-[11px] font-bold uppercase tracking-wider mt-1" style="color:#FBBF24;">Awaiting payment</div>
               </div>
             </div>
@@ -721,9 +728,6 @@
                   </a>
                   <button type="button" id="printPassBtn" class="btn-outline px-4 py-2.5 text-xs sm:text-sm">
                     Print / Save Pass
-                  </button>
-                  <button type="button" id="copyRefBtn" class="btn-outline px-4 py-2.5 text-xs sm:text-sm">
-                    Copy Ref ID
                   </button>
                 </div>
                 <button type="button" id="editRegistrationBtn" class="text-xs font-semibold underline" style="color: var(--text-secondary);">

@@ -771,7 +771,13 @@
   });
 
   document.getElementById('copyRefBtn').addEventListener('click', () => {
-    if (latestRefId) copyTextSafe(latestRefId);
+    const refId = document.getElementById('passRefId').textContent.trim();
+    if (refId) copyTextSafe(refId);
+  });
+
+  document.getElementById('stCopyRefBtn').addEventListener('click', () => {
+    const refId = document.getElementById('stRef').textContent.trim();
+    if (refId) copyTextSafe(refId);
   });
 
   document.getElementById('editRegistrationBtn').addEventListener('click', () => {
