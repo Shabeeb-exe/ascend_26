@@ -188,20 +188,20 @@ const EVENTS_DATA = [
   },
   {
     id: 'spot-games',
-    title: 'Spot Games',
+    title: 'E Football/PES',
     category: 'Non-Management',
-    icon: '⚡',
+    icon: '🎮',
     format: 'Individual Participation',
     isTeam: false,
     fee: 150,  // fee per participant
     minTeam: 1,
     maxTeam: 1,
-    desc: 'Spontaneous challenges, quick reflexes, crowd-favorite mini-games, and instant rewards.',
-    skills: 'Quick Reflexes • Spontaneous Wit • Instant Rewards',
+    desc: 'A competitive football gaming event featuring E Football/PES.',
+    skills: 'Football Gaming • Match Strategy • In-Game Decision-Making',
     rules: [
-      'Open throughout both fest days at the main compound activity zone.',
-      'Includes rapid-fire challenges, reflex games, and interactive crowd tasks.',
-      'Instant goodies, vouchers, and spot prizes for winners!'
+      'Open to individual participants during both fest days.',
+      'Matches are played using E Football/PES.',
+      'Participants must follow the tournament instructions provided by the organizers.'
     ]
   }
 ];
@@ -227,7 +227,7 @@ const TEAM_DATA = [
   { name: 'Jubin Thomas', role: 'IPL Auction Head', category: 'Event Heads' },
   { name: 'Amalnath', role: 'Treasure Hunt Head', category: 'Event Heads' },
   { name: 'Mahitha', role: 'Reel Making Head', category: 'Event Heads' },
-  { name: 'Ansaf K', role: 'Spot Games Head', category: 'Event Heads' },
+  { name: 'Ansaf K', role: 'E Football/PES Head', category: 'Event Heads' },
 
   { name: 'Steljo', role: 'Volunteer Head', category: 'Committee Heads' },
   { name: 'Mohammed Shakir', role: 'Food Head', category: 'Committee Heads' },
