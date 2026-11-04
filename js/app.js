@@ -519,6 +519,7 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
     showToast('Provisional Pass ' + latestRefId + ' generated! Total Fee: ₹' + totalFee);
   });
+
   // Unlock confirmed pass and WhatsApp buttons when user confirms payment
   const confirmPaymentBtn = document.getElementById('confirmPaymentDoneBtn');
   if (confirmPaymentBtn) {
