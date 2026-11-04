@@ -425,7 +425,7 @@
     // Calculate total fee dynamically
     const totalFee = chosenEvents.reduce((sum, ev) => sum + ev.fee, 0);
 
-    const festUpiId = "muhammedshabeebkt2016@oksbi;
+    const festUpiId = "muhammedshabeebkt2016@oksbi";
     const payeeName = "ASCEND 26 DCMS";
     const upiLink = `upi://pay?pa=${festUpiId}&pn=${encodeURIComponent(payeeName)}&am=${totalFee}.00&cu=INR&tn=Reg_${latestRefId}`;
     
