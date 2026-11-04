@@ -63,10 +63,10 @@ const EVENTS_DATA = [
     title: 'Finance Game',
     category: 'Management',
     icon: '₹',
-    format: 'Team of 2–4 Members',
+    format: 'Team of 4 Members',
     isTeam: true,
     fee: 250,  // fee per participant
-    minTeam: 2,
+    minTeam: 4,
     maxTeam: 4,
     desc: 'Portfolio mastery, capital allocation, valuation crunches, and market volatility simulations.',
     skills: 'Asset Valuation • Mock Stock Trading • M&A Structuring',
@@ -82,10 +82,10 @@ const EVENTS_DATA = [
     title: 'Marketing Game',
     category: 'Management',
     icon: '✦',
-    format: 'Team of 2–4 Members',
+    format: 'Team of 4 Members',
     isTeam: true,
     fee: 250,  // fee per participant
-    minTeam: 2,
+    minTeam: 4,
     maxTeam: 4,
     desc: 'Brand warfare, creative pitching, consumer insights, and go-to-market campaign execution.',
     skills: 'Brand Repositioning • Guerrilla Pitch • GTM Strategy',
@@ -101,10 +101,10 @@ const EVENTS_DATA = [
     title: 'HR Game',
     category: 'Management',
     icon: '⚖',
-    format: 'Team of 2–4 Members',
+    format: 'Team of 4 Members',
     isTeam: true,
     fee: 250,  // fee per participant
-    minTeam: 2,
+    minTeam: 4,
     maxTeam: 4,
     desc: 'Talent strategy, organizational conflict resolution, labor negotiation, and people analytics.',
     skills: 'Collective Bargaining • Talent Retention • Policy Design',
@@ -119,15 +119,15 @@ const EVENTS_DATA = [
     title: 'Business Quiz',
     category: 'Management',
     icon: '◈',
-    format: 'Team of 2 Members',
+    format: 'Individual / Team of 2 Members',
     isTeam: true,
     fee: 250,  // fee per participant
-    minTeam: 2,
+    minTeam: 1,
     maxTeam: 2,
     desc: 'High-stakes corporate trivia spanning global markets, brands, business history, and current affairs.',
     skills: 'Corporate Trivia • Brand Origins • Financial Headlines',
     rules: [
-      'Open to teams of 2 quizzers from the same or cross-disciplinary streams within an institution.',
+      'Open to individual participants or teams of 2 quizzers from the same or cross-disciplinary streams within an institution.',
       'Written preliminary round followed by high-intensity stage finals with buzzer and wager rounds.',
       'Covers global conglomerates, Indian business history, logos, taglines, startups, and economics.'
     ]
@@ -173,11 +173,11 @@ const EVENTS_DATA = [
     title: 'Reel Making',
     category: 'Non-Management',
     icon: '🎬',
-    format: 'Individual / Team of 2',
-    isTeam: true,
+    format: 'Individual Participation',
+    isTeam: false,
     fee: 150,  // fee per participant
     minTeam: 1,
-    maxTeam: 2,
+    maxTeam: 1,
     desc: 'Visual storytelling, kinetic editing, and creative direction capturing the pulse of ASCEND \'26.',
     skills: 'Cinematography • Kinetic Cuts • Fest Storytelling',
     rules: [
@@ -191,11 +191,11 @@ const EVENTS_DATA = [
     title: 'Spot Games',
     category: 'Non-Management',
     icon: '⚡',
-    format: 'On-Spot Individual / Duo',
+    format: 'Individual Participation',
     isTeam: false,
     fee: 150,  // fee per participant
     minTeam: 1,
-    maxTeam: 2,
+    maxTeam: 1,
     desc: 'Spontaneous challenges, quick reflexes, crowd-favorite mini-games, and instant rewards.',
     skills: 'Quick Reflexes • Spontaneous Wit • Instant Rewards',
     rules: [
