@@ -415,7 +415,27 @@
     const teamNames = Array.from(document.querySelectorAll('.team-member-input'))
       .map((inp) => inp.value.trim())
       .filter(Boolean);
+    const sheetPayload = {
+      refId: latestRefId,
+      name: name,
+      email: email,
+      phone: phone,
+      college: college,
+      program: program,
+      year: year,
+      events: chosenEvents.map(c => c.title).join(', '),
+      teamMembers: teamNames.join(', '),
+      accommodation: accom,
+      dietary: diet,
+      notes: notes
+    };
 
+    fetch('https://script.google.com/macros/s/AKfycbxt6ZHqEyzAjgFD48EE5SUG6yqozlLcTtvZFjN3WUYarRpStvq2lO7KxddIBFWujbgL-w/exec', {
+      method: 'POST',
+      mode: 'no-cors', // Prevents CORS blocking from frontend
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(sheetPayload)
+    }).catch(err => console.error('Sheet sync error:', err));
     document.getElementById('passRefId').textContent = latestRefId;
     document.getElementById('passName').textContent = name;
     document.getElementById('passContact').textContent = phone + ' • ' + email;
