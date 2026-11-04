@@ -1,0 +1,1672 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ASCEND '26 | 27th National Level Management Fest — DCMS, University of Calicut</title>
+  <meta name="description" content="ASCEND '26 (November 16 & 17, 2026) — The 27th Edition Premier National Level Management Fest hosted by the Department of Commerce and Management Studies (DCMS), University of Calicut." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="bg-grid-pattern">
+
+  <svg width="0" height="0" class="absolute pointer-events-none" aria-hidden="true">
+    <defs>
+
+      <linearGradient id="ascendGoldGrad" x1="15%" y1="95%" x2="85%" y2="5%">
+        <stop offset="0%" stop-color="#9E7312" />
+        <stop offset="26%" stop-color="#E6BE53" />
+        <stop offset="50%" stop-color="#FFF1A8" />
+        <stop offset="76%" stop-color="#C89B2B" />
+        <stop offset="100%" stop-color="#8C620A" />
+      </linearGradient>
+
+      <linearGradient id="ascendGoldBevel" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#FFF5C0" />
+        <stop offset="50%" stop-color="#B88917" />
+        <stop offset="100%" stop-color="#6B4A05" />
+      </linearGradient>
+
+      <linearGradient id="ascendMetalGrad" x1="10%" y1="90%" x2="90%" y2="10%">
+        <stop offset="0%" class="stop-metal-1" />
+        <stop offset="28%" class="stop-metal-2" />
+        <stop offset="52%" class="stop-metal-3" />
+        <stop offset="78%" class="stop-metal-4" />
+        <stop offset="100%" class="stop-metal-5" />
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <header class="navbar-glass sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20 gap-3">
+
+        <button type="button" data-nav="home" class="flex items-center gap-3 text-left group focus:outline-none">
+          <svg viewBox="140 110 720 630" class="w-11 h-10 flex-shrink-0 transition-transform duration-300 group-hover:scale-105" aria-label="ASCEND 26 Emblem">
+
+            <polygon points="240,578 502,134 555,226 355,578" fill="url(#ascendGoldGrad)" stroke="url(#ascendGoldBevel)" stroke-width="5" />
+
+            <polygon points="162,710 222,616 377,616 581,267 758,578 645,578 581,465 430,710" fill="url(#ascendMetalGrad)" class="logo-metal-poly" />
+
+            <polygon points="583,545 532,632 577,710 839,710 783,616 626,616" fill="url(#ascendMetalGrad)" class="logo-metal-poly" />
+          </svg>
+          <div>
+            <div class="font-display font-extrabold text-base sm:text-lg tracking-wider leading-none flex items-center gap-1.5">
+              <span>ASCEND</span>
+              <span class="text-gold-gradient">26</span>
+            </div>
+            <div class="text-[10px] sm:text-[11px] uppercase tracking-widest mt-1" style="color: var(--text-muted);">
+              DCMS • Univ. of Calicut
+            </div>
+          </div>
+        </button>
+
+        <nav class="hidden xl:flex items-center gap-1" aria-label="Primary Navigation">
+          <button type="button" data-nav="home" class="nav-link is-active">Home</button>
+          <button type="button" data-nav="events" class="nav-link">Events</button>
+          <button type="button" data-nav="register" class="nav-link">Register</button>
+          <button type="button" data-nav="sponsorship" class="nav-link">Sponsorship</button>
+          <button type="button" data-nav="team" class="nav-link">Meet Our Team</button>
+          <button type="button" data-nav="dcms" class="nav-link">DCMS Family</button>
+          <button type="button" data-nav="contact" class="nav-link">Contact</button>
+        </nav>
+
+        <div class="flex items-center gap-2.5">
+
+          <button
+            type="button"
+            id="themeToggleBtn"
+            class="btn-outline p-2.5 rounded-xl flex items-center justify-center"
+            aria-label="Toggle Dark or Light Mode"
+            title="Switch Theme"
+          >
+
+            <svg class="icon-sun w-5 h-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path stroke-linecap="round" d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"></path>
+            </svg>
+
+            <svg class="icon-moon w-5 h-5 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+            </svg>
+          </button>
+
+          <button type="button" data-nav="register" class="btn-gold hidden sm:inline-flex items-center gap-2 px-4 py-2.5 text-sm">
+            <span>Register Now</span>
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </button>
+
+          <button
+            type="button"
+            id="mobileMenuBtn"
+            class="xl:hidden btn-outline p-2.5 rounded-xl"
+            aria-label="Toggle Menu"
+            aria-expanded="false"
+          >
+            <svg id="menuIconBars" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <svg id="menuIconClose" class="w-6 h-6 is-hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="mobileDrawer" class="mobile-drawer xl:hidden">
+      <div class="px-4 py-4 space-y-1.5 max-w-7xl mx-auto">
+        <button type="button" data-nav="home" class="nav-link is-active block w-full text-left py-2.5">Home</button>
+        <button type="button" data-nav="events" class="nav-link block w-full text-left py-2.5">Events (10)</button>
+        <button type="button" data-nav="register" class="nav-link block w-full text-left py-2.5">Register</button>
+        <button type="button" data-nav="sponsorship" class="nav-link block w-full text-left py-2.5">Sponsorship</button>
+        <button type="button" data-nav="team" class="nav-link block w-full text-left py-2.5">Meet Our Team</button>
+        <button type="button" data-nav="dcms" class="nav-link block w-full text-left py-2.5">DCMS Family</button>
+        <button type="button" data-nav="contact" class="nav-link block w-full text-left py-2.5">Contact</button>
+        <div class="pt-2">
+          <button type="button" data-nav="register" class="btn-gold w-full py-3 text-sm flex items-center justify-center gap-2">
+            <span>Register for ASCEND '26</span>
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow">
+
+    <section id="view-home" class="spa-view is-active">
+
+      <div class="hero-backdrop relative overflow-hidden pt-8 pb-16 sm:pt-12 sm:pb-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider uppercase mb-6"
+               style="background: var(--gold-tint); border: 1px solid var(--gold-border); color: var(--gold-primary);">
+            <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+            <span>27th EDITION • NATIONAL LEVEL MANAGEMENT FEST</span>
+          </div>
+
+          <div class="max-w-xs sm:max-w-md mx-auto my-2">
+            <svg viewBox="0 0 1000 920" class="w-full h-auto hero-logo-svg" role="img" aria-label="ASCEND 26 Official 3D Metallic Logo">
+
+              <circle cx="515" cy="430" r="260" fill="rgba(212, 175, 55, 0.08)" />
+
+              <polygon points="240,578 502,134 555,226 355,578" fill="url(#ascendGoldGrad)" stroke="url(#ascendGoldBevel)" stroke-width="4" />
+
+              <polyline points="246,574 502,140 551,226" fill="none" stroke="#FFF8CC" stroke-width="2.5" stroke-opacity="0.7" />
+
+              <polyline points="553,226 354,576 242,576" fill="none" stroke="#6E4B06" stroke-width="4" stroke-opacity="0.65" />
+
+              <polygon points="162,710 222,616 377,616 581,267 758,578 645,578 581,465 430,710" fill="url(#ascendMetalGrad)" class="logo-metal-poly" />
+
+              <polyline points="168,706 224,619 379,619 581,273 753,575" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-opacity="0.45" />
+
+              <polygon points="583,545 532,632 577,710 839,710 783,616 626,616" fill="url(#ascendMetalGrad)" class="logo-metal-poly" />
+
+              <polyline points="583,551 624,619 781,619 834,707" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-opacity="0.45" />
+
+              <text x="415" y="862" text-anchor="middle" font-size="104" class="logo-wordmark-text">ASCEND</text>
+              <text x="772" y="862" text-anchor="middle" font-size="106" class="logo-26-text">26</text>
+            </svg>
+          </div>
+
+          <div class="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-3 px-5 py-2.5 rounded-2xl surface-card mb-6 text-xs sm:text-sm font-medium">
+            <span class="inline-flex items-center gap-1.5 font-semibold" style="color: var(--gold-primary);">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              November 16 &amp; 17, 2026
+            </span>
+            <span style="color: var(--text-muted);">•</span>
+            <span class="inline-flex items-center gap-1.5" style="color: var(--text-secondary);">
+              <svg class="w-4 h-4" style="color: var(--gold-primary);" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              DCMS, University of Calicut
+            </span>
+          </div>
+
+          <h1 class="max-w-3xl mx-auto text-xl sm:text-3xl lg:text-4xl font-bold tracking-tight leading-snug mb-8">
+            Ignite Excellence. <span class="text-gold-gradient">Think Critically.</span> Act Decisively. Lead With Vision.
+          </h1>
+
+          <div class="max-w-xl mx-auto mb-10">
+            <div id="countdownGrid" class="grid grid-cols-4 gap-2.5 sm:gap-4">
+              <div class="surface-card py-3.5 px-2 sm:p-4 text-center">
+                <div id="cdDays" class="font-display text-2xl sm:text-4xl font-extrabold text-gold-gradient">00</div>
+                <div class="text-[10px] sm:text-xs uppercase tracking-widest mt-1 font-semibold" style="color: var(--text-muted);">Days</div>
+              </div>
+              <div class="surface-card py-3.5 px-2 sm:p-4 text-center">
+                <div id="cdHours" class="font-display text-2xl sm:text-4xl font-extrabold text-gold-gradient">00</div>
+                <div class="text-[10px] sm:text-xs uppercase tracking-widest mt-1 font-semibold" style="color: var(--text-muted);">Hours</div>
+              </div>
+              <div class="surface-card py-3.5 px-2 sm:p-4 text-center">
+                <div id="cdMinutes" class="font-display text-2xl sm:text-4xl font-extrabold text-gold-gradient">00</div>
+                <div class="text-[10px] sm:text-xs uppercase tracking-widest mt-1 font-semibold" style="color: var(--text-muted);">Minutes</div>
+              </div>
+              <div class="surface-card py-3.5 px-2 sm:p-4 text-center">
+                <div id="cdSeconds" class="font-display text-2xl sm:text-4xl font-extrabold text-gold-gradient">00</div>
+                <div class="text-[10px] sm:text-xs uppercase tracking-widest mt-1 font-semibold" style="color: var(--text-muted);">Seconds</div>
+              </div>
+            </div>
+            <div id="countdownStatusBanner" class="is-hidden surface-platinum rounded-2xl py-4 px-6 font-display text-base sm:text-lg font-bold text-gold-gradient">
+              Event Live / Completed — Welcome to ASCEND '26!
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4">
+            <button type="button" data-nav="register" class="btn-gold w-full sm:w-auto px-7 py-3.5 text-sm sm:text-base inline-flex items-center justify-center gap-2">
+              <span>Register Now</span>
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </button>
+            <button type="button" data-nav="events" class="btn-outline w-full sm:w-auto px-7 py-3.5 text-sm sm:text-base inline-flex items-center justify-center gap-2">
+              <span>Explore 10 Events</span>
+            </button>
+            <button type="button" data-nav="sponsorship" class="btn-outline w-full sm:w-auto px-7 py-3.5 text-sm sm:text-base inline-flex items-center justify-center gap-2">
+              <span style="color: var(--gold-primary);">★</span>
+              <span>Partner With Us</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-7 space-y-5">
+            <div class="font-tech uppercase tracking-widest text-sm font-bold" style="color: var(--gold-primary);">
+              01 // THE LEGACY OF EXCELLENCE
+            </div>
+            <h2 class="font-display text-2xl sm:text-4xl font-bold leading-tight">
+              27th Edition of South India's Premier <span class="text-gold-gradient">Management Arena</span>
+            </h2>
+            <p class="leading-relaxed text-sm sm:text-base" style="color: var(--text-secondary);">
+              <strong>ASCEND</strong> is the flagship National Level Management Fest organized by the <strong>Department of Commerce and Management Studies (DCMS), School of Business Studies, University of Calicut</strong>. Marking its landmark <strong>27th edition on November 16th &amp; 17th, 2026</strong>, ASCEND continues to stand as an emblem of executive excellence and strategic innovation.
+            </p>
+            <p class="leading-relaxed text-sm sm:text-base" style="color: var(--text-secondary);">
+              For over twenty-six years, ASCEND has been far more than a competition—it has served as a transformative crucible nurturing managerial intellect, entrepreneurial spirit, creative agility, workshops, and high-level industry networking across the nation.
+            </p>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
+              <div class="surface-card p-3.5">
+                <div class="text-xs uppercase font-semibold" style="color: var(--gold-primary);">Leadership</div>
+                <div class="text-xs mt-1" style="color: var(--text-secondary);">Boardroom &amp; crisis command</div>
+              </div>
+              <div class="surface-card p-3.5">
+                <div class="text-xs uppercase font-semibold" style="color: var(--gold-primary);">Innovation</div>
+                <div class="text-xs mt-1" style="color: var(--text-secondary);">Entrepreneurial strategy</div>
+              </div>
+              <div class="surface-card p-3.5 col-span-2 sm:col-span-1">
+                <div class="text-xs uppercase font-semibold" style="color: var(--gold-primary);">Networking</div>
+                <div class="text-xs mt-1" style="color: var(--text-secondary);">Industry leaders &amp; peers</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5">
+            <div class="surface-platinum rounded-2xl p-6 sm:p-8 space-y-5">
+              <div class="flex items-center justify-between border-b pb-4" style="border-color: var(--border-subtle);">
+                <div>
+                  <span class="text-xs uppercase tracking-widest font-bold" style="color: var(--gold-primary);">Official Conclave</span>
+                  <h3 class="font-display text-xl font-bold mt-1">ASCEND '26</h3>
+                </div>
+                <span class="font-display text-2xl font-black text-gold-gradient">#27</span>
+              </div>
+              <ul class="space-y-3.5 text-sm" style="color: var(--text-secondary);">
+                <li class="flex items-start gap-3">
+                  <span class="mt-0.5 text-amber-400">◆</span>
+                  <span><strong>Organizer:</strong> Department of Commerce &amp; Management Studies (DCMS), University of Calicut</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="mt-0.5 text-amber-400">◆</span>
+                  <span><strong>Dates:</strong> Monday &amp; Tuesday, November 16–17, 2026</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="mt-0.5 text-amber-400">◆</span>
+                  <span><strong>Arena:</strong> 6 Core Management Simulations + 4 High-Voltage Non-Management Events</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="mt-0.5 text-amber-400">◆</span>
+                  <span><strong>Campus:</strong> University of Calicut Main Campus, Thenhipalam, Kerala</span>
+                </li>
+              </ul>
+              <button type="button" data-nav="dcms" class="btn-outline w-full py-3 text-xs uppercase tracking-wider font-bold">
+                Explore DCMS Heritage →
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <div class="font-tech uppercase tracking-widest text-sm font-bold" style="color: var(--gold-primary);">
+            02 // WHY ASCEND?
+          </div>
+          <h2 class="font-display text-2xl sm:text-3xl font-bold mt-1">Unmatched Scale Across South India</h2>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div class="surface-card surface-card-hover p-5 text-center">
+            <div class="font-display text-2xl sm:text-3xl font-extrabold text-gold-gradient">3,000+</div>
+            <div class="text-xs sm:text-sm font-semibold mt-2">Students Reach</div>
+            <div class="text-[11px] mt-1" style="color: var(--text-muted);">Campus Footfall</div>
+          </div>
+          <div class="surface-card surface-card-hover p-5 text-center">
+            <div class="font-display text-2xl sm:text-3xl font-extrabold text-gold-gradient">27th</div>
+            <div class="text-xs sm:text-sm font-semibold mt-2">Annual Edition</div>
+            <div class="text-[11px] mt-1" style="color: var(--text-muted);">26+ Years Legacy</div>
+          </div>
+          <div class="surface-card surface-card-hover p-5 text-center">
+            <div class="font-display text-2xl sm:text-3xl font-extrabold text-gold-gradient">400+</div>
+            <div class="text-xs sm:text-sm font-semibold mt-2">Affiliated Colleges</div>
+            <div class="text-[11px] mt-1" style="color: var(--text-muted);">UoC Network</div>
+          </div>
+          <div class="surface-card surface-card-hover p-5 text-center">
+            <div class="font-display text-2xl sm:text-3xl font-extrabold text-gold-gradient">900+</div>
+            <div class="text-xs sm:text-sm font-semibold mt-2">Participants</div>
+            <div class="text-[11px] mt-1" style="color: var(--text-muted);">National Delegates</div>
+          </div>
+          <div class="surface-card surface-card-hover p-5 text-center">
+            <div class="font-display text-2xl sm:text-3xl font-extrabold text-gold-gradient">10</div>
+            <div class="text-xs sm:text-sm font-semibold mt-2">Flagship Events</div>
+            <div class="text-[11px] mt-1" style="color: var(--text-muted);">High-Impact Arenas</div>
+          </div>
+          <div class="surface-card surface-card-hover p-5 text-center">
+            <div class="font-display text-2xl sm:text-3xl font-extrabold text-gold-gradient">1,200+</div>
+            <div class="text-xs sm:text-sm font-semibold mt-2">University Staffs</div>
+            <div class="text-[11px] mt-1" style="color: var(--text-muted);">South India Reach</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+          <div>
+            <div class="font-tech uppercase tracking-widest text-sm font-bold" style="color: var(--gold-primary);">
+              03 // COMPETITIVE ARENAS
+            </div>
+            <h2 class="font-display text-2xl sm:text-3xl font-bold mt-1">10 High-Stakes Challenges</h2>
+          </div>
+          <button type="button" data-nav="events" class="btn-outline px-5 py-2.5 text-sm inline-flex items-center gap-2 self-start sm:self-auto">
+            <span>View All 10 Events &amp; Guidelines</span>
+            <span>→</span>
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+          <div class="surface-card surface-card-hover p-6 sm:p-8 flex flex-col justify-between">
+            <div>
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4"
+                   style="background: var(--gold-tint); color: var(--gold-primary); border: 1px solid var(--gold-border);">
+                6 Core Executive Arenas
+              </div>
+              <h3 class="font-display text-xl sm:text-2xl font-bold mb-3">Management Events</h3>
+              <p class="text-sm mb-6" style="color: var(--text-secondary);">
+                Designed to test C-suite composure, financial valuation, people analytics, brand warfare, collective leadership, and corporate trivia.
+              </p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-6">
+                <button type="button" data-jump-event="best-manager" class="btn-action-chip p-3 text-left flex items-center justify-between">
+                  <span>Best Manager</span><span style="color: var(--gold-primary);">→</span>
+                </button>
+                <button type="button" data-jump-event="best-management-team" class="btn-action-chip p-3 text-left flex items-center justify-between">
+                  <span>Best Management Team</span><span style="color: var(--gold-primary);">→</span>
+                </button>
+                <button type="button" data-jump-event="finance-game" class="btn-action-chip p-3 text-left flex items-center justify-between">
+                  <span>Finance Game</span><span style="color: var(--gold-primary);">→</span>
+                </button>
+                <button type="button" data-jump-event="marketing-game" class="btn-action-chip p-3 text-left flex items-center justify-between">
+                  <span>Marketing Game</span><span style="color: var(--gold-primary);">→</span>
+                </button>
+                <button type="button" data-jump-event="hr-game" class="btn-action-chip p-3 text-left flex items-center justify-between">
+                  <span>HR Game</span><span style="color: var(--gold-primary);">→</span>
+                </button>
+                <button type="button" data-jump-event="business-quiz" class="btn-action-chip p-3 text-left flex items-center justify-between">
+                  <span>Business Quiz</span><span style="color: var(--gold-primary);">→</span>
+                </button>
+              </div>
+            </div>
+            <button type="button" data-filter-jump="Management" class="btn-gold w-full py-3 text-sm">
+              Explore Management Events
+            </button>
+          </div>
+
+          <div class="surface-card surface-card-hover p-6 sm:p-8 flex flex-col justify-between">
+            <div>
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-4"
+                   style="background: var(--bg-elevated); color: var(--text-primary); border: 1px solid var(--border-strong);">
+                4 Tactical &amp; Creative Arenas
+              </div>
+              <h3 class="font-display text-xl sm:text-2xl font-bold mb-3">Non-Management Events</h3>
+              <p class="text-sm mb-6" style="color: var(--text-secondary);">
+                High-adrenaline bidding wars, campus-wide cryptic trails, visual storytelling reels, and spontaneous crowd-favorite challenges.
+              </p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-6">
+                <button type="button" data-jump-event="ipl-auction" class="btn-action-chip p-3 text-left flex items-center justify-between">
+                  <span>IPL Auction</span><span style="color: var(--gold-primary);">→</span>
+                </button>
+                <button type="button" data-jump-event="treasure-hunt" class="btn-action-chip p-3 text-left flex items-center justify-between">
+                  <span>Treasure Hunt</span><span style="color: var(--gold-primary);">→</span>
+                </button>
+                <button type="button" data-jump-event="reel-making" class="btn-action-chip p-3 text-left flex items-center justify-between">
+                  <span>Reel Making</span><span style="color: var(--gold-primary);">→</span>
+                </button>
+                <button type="button" data-jump-event="spot-games" class="btn-action-chip p-3 text-left flex items-center justify-between">
+                  <span>Spot Games</span><span style="color: var(--gold-primary);">→</span>
+                </button>
+              </div>
+            </div>
+            <button type="button" data-filter-jump="Non-Management" class="btn-outline w-full py-3 text-sm">
+              Explore Non-Management Events
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+          <div class="font-tech uppercase tracking-widest text-sm font-bold" style="color: var(--gold-primary);">
+            04 // INSTITUTIONAL ECOSYSTEM &amp; PARTNERS
+          </div>
+          <h2 class="font-display text-2xl sm:text-3xl font-bold mt-1">Associated Bodies &amp; Past Sponsors</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-12">
+          <div class="surface-card p-6 flex items-start gap-4">
+            <div class="avatar-monogram">IEDC</div>
+            <div>
+              <h3 class="font-bold text-base">IEDC</h3>
+              <p class="text-xs sm:text-sm mt-1" style="color: var(--text-secondary);">
+                Innovation and Entrepreneurship Development Centre — Fostering student startups &amp; incubation.
+              </p>
+            </div>
+          </div>
+          <div class="surface-card p-6 flex items-start gap-4">
+            <div class="avatar-monogram">CIE</div>
+            <div>
+              <h3 class="font-bold text-base">Center of Innovative Entrepreneurship</h3>
+              <p class="text-xs sm:text-sm mt-1" style="color: var(--text-secondary);">
+                Catalyzing venture ideation, business model design, and founder mentorship at DCMS.
+              </p>
+            </div>
+          </div>
+          <div class="surface-card p-6 flex items-start gap-4">
+            <div class="avatar-monogram">DPC</div>
+            <div>
+              <h3 class="font-bold text-base">DCMS Placement Cell</h3>
+              <p class="text-xs sm:text-sm mt-1" style="color: var(--text-secondary);">
+                Bridging top corporate recruiters, industry leaders, and management graduates.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="surface-card p-6 sm:p-8">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
+            <div class="text-xs uppercase tracking-widest font-bold" style="color: var(--text-muted);">
+              Trusted By Leading Brands &amp; Past Sponsors
+            </div>
+            <button type="button" data-nav="sponsorship" class="text-xs font-bold uppercase tracking-wider text-left sm:text-right" style="color: var(--gold-primary);">
+              Become an ASCEND '26 Partner →
+            </button>
+          </div>
+          <div class="marquee-wrapper">
+            <div id="sponsorsMarqueeTrack" class="marquee-track">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-events" class="spa-view py-12 sm:py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="text-center max-w-3xl mx-auto mb-10">
+          <div class="font-tech uppercase tracking-widest text-sm font-bold" style="color: var(--gold-primary);">
+            EXECUTIVE &amp; TACTICAL ARENAS
+          </div>
+          <h1 class="font-display text-3xl sm:text-4xl font-bold mt-2">ASCEND '26 Competitions</h1>
+          <p class="text-sm sm:text-base mt-3" style="color: var(--text-secondary);">
+            10 curated national-level challenges spanning Management Mastery and Non-Management Strategy. Connect directly with Event Heads or lock in your slot.
+          </p>
+        </div>
+
+        <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 mb-8">
+          <div class="flex flex-wrap items-center gap-2" id="eventFilterTabs">
+            <button type="button" data-event-cat="all" class="filter-tab is-active">All Events (10)</button>
+            <button type="button" data-event-cat="Management" class="filter-tab">Management Events (6)</button>
+            <button type="button" data-event-cat="Non-Management" class="filter-tab">Non-Management Events (4)</button>
+          </div>
+          <div class="relative w-full md:w-72">
+            <input
+              type="text"
+              id="eventSearchInput"
+              class="input-field pl-10"
+              placeholder="Search event or head..."
+              aria-label="Search events"
+            />
+            <svg class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2" style="color: var(--text-muted);" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </div>
+        </div>
+
+        <div id="eventsGridContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        </div>
+
+        <div id="eventsEmptyState" class="is-hidden surface-card p-10 text-center my-6">
+          <p class="font-semibold text-base">No events match your current search filter.</p>
+          <button type="button" id="resetEventFilterBtn" class="btn-outline px-4 py-2 text-xs mt-3">Reset Filters</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-register" class="spa-view py-12 sm:py-16">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="text-center max-w-3xl mx-auto mb-10 no-print">
+          <div class="font-tech uppercase tracking-widest text-sm font-bold" style="color: var(--gold-primary);">
+            DELEGATE PORTAL • NOVEMBER 16 &amp; 17, 2026
+          </div>
+          <h1 class="font-display text-3xl sm:text-4xl font-bold mt-2">Register for ASCEND '26</h1>
+          <p class="text-sm sm:text-base mt-3" style="color: var(--text-secondary);">
+            Complete your institutional &amp; event registration to generate your instant Provisional Delegate Pass and confirm directly with the ASCEND '26 Desk.
+          </p>
+        </div>
+
+        <div id="registrationPassSection" class="is-hidden mb-12">
+          <div class="surface-platinum rounded-2xl p-6 sm:p-8 max-w-3xl mx-auto">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b pb-5 mb-6" style="border-color: var(--gold-border);">
+              <div class="flex items-center gap-3.5">
+                <svg viewBox="140 110 720 630" class="w-12 h-11 flex-shrink-0">
+                  <polygon points="240,578 502,134 555,226 355,578" fill="url(#ascendGoldGrad)" />
+                  <polygon points="162,710 222,616 377,616 581,267 758,578 645,578 581,465 430,710" fill="url(#ascendMetalGrad)" />
+                  <polygon points="583,545 532,632 577,710 839,710 783,616 626,616" fill="url(#ascendMetalGrad)" />
+                </svg>
+                <div>
+                  <div class="text-xs uppercase tracking-widest font-bold" style="color: var(--gold-primary);">Official Provisional Pass</div>
+                  <h2 class="font-display text-xl sm:text-2xl font-bold">ASCEND '26 DELEGATE</h2>
+                </div>
+              </div>
+              <div class="text-left sm:text-right">
+                <div class="text-xs uppercase tracking-wider" style="color: var(--text-muted);">Reference ID</div>
+                <div id="passRefId" class="font-display text-lg font-extrabold text-gold-gradient">ASC26-0000</div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+              <div class="md:col-span-8 space-y-3 text-sm">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <span class="text-xs uppercase block" style="color: var(--text-muted);">Lead Delegate</span>
+                    <strong id="passName" class="text-base">—</strong>
+                  </div>
+                  <div>
+                    <span class="text-xs uppercase block" style="color: var(--text-muted);">Contact &amp; Email</span>
+                    <strong id="passContact" class="text-sm">—</strong>
+                  </div>
+                  <div class="sm:col-span-2">
+                    <span class="text-xs uppercase block" style="color: var(--text-muted);">Institution &amp; Program</span>
+                    <strong id="passCollege" class="text-sm">—</strong>
+                  </div>
+                </div>
+
+                <div class="pt-2">
+                  <span class="text-xs uppercase block mb-1.5" style="color: var(--text-muted);">Registered Event(s)</span>
+                  <div id="passEventsList" class="flex flex-wrap gap-1.5"></div>
+                </div>
+
+                <div id="passTeamBlock" class="pt-1 is-hidden">
+                  <span class="text-xs uppercase block" style="color: var(--text-muted);">Team Members</span>
+                  <div id="passTeamMembers" class="text-xs font-medium mt-0.5"></div>
+                </div>
+
+                <div class="pt-1 flex flex-wrap gap-4 text-xs" style="color: var(--text-secondary);">
+                  <span><strong>Accommodation:</strong> <span id="passAccom">—</span></span>
+                  <span><strong>Dietary:</strong> <span id="passDiet">—</span></span>
+                </div>
+              </div>
+
+              <div class="md:col-span-4 flex flex-col items-center justify-center p-4 rounded-xl" style="background: var(--bg-input); border: 1px solid var(--border-strong);">
+                <svg id="passQrSvg" viewBox="0 0 120 120" class="w-28 h-28" aria-label="Verification Badge">
+                  <rect x="4" y="4" width="112" height="112" rx="8" fill="none" stroke="#D4AF37" stroke-width="3"/>
+                  <rect x="14" y="14" width="26" height="26" rx="3" fill="#D4AF37"/>
+                  <rect x="80" y="14" width="26" height="26" rx="3" fill="#D4AF37"/>
+                  <rect x="14" y="80" width="26" height="26" rx="3" fill="#D4AF37"/>
+                  <rect x="48" y="20" width="10" height="10" fill="#D4AF37"/>
+                  <rect x="64" y="32" width="10" height="10" fill="#D4AF37"/>
+                  <rect x="22" y="50" width="14" height="10" fill="#D4AF37"/>
+                  <rect x="46" y="46" width="28" height="28" rx="4" fill="none" stroke="#D4AF37" stroke-width="3"/>
+                  <polygon points="53,68 60,52 67,68" fill="#D4AF37"/>
+                  <rect x="84" y="52" width="18" height="10" fill="#D4AF37"/>
+                  <rect x="50" y="84" width="12" height="18" fill="#D4AF37"/>
+                  <rect x="72" y="78" width="14" height="12" fill="#D4AF37"/>
+                  <rect x="90" y="90" width="14" height="14" fill="#D4AF37"/>
+                </svg>
+                <span class="text-[11px] font-mono mt-2 tracking-wider" style="color: var(--gold-primary);">NOV 16–17, 2026 • DCMS</span>
+              </div>
+            </div>
+
+            <div class="mt-7 pt-5 border-t flex flex-wrap items-center justify-between gap-3 no-print" style="border-color: var(--border-subtle);">
+              <div class="flex flex-wrap gap-2.5">
+                <a id="passWhatsappConfirmBtn" href="#" target="_blank" rel="noopener noreferrer" class="btn-gold px-5 py-2.5 text-xs sm:text-sm inline-flex items-center gap-2">
+                  <span>Confirm via WhatsApp with Coordinator</span>
+                  <span>↗</span>
+                </a>
+                <button type="button" id="printPassBtn" class="btn-outline px-4 py-2.5 text-xs sm:text-sm">
+                  Print / Save Summary
+                </button>
+                <button type="button" id="copyRefBtn" class="btn-outline px-4 py-2.5 text-xs sm:text-sm">
+                  Copy Ref ID
+                </button>
+              </div>
+              <button type="button" id="editRegistrationBtn" class="text-xs font-semibold underline" style="color: var(--text-secondary);">
+                Edit Registration
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 no-print">
+
+          <form id="delegateRegForm" class="lg:col-span-8 space-y-6" novalidate>
+
+            <div class="surface-card p-6 sm:p-8">
+              <div class="flex items-center gap-3 mb-6">
+                <span class="avatar-monogram w-9 h-9 text-sm">01</span>
+                <div>
+                  <h2 class="font-display text-lg font-bold">Institution &amp; Lead Delegate Info</h2>
+                  <p class="text-xs" style="color: var(--text-muted);">Primary point of contact for credentials and certificates</p>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" for="regName">Full Name *</label>
+                  <input type="text" id="regName" class="input-field" placeholder="e.g., Arjun Menon" required />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" for="regEmail">Email Address *</label>
+                  <input type="email" id="regEmail" class="input-field" placeholder="delegate@college.edu" required />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" for="regPhone">Phone / WhatsApp Number *</label>
+                  <input type="tel" id="regPhone" class="input-field" placeholder="+91 98765 43210" required />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" for="regCollege">College / University Name *</label>
+                  <input type="text" id="regCollege" class="input-field" placeholder="Institution Name & City" required />
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" for="regProgram">Department / Program *</label>
+                  <select id="regProgram" class="input-field" required>
+                    <option value="MBA">MBA</option>
+                    <option value="M.Com">M.Com</option>
+                    <option value="BBA">BBA</option>
+                    <option value="B.Com">B.Com</option>
+                    <option value="B.Tech">B.Tech</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" for="regYear">Year of Study *</label>
+                  <select id="regYear" class="input-field" required>
+                    <option value="1st Year">1st Year</option>
+                    <option value="2nd Year">2nd Year</option>
+                    <option value="3rd Year">3rd Year</option>
+                    <option value="4th Year / Final">4th Year / Final</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="surface-card p-6 sm:p-8">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
+                <div class="flex items-center gap-3">
+                  <span class="avatar-monogram w-9 h-9 text-sm">02</span>
+                  <div>
+                    <h2 class="font-display text-lg font-bold">Select Event(s) *</h2>
+                    <p class="text-xs" style="color: var(--text-muted);">Choose one or more Management or Non-Management arenas</p>
+                  </div>
+                </div>
+                <span id="selectedEventsCountBadge" class="text-xs font-bold px-3 py-1 rounded-full self-start sm:self-auto"
+                      style="background: var(--gold-tint); color: var(--gold-primary); border: 1px solid var(--gold-border);">
+                  0 Selected
+                </span>
+              </div>
+
+              <div class="mb-3 text-xs font-bold uppercase tracking-wider" style="color: var(--gold-primary);">Management Events (6)</div>
+              <div id="regManagementCheckboxes" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+
+              </div>
+
+              <div class="mb-3 text-xs font-bold uppercase tracking-wider" style="color: var(--gold-primary);">Non-Management Events (4)</div>
+              <div id="regNonManagementCheckboxes" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+
+              </div>
+
+              <div id="teamMembersDynamicSection" class="is-hidden mt-6 pt-5 border-t" style="border-color: var(--border-subtle);">
+                <div class="flex items-center justify-between mb-2">
+                  <label class="text-xs font-bold uppercase tracking-wider" style="color: var(--gold-primary);">
+                    Team Members Roster (Optional / For Team Events)
+                  </label>
+                  <button type="button" id="addTeamMemberBtn" class="btn-action-chip px-3 py-1 text-xs">+ Add Teammate</button>
+                </div>
+                <p id="teamSizeHintText" class="text-xs mb-3" style="color: var(--text-secondary);"></p>
+                <div id="teamMembersInputsList" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  <input type="text" class="input-field team-member-input" placeholder="Team Member 2 Full Name" />
+                  <input type="text" class="input-field team-member-input" placeholder="Team Member 3 Full Name" />
+                </div>
+              </div>
+            </div>
+
+            <div class="surface-card p-6 sm:p-8">
+              <div class="flex items-center gap-3 mb-6">
+                <span class="avatar-monogram w-9 h-9 text-sm">03</span>
+                <div>
+                  <h2 class="font-display text-lg font-bold">Logistics &amp; Accommodation</h2>
+                  <p class="text-xs" style="color: var(--text-muted);">Hospitality &amp; dietary arrangements for outstation teams</p>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" for="regAccommodation">
+                    Campus Accommodation (Nov 15 / 16)?
+                  </label>
+                  <select id="regAccommodation" class="input-field">
+                    <option value="No — Day Scholar / Own Arrangement">No — Day Scholar / Own Arrangement</option>
+                    <option value="Yes — Needed for Nov 15 & 16">Yes — Needed for Nov 15 &amp; 16</option>
+                    <option value="Yes — Needed for Nov 16 Night Only">Yes — Needed for Nov 16 Night Only</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" for="regDietary">
+                    Dietary Preference
+                  </label>
+                  <select id="regDietary" class="input-field">
+                    <option value="Non-Veg">Non-Vegetarian</option>
+                    <option value="Veg">Pure Vegetarian</option>
+                    <option value="Mixed (Team)">Mixed (Veg &amp; Non-Veg Team)</option>
+                  </select>
+                </div>
+                <div class="sm:col-span-2">
+                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" for="regNotes">
+                    Special Notes / Arrival Timing (Optional)
+                  </label>
+                  <textarea id="regNotes" rows="2" class="input-field" placeholder="Any specific accommodation, arrival train/flight, or accessibility notes..."></textarea>
+                </div>
+              </div>
+
+              <div id="regErrorBanner" class="is-hidden mt-4 p-3.5 rounded-xl text-xs font-semibold bg-red-500/15 border border-red-500/40 text-red-300"></div>
+
+              <div class="mt-6">
+                <button type="submit" class="btn-gold w-full py-4 text-sm sm:text-base flex items-center justify-center gap-2">
+                  <span>Generate ASCEND '26 Provisional Registration Pass</span>
+                  <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.3">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <div class="lg:col-span-4 space-y-6">
+            <div class="surface-card p-6 space-y-4">
+              <div class="text-xs uppercase tracking-widest font-bold" style="color: var(--gold-primary);">Delegate Helpdesk</div>
+              <h3 class="font-display text-lg font-bold">Need Assistance?</h3>
+              <p class="text-xs leading-relaxed" style="color: var(--text-secondary);">
+                For institutional contingent registrations, hospitality queries, or event rule clarifications, reach out to our executive desk:
+              </p>
+              <div class="space-y-2.5 pt-1 text-xs">
+                <div class="p-3 rounded-xl" style="background: var(--bg-elevated);">
+                  <div class="font-bold">Mohammed Irfan C — Coordinator</div>
+                  <div class="mt-1 flex items-center justify-between" style="color: var(--text-secondary);">
+                    <span>+91 91880 07846</span>
+                    <a href="https://wa.me/919188007846" target="_blank" rel="noopener noreferrer" style="color: var(--gold-primary);" class="font-bold">WhatsApp ↗</a>
+                  </div>
+                </div>
+                <div class="p-3 rounded-xl" style="background: var(--bg-elevated);">
+                  <div class="font-bold">Anagha M V — Event Manager</div>
+                  <div class="mt-1 flex items-center justify-between" style="color: var(--text-secondary);">
+                    <span>+91 85907 85977</span>
+                    <a href="https://wa.me/918590785977" target="_blank" rel="noopener noreferrer" style="color: var(--gold-primary);" class="font-bold">WhatsApp ↗</a>
+                  </div>
+                </div>
+                <div class="p-3 rounded-xl" style="background: var(--bg-elevated);">
+                  <div class="font-bold">Sasma — Hospitality Head</div>
+                  <div class="mt-1 flex items-center justify-between" style="color: var(--text-secondary);">
+                    <span>+91 97475 10695</span>
+                    <a href="https://wa.me/919747510695" target="_blank" rel="noopener noreferrer" style="color: var(--gold-primary);" class="font-bold">WhatsApp ↗</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="surface-platinum rounded-2xl p-6 space-y-4">
+              <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold uppercase"
+                   style="background: var(--gold-tint); color: var(--gold-primary);">
+                DCMS &amp; UoC Students
+              </div>
+              <h3 class="font-display text-lg font-bold">Campus Volunteer Sign-Up</h3>
+              <p class="text-xs leading-relaxed" style="color: var(--text-secondary);">
+                Join the organizing taskforce behind ASCEND '26! Assist with arena operations, delegate hospitality, media, and stage coordination.
+              </p>
+              <div class="text-xs p-3 rounded-xl" style="background: var(--bg-input); border: 1px solid var(--border-subtle);">
+                <div class="font-semibold">Volunteer Head: Steljo</div>
+                <div style="color: var(--text-muted);">Ph: +91 81298 58290</div>
+              </div>
+              <button type="button" id="openVolunteerModalBtn" class="btn-gold w-full py-3 text-xs uppercase tracking-wider">
+                Apply as Campus Volunteer
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-sponsorship" class="spa-view py-12 sm:py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-4"
+               style="background: var(--gold-tint); color: var(--gold-primary); border: 1px solid var(--gold-border);">
+            Official Sponsorship Invitation • ASCEND '26
+          </div>
+          <h1 class="font-display text-3xl sm:text-5xl font-bold leading-tight">
+            Ignite Excellence. <span class="text-gold-gradient">Join as a Partner.</span>
+          </h1>
+          <p class="text-sm sm:text-base mt-4" style="color: var(--text-secondary);">
+            Connect your brand with 3,000+ students, 900+ national management delegates, 400+ affiliated colleges, and 1,200+ university faculty &amp; staff across South India.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-7 items-stretch mb-12">
+
+          <div class="surface-platinum rounded-2xl p-6 sm:p-8 flex flex-col justify-between relative">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider"
+                      style="background: linear-gradient(135deg,#AA801A,#F5D76E); color:#090A0F;">
+                  ★ Featured Flagship
+                </span>
+                <span class="font-tech text-sm font-bold uppercase" style="color: var(--gold-primary);">01 // Platinum Tier</span>
+              </div>
+              <h2 class="font-display text-2xl font-bold">Title Sponsorship</h2>
+              <div class="font-display text-3xl sm:text-4xl font-black text-gold-gradient my-4">₹1,00,000</div>
+              <p class="text-xs mb-5 pb-4 border-b" style="color: var(--text-secondary); border-color: var(--border-subtle);">
+                Maximum campus-wide arch dominance, king-size exhibition presence, and full attendee lead access.
+              </p>
+
+              <ul class="space-y-2.5 text-xs sm:text-sm mb-8" style="color: var(--text-secondary);">
+                <li class="flex items-start gap-2.5"><span class="text-amber-400 font-bold">✓</span><span>Sponsor's logo on event website, banners &amp; posters</span></li>
+                <li class="flex items-start gap-2.5"><span class="text-amber-400 font-bold">✓</span><span>Official acknowledgement during Inaugural Ceremony</span></li>
+                <li class="flex items-start gap-2.5"><span class="text-amber-400 font-bold">✓</span><span><strong>King-size stall/booth</strong> in the prime event area</span></li>
+                <li class="flex items-start gap-2.5"><span class="text-amber-400 font-bold">✓</span><span>Sponsor's logo on all certificates and trophies</span></li>
+                <li class="flex items-start gap-2.5"><span class="text-amber-400 font-bold">✓</span><span>Distribution of sponsor's brochures/materials during event</span></li>
+                <li class="flex items-start gap-2.5"><span class="text-amber-400 font-bold">✓</span><span><strong>Access to attendee list</strong> (with contact information)</span></li>
+                <li class="flex items-start gap-2.5"><span class="text-amber-400 font-bold">✓</span><span>Placing <strong>10 Flexes</strong> inside University Campus</span></li>
+                <li class="flex items-start gap-2.5"><span class="text-amber-400 font-bold">✓</span><span><strong>University Main Gate Arch, Department Arch &amp; Seminar Complex Arch</strong></span></li>
+                <li class="flex items-start gap-2.5"><span class="text-amber-400 font-bold">✓</span><span>Opportunity to interact with students &amp; faculty</span></li>
+                <li class="flex items-start gap-2.5"><span class="text-amber-400 font-bold">✓</span><span>Visual display at main venue + dedicated social media digital poster &amp; video ad</span></li>
+                <li class="flex items-start gap-2.5"><span class="text-amber-400 font-bold">✓</span><span>Backdrop display &amp; live announcements at all venues</span></li>
+                <li class="flex items-start gap-2.5"><span class="text-amber-400 font-bold">✓</span><span>Stall at main venue compound &amp; business card distribution</span></li>
+                <li class="flex items-start gap-2.5"><span class="text-amber-400 font-bold">✓</span><span>Sponsor captions in invitation prospectus &amp; follow-ups</span></li>
+              </ul>
+            </div>
+            <button type="button" data-sponsor-tier="Platinum Tier — Title Sponsorship (₹1,00,000)" class="btn-gold w-full py-3.5 text-sm open-sponsor-modal">
+              Enquire for Title Sponsorship
+            </button>
+          </div>
+
+          <div class="surface-card surface-card-hover p-6 sm:p-8 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="px-3 py-1 rounded-full text-xs font-bold uppercase"
+                      style="background: var(--gold-tint); color: var(--gold-primary); border: 1px solid var(--gold-border);">
+                  High Impact
+                </span>
+                <span class="font-tech text-sm font-bold uppercase" style="color: var(--text-muted);">02 // Gold Tier</span>
+              </div>
+              <h2 class="font-display text-2xl font-bold">Co-Title Sponsorship</h2>
+              <div class="font-display text-3xl sm:text-4xl font-black text-gold-gradient my-4">₹50,000</div>
+              <p class="text-xs mb-5 pb-4 border-b" style="color: var(--text-secondary); border-color: var(--border-subtle);">
+                Executive visibility with dedicated workshop/session rights, faculty interaction, and campus arches.
+              </p>
+
+              <ul class="space-y-2.5 text-xs sm:text-sm mb-8" style="color: var(--text-secondary);">
+                <li class="flex items-start gap-2.5"><span style="color: var(--gold-primary);">✓</span><span>Sponsor's logo on event website &amp; social media pages</span></li>
+                <li class="flex items-start gap-2.5"><span style="color: var(--gold-primary);">✓</span><span>Dedicated social media post acknowledging the sponsor</span></li>
+                <li class="flex items-start gap-2.5"><span style="color: var(--gold-primary);">✓</span><span><strong>Medium stall/booth</strong> in the event area</span></li>
+                <li class="flex items-start gap-2.5"><span style="color: var(--gold-primary);">✓</span><span>Exclusive meeting with Department Head &amp; faculty members</span></li>
+                <li class="flex items-start gap-2.5"><span style="color: var(--gold-primary);">✓</span><span><strong>Opportunity to conduct a workshop/session</strong> during event</span></li>
+                <li class="flex items-start gap-2.5"><span style="color: var(--gold-primary);">✓</span><span>University Main Gate Arch &amp; Seminar Complex Arch (Banner)</span></li>
+                <li class="flex items-start gap-2.5"><span style="color: var(--gold-primary);">✓</span><span>Placing <strong>10 Flexes</strong> inside University Campus</span></li>
+                <li class="flex items-start gap-2.5"><span style="color: var(--gold-primary);">✓</span><span>Visual display at main venue &amp; social media promotion</span></li>
+                <li class="flex items-start gap-2.5"><span style="color: var(--gold-primary);">✓</span><span>Announcements at each venue &amp; stall at main compound</span></li>
+                <li class="flex items-start gap-2.5"><span style="color: var(--gold-primary);">✓</span><span>Sponsor captions in lucky invitation prospectus &amp; follow-ups</span></li>
+              </ul>
+            </div>
+            <button type="button" data-sponsor-tier="Gold Tier — Co-Title Sponsorship (₹50,000)" class="btn-outline w-full py-3.5 text-sm open-sponsor-modal">
+              Enquire for Gold Tier
+            </button>
+          </div>
+
+          <div class="surface-card surface-card-hover p-6 sm:p-8 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <span class="px-3 py-1 rounded-full text-xs font-bold uppercase"
+                      style="background: var(--bg-elevated); color: var(--text-primary); border: 1px solid var(--border-strong);">
+                  Arena Branding
+                </span>
+                <span class="font-tech text-sm font-bold uppercase" style="color: var(--text-muted);">03 // Silver Tier</span>
+              </div>
+              <h2 class="font-display text-2xl font-bold">Event Sponsorship</h2>
+              <div class="font-display text-3xl sm:text-4xl font-black text-gold-gradient my-4">
+                ₹20,000 <span class="text-sm font-sans font-medium" style="color: var(--text-muted);">/ Event</span>
+              </div>
+              <p class="text-xs mb-5 pb-4 border-b" style="color: var(--text-secondary); border-color: var(--border-subtle);">
+                Power a specific flagship competition (e.g., Best Manager, Finance Game, Business Quiz, IPL Auction).
+              </p>
+
+              <ul class="space-y-2.5 text-xs sm:text-sm mb-8" style="color: var(--text-secondary);">
+                <li class="flex items-start gap-2.5"><span style="color: var(--gold-primary);">✓</span><span>Sponsor's logo on event website &amp; social media pages</span></li>
+                <li class="flex items-start gap-2.5"><span style="color: var(--gold-primary);">✓</span><span><strong>Small stall/booth</strong> in the event area</span></li>
+                <li class="flex items-start gap-2.5"><span style="color: var(--gold-primary);">✓</span><span>Distribution of brochures/materials in the sponsored event</span></li>
+                <li class="flex items-start gap-2.5"><span style="color: var(--gold-primary);">✓</span><span>Opportunity to interact with students &amp; faculty during event</span></li>
+                <li class="flex items-start gap-2.5"><span style="color: var(--gold-primary);">✓</span><span>Sponsor captions in invitation &amp; follow-ups</span></li>
+                <li class="flex items-start gap-2.5"><span style="color: var(--gold-primary);">✓</span><span>Dedicated live announcement at sponsored event venue</span></li>
+                <li class="flex items-start gap-2.5"><span style="color: var(--gold-primary);">✓</span><span>Targeted advertisement through official social media</span></li>
+                <li class="flex items-start gap-2.5"><span style="color: var(--gold-primary);">✓</span><span><strong>3 Flexes</strong> at University of Calicut campus</span></li>
+              </ul>
+            </div>
+            <button type="button" data-sponsor-tier="Silver Tier — Event Sponsorship (₹20,000/Event)" class="btn-outline w-full py-3.5 text-sm open-sponsor-modal">
+              Sponsor an Event
+            </button>
+          </div>
+        </div>
+
+        <div class="surface-card p-6 sm:p-8 mb-12">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+            <div>
+              <div class="font-tech text-sm font-bold uppercase tracking-widest" style="color: var(--gold-primary);">04 // BRONZE TIER &amp; EXHIBITION STALLS</div>
+              <h3 class="font-display text-xl sm:text-2xl font-bold mt-1">Custom Merchandise, Gifting &amp; Stall Packages</h3>
+              <p class="text-xs sm:text-sm mt-1" style="color: var(--text-secondary);">
+                Online promotions and tailored deliverables matched to your brand's campaign objectives.
+              </p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="p-5 rounded-xl flex flex-col justify-between" style="background: var(--bg-elevated); border: 1px solid var(--border-subtle);">
+              <div>
+                <div class="text-xs uppercase font-bold" style="color: var(--gold-primary);">Gifting &amp; Lucky Draw</div>
+                <div class="font-display text-xl font-bold mt-1">₹30,000 Value</div>
+                <p class="text-xs mt-2" style="color: var(--text-secondary);">Lucky draw gifts &amp; merchandise sponsorship with stage shoutouts &amp; digital promos.</p>
+              </div>
+              <button type="button" data-sponsor-tier="Bronze Tier — Gifting / Lucky Draw Sponsorship (₹30,000)" class="btn-action-chip w-full py-2 mt-4 open-sponsor-modal">Select Package</button>
+            </div>
+
+            <div class="p-5 rounded-xl flex flex-col justify-between" style="background: var(--bg-elevated); border: 1px solid var(--border-subtle);">
+              <div>
+                <div class="text-xs uppercase font-bold" style="color: var(--gold-primary);">Coupon Printing</div>
+                <div class="font-display text-xl font-bold mt-1">₹10,000</div>
+                <p class="text-xs mt-2" style="color: var(--text-secondary);">Exclusive brand logo &amp; offer vouchers printed across all delegate food &amp; fest coupons.</p>
+              </div>
+              <button type="button" data-sponsor-tier="Bronze Tier — Coupon Printing (₹10,000)" class="btn-action-chip w-full py-2 mt-4 open-sponsor-modal">Select Package</button>
+            </div>
+
+            <div class="p-5 rounded-xl flex flex-col justify-between" style="background: var(--bg-elevated); border: 1px solid var(--border-subtle);">
+              <div>
+                <div class="text-xs uppercase font-bold" style="color: var(--gold-primary);">T-Shirts &amp; ID Tags</div>
+                <div class="font-display text-xl font-bold mt-1">150 Printed Tees</div>
+                <p class="text-xs mt-2" style="color: var(--text-secondary);">Co-branded official fest T-shirts &amp; delegate lanyards worn across both days.</p>
+              </div>
+              <button type="button" data-sponsor-tier="Bronze Tier — 150 Printed T-Shirts & Tags" class="btn-action-chip w-full py-2 mt-4 open-sponsor-modal">Select Package</button>
+            </div>
+
+            <div class="p-5 rounded-xl flex flex-col justify-between" style="background: var(--bg-elevated); border: 1px solid var(--border-subtle);">
+              <div>
+                <div class="text-xs uppercase font-bold" style="color: var(--gold-primary);">Exhibition Stalls</div>
+                <div class="font-display text-base font-bold mt-1">₹7K • ₹10K • ₹15K</div>
+                <p class="text-xs mt-2" style="color: var(--text-secondary);">Small (₹7,000), Medium (₹10,000), or Large (₹15,000) high-footfall campus stalls.</p>
+              </div>
+              <button type="button" data-sponsor-tier="Exhibition Stall Booking (Small ₹7K / Medium ₹10K / Large ₹15K)" class="btn-action-chip w-full py-2 mt-4 open-sponsor-modal">Book a Stall</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="surface-platinum rounded-2xl p-6 sm:p-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+          <div>
+            <div class="text-xs uppercase tracking-widest font-bold" style="color: var(--gold-primary);">Direct Corporate Partnership Desk</div>
+            <h3 class="font-display text-xl sm:text-2xl font-bold mt-1">Ready to Partner With ASCEND '26?</h3>
+            <p class="text-xs sm:text-sm mt-1" style="color: var(--text-secondary);">
+              Connect directly with our Sponsorship Lead or Fest Coordinator for custom deliverables, MoUs, and invoicing.
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-3 w-full lg:w-auto">
+            <a href="https://wa.me/919744011164?text=Hello%20Muhammed%20Shabeeb%2C%20we%20are%20interested%20in%20sponsoring%20ASCEND%20%2726." target="_blank" rel="noopener noreferrer" class="btn-gold px-5 py-3 text-xs sm:text-sm inline-flex items-center gap-2">
+              <span>Muhammed Shabeeb K T (+91 97440 11164)</span>
+            </a>
+            <button type="button" data-sponsor-tier="Custom Corporate Partnership" class="btn-outline px-5 py-3 text-xs sm:text-sm open-sponsor-modal">
+              Open Express Proposal Form
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-team" class="spa-view py-12 sm:py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="text-center max-w-3xl mx-auto mb-10">
+          <div class="font-tech uppercase tracking-widest text-sm font-bold" style="color: var(--gold-primary);">
+            THE ARCHITECTS OF ASCEND '26
+          </div>
+          <h1 class="font-display text-3xl sm:text-4xl font-bold mt-2">Meet Our Team</h1>
+          <p class="text-sm sm:text-base mt-3" style="color: var(--text-secondary);">
+            Guided by DCMS faculty leadership and driven by 31 student executives across the Core Committee, Event Heads, and Operational Committees.
+          </p>
+        </div>
+
+        <div class="max-w-3xl mx-auto mb-12">
+          <div class="surface-platinum rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
+            <div class="w-20 h-20 rounded-2xl flex items-center justify-center font-display text-2xl font-black flex-shrink-0"
+                 style="background: linear-gradient(135deg,#AA801A,#F5D76E); color:#090A0F;">
+              SCH
+            </div>
+            <div class="flex-grow">
+              <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2"
+                   style="background: var(--gold-tint); color: var(--gold-primary); border: 1px solid var(--gold-border);">
+                Faculty Coordinator • ASCEND '26
+              </div>
+              <h2 class="font-display text-xl sm:text-2xl font-bold">Dr. Sreesha C H</h2>
+              <p class="text-sm mt-1" style="color: var(--text-secondary);">
+                Head of the Department &amp; Associate Professor, Department of Commerce and Management Studies (DCMS), University of Calicut
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 mb-8">
+          <div class="flex flex-wrap items-center gap-2" id="teamFilterTabs">
+            <button type="button" data-team-cat="all" class="filter-tab is-active">All (31)</button>
+            <button type="button" data-team-cat="Core Committee" class="filter-tab">Core Committee (10)</button>
+            <button type="button" data-team-cat="Event Heads" class="filter-tab">Event Heads (10)</button>
+            <button type="button" data-team-cat="Committee Heads" class="filter-tab">Committee Heads (11)</button>
+          </div>
+          <div class="relative w-full md:w-72">
+            <input
+              type="text"
+              id="teamSearchInput"
+              class="input-field pl-10"
+              placeholder="Search name or role..."
+              aria-label="Search committee members"
+            />
+            <svg class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2" style="color: var(--text-muted);" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </div>
+        </div>
+
+        <div id="teamGridContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+
+        </div>
+      </div>
+    </section>
+
+    <section id="view-dcms" class="spa-view py-12 sm:py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <div class="font-tech uppercase tracking-widest text-sm font-bold" style="color: var(--gold-primary);">
+            ACADEMIC HERITAGE SINCE 1968 &amp; 1982
+          </div>
+          <h1 class="font-display text-3xl sm:text-4xl font-bold mt-2">The DCMS Family</h1>
+          <p class="text-sm sm:text-base mt-3" style="color: var(--text-secondary);">
+            Rooted in over four decades of management scholarship at the School of Business Studies, University of Calicut.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-14">
+
+          <div class="surface-platinum rounded-2xl p-6 sm:p-8 space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+                    style="background: var(--gold-tint); color: var(--gold-primary); border: 1px solid var(--gold-border);">
+                Established 1982 • AICTE Accredited
+              </span>
+              <span class="font-display text-xl font-bold text-gold-gradient">DCMS</span>
+            </div>
+            <h2 class="font-display text-xl sm:text-2xl font-bold">
+              Department of Commerce &amp; Management Studies
+            </h2>
+            <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
+              Established in <strong>1982</strong>, DCMS initially functioned as a combined department and stood among the very first University Departments in Kerala to pioneer formal Management education. The same year marked the launch of its flagship full-time <strong>MBA program</strong>, accredited by the <strong>All India Council for Technical Education (AICTE)</strong>, alongside prestigious <strong>M.Com</strong> and doctoral research programs under the School of Business Studies.
+            </p>
+            <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
+              DCMS houses an accomplished talent pool of senior professors, research scholars, corporate placement cells, and entrepreneurship hubs that equally champion academic rigor and national-level leadership platforms like ASCEND.
+            </p>
+          </div>
+
+          <div class="surface-card p-6 sm:p-8 space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+                    style="background: var(--bg-elevated); color: var(--text-primary); border: 1px solid var(--border-strong);">
+                Established 1968 • "Nirmaya Karmana Sree"
+              </span>
+              <span class="font-display text-xl font-bold" style="color: var(--gold-primary);">UoC</span>
+            </div>
+            <h2 class="font-display text-xl sm:text-2xl font-bold">
+              University of Calicut
+            </h2>
+            <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
+              Established in <strong>1968</strong>, the <strong>University of Calicut (UoC)</strong> is the largest university in Kerala in terms of geographical expanse, affiliated institutions, and degrees conferred. As the second university established in Kerala, it spearheads higher education across the Malabar region and beyond.
+            </p>
+            <p class="text-sm leading-relaxed" style="color: var(--text-secondary);">
+              Governed by the Calicut University Act 1975, UoC has grown into Kerala's premier residential-cum-affiliating university encompassing <strong>34 postgraduate departments</strong> and <strong>406 affiliated colleges</strong>.
+            </p>
+            <div class="grid grid-cols-3 gap-3 pt-2">
+              <div class="p-3 rounded-xl text-center" style="background: var(--bg-elevated);">
+                <div class="font-display text-lg font-bold text-gold-gradient">1968</div>
+                <div class="text-[11px]" style="color: var(--text-muted);">Founded</div>
+              </div>
+              <div class="p-3 rounded-xl text-center" style="background: var(--bg-elevated);">
+                <div class="font-display text-lg font-bold text-gold-gradient">34</div>
+                <div class="text-[11px]" style="color: var(--text-muted);">PG Depts</div>
+              </div>
+              <div class="p-3 rounded-xl text-center" style="background: var(--bg-elevated);">
+                <div class="font-display text-lg font-bold text-gold-gradient">406</div>
+                <div class="text-[11px]" style="color: var(--text-muted);">Colleges</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-12">
+          <div class="text-center max-w-2xl mx-auto mb-8">
+            <div class="font-tech uppercase tracking-widest text-sm font-bold" style="color: var(--gold-primary);">
+              ACADEMIC LEADERSHIP
+            </div>
+            <h2 class="font-display text-2xl sm:text-3xl font-bold mt-1">DCMS Faculty Directory</h2>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
+
+            <div class="surface-platinum rounded-2xl p-6 flex items-start gap-4 md:col-span-2 lg:col-span-1">
+              <div class="avatar-monogram">SCH</div>
+              <div>
+                <span class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--gold-primary);">HOD &amp; ASCEND Coordinator</span>
+                <h3 class="font-bold text-base sm:text-lg mt-0.5">Dr. Sreesha C H</h3>
+                <p class="text-xs mt-1" style="color: var(--text-secondary);">Head of the Department, Associate Professor &amp; Faculty Coordinator (ASCEND)</p>
+              </div>
+            </div>
+
+            <div class="surface-card surface-card-hover p-6 flex items-start gap-4">
+              <div class="avatar-monogram">EKS</div>
+              <div>
+                <span class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--gold-primary);">Senior Professor</span>
+                <h3 class="font-bold text-base sm:text-lg mt-0.5">Prof. (Dr.) E. K. Satheesh</h3>
+                <p class="text-xs mt-1" style="color: var(--text-secondary);">Senior Professor, Department of Commerce &amp; Management Studies</p>
+              </div>
+            </div>
+
+            <div class="surface-card surface-card-hover p-6 flex items-start gap-4">
+              <div class="avatar-monogram">AS</div>
+              <div>
+                <span class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--gold-primary);">Faculty</span>
+                <h3 class="font-bold text-base sm:text-lg mt-0.5">Dr. Aparna Sajeev</h3>
+                <p class="text-xs mt-1" style="color: var(--text-secondary);">Assistant Professor, DCMS</p>
+              </div>
+            </div>
+
+            <div class="surface-card surface-card-hover p-6 flex items-start gap-4">
+              <div class="avatar-monogram">NP</div>
+              <div>
+                <span class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--gold-primary);">Faculty</span>
+                <h3 class="font-bold text-base sm:text-lg mt-0.5">Dr. Natasha P</h3>
+                <p class="text-xs mt-1" style="color: var(--text-secondary);">Assistant Professor, DCMS</p>
+              </div>
+            </div>
+
+            <div class="surface-card surface-card-hover p-6 flex items-start gap-4">
+              <div class="avatar-monogram">HKC</div>
+              <div>
+                <span class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--gold-primary);">Faculty</span>
+                <h3 class="font-bold text-base sm:text-lg mt-0.5">Mr. Hari Kumar C</h3>
+                <p class="text-xs mt-1" style="color: var(--text-secondary);">Assistant Professor, DCMS</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="surface-card p-6 sm:p-8">
+            <div class="text-xs uppercase tracking-widest font-bold mb-4" style="color: var(--gold-primary);">
+              Guest Faculty • DCMS
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5">
+              <div class="p-3.5 rounded-xl flex items-center gap-3" style="background: var(--bg-elevated);">
+                <div class="avatar-monogram w-9 h-9 text-xs">PVB</div>
+                <div class="text-xs sm:text-sm font-semibold">Dr. P V Basheer Ahammed</div>
+              </div>
+              <div class="p-3.5 rounded-xl flex items-center gap-3" style="background: var(--bg-elevated);">
+                <div class="avatar-monogram w-9 h-9 text-xs">PTM</div>
+                <div class="text-xs sm:text-sm font-semibold">Dr. Preethi T M</div>
+              </div>
+              <div class="p-3.5 rounded-xl flex items-center gap-3" style="background: var(--bg-elevated);">
+                <div class="avatar-monogram w-9 h-9 text-xs">SES</div>
+                <div class="text-xs sm:text-sm font-semibold">Dr. Sreedevi E S</div>
+              </div>
+              <div class="p-3.5 rounded-xl flex items-center gap-3" style="background: var(--bg-elevated);">
+                <div class="avatar-monogram w-9 h-9 text-xs">NTJ</div>
+                <div class="text-xs sm:text-sm font-semibold">N. T. James</div>
+              </div>
+              <div class="p-3.5 rounded-xl flex items-center gap-3" style="background: var(--bg-elevated);">
+                <div class="avatar-monogram w-9 h-9 text-xs">TJM</div>
+                <div class="text-xs sm:text-sm font-semibold">T. Jayamohan</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-contact" class="spa-view py-12 sm:py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <div class="font-tech uppercase tracking-widest text-sm font-bold" style="color: var(--gold-primary);">
+            CONNECT WITH ASCEND '26
+          </div>
+          <h1 class="font-display text-3xl sm:text-4xl font-bold mt-2">Executive Contact &amp; Directions</h1>
+          <p class="text-sm sm:text-base mt-3" style="color: var(--text-secondary);">
+            Reach out to our coordinators, sponsorship desk, grievance cell, or hospitality team at the University of Calicut campus.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+          <div class="lg:col-span-7 space-y-6">
+
+            <div class="surface-platinum rounded-2xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <div class="text-xs uppercase tracking-widest font-bold" style="color: var(--gold-primary);">Official Fest Desk</div>
+                <div class="font-display text-lg sm:text-xl font-bold mt-1 break-all">dcms.ascend26@gmail.com</div>
+                <div class="text-xs mt-1" style="color: var(--text-secondary);">Primary inbox for institutional invitations, sponsorships &amp; official correspondence</div>
+              </div>
+              <div class="flex gap-2 flex-shrink-0">
+                <button type="button" data-copy="dcms.ascend26@gmail.com" class="btn-outline px-3.5 py-2 text-xs copy-trigger">Copy</button>
+                <a href="mailto:dcms.ascend26@gmail.com" class="btn-gold px-4 py-2 text-xs">Email Now</a>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div class="surface-card p-6 space-y-3">
+                <div class="text-xs uppercase font-bold" style="color: var(--gold-primary);">Coordinator • ASCEND '26</div>
+                <h3 class="font-display text-lg font-bold">Mohammed Irfan C</h3>
+                <div class="text-xs space-y-1" style="color: var(--text-secondary);">
+                  <div>Ph: <strong>+91 91880 07846</strong></div>
+                  <div class="break-all">Mail: irfannazer2434@gmail.com</div>
+                </div>
+                <div class="flex gap-2 pt-2">
+                  <a href="tel:+919188007846" class="btn-action-chip px-3 py-2 flex-1 text-center">Call</a>
+                  <a href="https://wa.me/919188007846" target="_blank" rel="noopener noreferrer" class="btn-gold px-3 py-2 flex-1 text-center text-xs">WhatsApp</a>
+                </div>
+              </div>
+
+              <div class="surface-card p-6 space-y-3">
+                <div class="text-xs uppercase font-bold" style="color: var(--gold-primary);">Sponsorship &amp; Technical Head</div>
+                <h3 class="font-display text-lg font-bold">Muhammed Shabeeb K T</h3>
+                <div class="text-xs space-y-1" style="color: var(--text-secondary);">
+                  <div>Ph: <strong>+91 97440 11164</strong></div>
+                  <div class="break-all">Mail: muhammedshabeebkt2016@gmail.com</div>
+                </div>
+                <div class="flex gap-2 pt-2">
+                  <a href="tel:+919744011164" class="btn-action-chip px-3 py-2 flex-1 text-center">Call</a>
+                  <a href="https://wa.me/919744011164" target="_blank" rel="noopener noreferrer" class="btn-gold px-3 py-2 flex-1 text-center text-xs">WhatsApp</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="surface-card p-6">
+              <div class="text-xs uppercase tracking-widest font-bold mb-4" style="color: var(--gold-primary);">
+                Grievance, Hospitality &amp; Transit Support
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs">
+                <div class="p-3.5 rounded-xl flex items-center justify-between" style="background: var(--bg-elevated);">
+                  <div>
+                    <div class="font-bold">Fathimathul Safa (MBA)</div>
+                    <div style="color: var(--text-muted);">Grievance Head • +91 95394 97391</div>
+                  </div>
+                  <a href="tel:+919539497391" class="btn-action-chip px-2.5 py-1.5">Call</a>
+                </div>
+                <div class="p-3.5 rounded-xl flex items-center justify-between" style="background: var(--bg-elevated);">
+                  <div>
+                    <div class="font-bold">Mohammed Shameem (M.Com)</div>
+                    <div style="color: var(--text-muted);">Grievance Head • +91 90747 60194</div>
+                  </div>
+                  <a href="tel:+919074760194" class="btn-action-chip px-2.5 py-1.5">Call</a>
+                </div>
+                <div class="p-3.5 rounded-xl flex items-center justify-between" style="background: var(--bg-elevated);">
+                  <div>
+                    <div class="font-bold">Sasma</div>
+                    <div style="color: var(--text-muted);">Hospitality Head • +91 97475 10695</div>
+                  </div>
+                  <a href="tel:+919747510695" class="btn-action-chip px-2.5 py-1.5">Call</a>
+                </div>
+                <div class="p-3.5 rounded-xl flex items-center justify-between" style="background: var(--bg-elevated);">
+                  <div>
+                    <div class="font-bold">Thejus Parol</div>
+                    <div style="color: var(--text-muted);">Transportation Head • +91 80756 03606</div>
+                  </div>
+                  <a href="tel:+918075603606" class="btn-action-chip px-2.5 py-1.5">Call</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="surface-card p-6 space-y-4">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                  <div class="text-xs uppercase tracking-widest font-bold" style="color: var(--gold-primary);">Venue Address</div>
+                  <h3 class="font-bold text-base mt-1">Department of Commerce and Management Studies (DCMS)</h3>
+                  <p class="text-xs mt-0.5" style="color: var(--text-secondary);">
+                    University of Calicut, Thenhipalam, Malappuram, Kerala – 673635
+                  </p>
+                </div>
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=Department+of+Commerce+and+Management+Studies+University+of+Calicut+Thenhipalam+Kerala+673635"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn-outline px-4 py-2.5 text-xs font-bold self-start sm:self-center whitespace-nowrap"
+                >
+                  Open in Google Maps ↗
+                </a>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs">
+                <div class="p-3.5 rounded-xl" style="background: var(--bg-elevated);">
+                  <div class="font-bold" style="color: var(--gold-primary);">✈ By Air</div>
+                  <div class="mt-1" style="color: var(--text-secondary);">Calicut International Airport (CCJ, Karipur) — ~12 km from campus</div>
+                </div>
+                <div class="p-3.5 rounded-xl" style="background: var(--bg-elevated);">
+                  <div class="font-bold" style="color: var(--gold-primary);">🚆 By Rail</div>
+                  <div class="mt-1" style="color: var(--text-secondary);">Feroke (~12 km), Parappanangadi (~13 km) &amp; Kozhikode Main Station (~24 km)</div>
+                </div>
+                <div class="p-3.5 rounded-xl" style="background: var(--bg-elevated);">
+                  <div class="font-bold" style="color: var(--gold-primary);">🚌 By Road</div>
+                  <div class="mt-1" style="color: var(--text-secondary);">Direct NH-66 connectivity — Alight at Calicut University Main Bus Stop</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 space-y-6">
+            <form id="contactDirectForm" class="surface-card p-6 sm:p-8 space-y-4">
+              <div class="text-xs uppercase tracking-widest font-bold" style="color: var(--gold-primary);">Quick Dispatch</div>
+              <h2 class="font-display text-xl font-bold">Send a Direct Message</h2>
+              <p class="text-xs" style="color: var(--text-secondary);">
+                Have a question regarding contingent slots, sponsorship tiers, or campus accommodation? Send us a message directly.
+              </p>
+
+              <div>
+                <label class="block text-xs font-semibold uppercase mb-1" for="msgName">Your Name *</label>
+                <input type="text" id="msgName" class="input-field" placeholder="Full Name" required />
+              </div>
+              <div>
+                <label class="block text-xs font-semibold uppercase mb-1" for="msgEmail">Email or Phone *</label>
+                <input type="text" id="msgEmail" class="input-field" placeholder="you@domain.com / +91..." required />
+              </div>
+              <div>
+                <label class="block text-xs font-semibold uppercase mb-1" for="msgTopic">Subject *</label>
+                <select id="msgTopic" class="input-field">
+                  <option value="Event Registration Query">Event Registration Query</option>
+                  <option value="Sponsorship & Brand Partnership">Sponsorship &amp; Brand Partnership</option>
+                  <option value="College Contingent Invitation">College Contingent Invitation</option>
+                  <option value="Hospitality & Transport">Hospitality &amp; Transport</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold uppercase mb-1" for="msgBody">Message *</label>
+                <textarea id="msgBody" rows="4" class="input-field" placeholder="Write your message here..." required></textarea>
+              </div>
+
+              <button type="submit" class="btn-gold w-full py-3.5 text-sm">
+                Send Message to ASCEND Desk
+              </button>
+            </form>
+
+            <div class="surface-card p-6 space-y-4">
+              <div class="text-xs uppercase tracking-widest font-bold" style="color: var(--gold-primary);">Official Digital Channels</div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <a
+                  href="https://instagram.com/ascend__2025"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="p-4 rounded-xl flex items-center gap-3 transition-transform hover:-translate-y-0.5"
+                  style="background: var(--bg-elevated); border: 1px solid var(--border-subtle);"
+                >
+                  <svg class="w-6 h-6 text-pink-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                  </svg>
+                  <div>
+                    <div class="text-xs font-bold">Instagram</div>
+                    <div class="text-[11px]" style="color: var(--text-muted);">@ascend__2025</div>
+                  </div>
+                </a>
+
+                <a
+                  href="https://youtube.com/@ascend5627"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="p-4 rounded-xl flex items-center gap-3 transition-transform hover:-translate-y-0.5"
+                  style="background: var(--bg-elevated); border: 1px solid var(--border-subtle);"
+                >
+                  <svg class="w-6 h-6 text-red-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33A2.78 2.78 0 003.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2 29 29 0 00.46-5.25 29 29 0 00-.46-5.33z"></path>
+                    <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+                  </svg>
+                  <div>
+                    <div class="text-xs font-bold">YouTube</div>
+                    <div class="text-[11px]" style="color: var(--text-muted);">@ascend5627</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t mt-16" style="background: var(--bg-secondary); border-color: var(--border-subtle);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 pb-10 border-b" style="border-color: var(--border-subtle);">
+
+        <div class="lg:col-span-5 space-y-4">
+          <div class="flex items-center gap-3">
+            <svg viewBox="140 110 720 630" class="w-11 h-10 flex-shrink-0">
+              <polygon points="240,578 502,134 555,226 355,578" fill="url(#ascendGoldGrad)" />
+              <polygon points="162,710 222,616 377,616 581,267 758,578 645,578 581,465 430,710" fill="url(#ascendMetalGrad)" />
+              <polygon points="583,545 532,632 577,710 839,710 783,616 626,616" fill="url(#ascendMetalGrad)" />
+            </svg>
+            <div>
+              <div class="font-display font-extrabold text-lg">ASCEND <span class="text-gold-gradient">26</span></div>
+              <div class="text-xs" style="color: var(--text-muted);">27th Edition • November 16 &amp; 17, 2026</div>
+            </div>
+          </div>
+          <p class="text-xs sm:text-sm leading-relaxed max-w-md" style="color: var(--text-secondary);">
+            Premier National Level Management Fest organized by the Department of Commerce and Management Studies (DCMS), School of Business Studies, University of Calicut.
+          </p>
+          <div class="flex items-center gap-3 text-xs font-semibold">
+            <a href="https://instagram.com/ascend__2025" target="_blank" rel="noopener noreferrer" class="btn-action-chip px-3 py-1.5">Instagram @ascend__2025</a>
+            <a href="https://youtube.com/@ascend5627" target="_blank" rel="noopener noreferrer" class="btn-action-chip px-3 py-1.5">YouTube @ascend5627</a>
+          </div>
+        </div>
+
+        <div class="lg:col-span-3 space-y-2.5">
+          <div class="text-xs font-bold uppercase tracking-widest mb-3" style="color: var(--gold-primary);">Quick Navigation</div>
+          <div class="grid grid-cols-2 gap-2 text-xs sm:text-sm" style="color: var(--text-secondary);">
+            <button type="button" data-nav="home" class="text-left hover:underline">Home</button>
+            <button type="button" data-nav="events" class="text-left hover:underline">10 Events</button>
+            <button type="button" data-nav="register" class="text-left hover:underline">Register</button>
+            <button type="button" data-nav="sponsorship" class="text-left hover:underline">Sponsorship</button>
+            <button type="button" data-nav="team" class="text-left hover:underline">Meet Our Team</button>
+            <button type="button" data-nav="dcms" class="text-left hover:underline">DCMS Family</button>
+            <button type="button" data-nav="contact" class="text-left hover:underline">Contact Us</button>
+          </div>
+        </div>
+
+        <div class="lg:col-span-4 space-y-2 text-xs sm:text-sm" style="color: var(--text-secondary);">
+          <div class="text-xs font-bold uppercase tracking-widest mb-3" style="color: var(--gold-primary);">Executive Desk</div>
+          <p><strong>Email:</strong> dcms.ascend26@gmail.com</p>
+          <p><strong>Coordinator:</strong> Mohammed Irfan C (+91 91880 07846)</p>
+          <p><strong>Sponsorship:</strong> Muhammed Shabeeb K T (+91 97440 11164)</p>
+          <p class="text-xs pt-1" style="color: var(--text-muted);">
+            DCMS, University of Calicut, Thenhipalam, Kerala – 673635
+          </p>
+        </div>
+      </div>
+
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs" style="color: var(--text-muted);">
+        <div>© 2026 ASCEND '26 | Department of Commerce and Management Studies, University of Calicut</div>
+        <div>Ignite Excellence • Join as a Leader</div>
+      </div>
+    </div>
+  </footer>
+
+  <div id="eventGuidelinesModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modalEventTitle">
+    <div class="modal-panel p-6 sm:p-8">
+      <div class="flex items-start justify-between gap-4 border-b pb-4 mb-5" style="border-color: var(--border-subtle);">
+        <div>
+          <span id="modalEventBadge" class="px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider"
+                style="background: var(--gold-tint); color: var(--gold-primary);">Management Event</span>
+          <h3 id="modalEventTitle" class="font-display text-2xl font-bold mt-2">Event Name</h3>
+        </div>
+        <button type="button" data-close-modal="eventGuidelinesModal" class="btn-action-chip p-2" aria-label="Close Modal">✕</button>
+      </div>
+
+      <div class="space-y-4 text-sm" style="color: var(--text-secondary);">
+        <p id="modalEventDesc" class="leading-relaxed"></p>
+
+        <div class="grid grid-cols-2 gap-3 text-xs">
+          <div class="p-3 rounded-xl" style="background: var(--bg-elevated);">
+            <div style="color: var(--text-muted);">Participation Format</div>
+            <div id="modalEventFormat" class="font-bold text-sm mt-0.5" style="color: var(--text-primary);"></div>
+          </div>
+          <div class="p-3 rounded-xl" style="background: var(--bg-elevated);">
+            <div style="color: var(--text-muted);">Fest Dates</div>
+            <div class="font-bold text-sm mt-0.5" style="color: var(--text-primary);">Nov 16 &amp; 17, 2026</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="text-xs font-bold uppercase tracking-wider mb-2" style="color: var(--gold-primary);">Arena Guidelines &amp; Evaluation</div>
+          <ul id="modalEventRules" class="space-y-2 text-xs sm:text-sm list-disc pl-5"></ul>
+        </div>
+
+        <div class="p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3" style="background: var(--bg-elevated); border: 1px solid var(--border-subtle);">
+          <div>
+            <div class="text-xs" style="color: var(--text-muted);">Event Head</div>
+            <div id="modalEventHead" class="font-bold text-sm" style="color: var(--text-primary);"></div>
+          </div>
+          <div class="flex gap-2">
+            <a id="modalEventCall" href="#" class="btn-action-chip px-3 py-2 text-xs">Call Head</a>
+            <a id="modalEventWa" href="#" target="_blank" rel="noopener noreferrer" class="btn-action-chip px-3 py-2 text-xs">WhatsApp</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 pt-4 border-t flex flex-col sm:flex-row justify-end gap-3" style="border-color: var(--border-subtle);">
+        <button type="button" data-close-modal="eventGuidelinesModal" class="btn-outline px-5 py-2.5 text-xs sm:text-sm">Close</button>
+        <button type="button" id="modalRegisterTriggerBtn" class="btn-gold px-6 py-2.5 text-xs sm:text-sm">Register for This Event →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="sponsorInquiryModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="sponsorModalHeading">
+    <div class="modal-panel p-6 sm:p-8">
+      <div class="flex items-start justify-between gap-4 border-b pb-4 mb-5" style="border-color: var(--border-subtle);">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest" style="color: var(--gold-primary);">Partner Express Desk</span>
+          <h3 id="sponsorModalHeading" class="font-display text-xl sm:text-2xl font-bold mt-1">Become an ASCEND '26 Sponsor</h3>
+        </div>
+        <button type="button" data-close-modal="sponsorInquiryModal" class="btn-action-chip p-2" aria-label="Close Modal">✕</button>
+      </div>
+
+      <form id="sponsorExpressForm" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold uppercase mb-1" for="spTierInput">Selected Sponsorship Package</label>
+          <input type="text" id="spTierInput" class="input-field font-semibold" readonly />
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold uppercase mb-1" for="spBrand">Company / Brand Name *</label>
+            <input type="text" id="spBrand" class="input-field" placeholder="e.g., Acme Corp" required />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold uppercase mb-1" for="spContactPerson">Contact Person *</label>
+            <input type="text" id="spContactPerson" class="input-field" placeholder="Name & Designation" required />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold uppercase mb-1" for="spPhone">Phone / WhatsApp *</label>
+            <input type="tel" id="spPhone" class="input-field" placeholder="+91..." required />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold uppercase mb-1" for="spEmail">Corporate Email *</label>
+            <input type="email" id="spEmail" class="input-field" placeholder="partner@company.com" required />
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold uppercase mb-1" for="spNotes">Custom Branding Requirements (Optional)</label>
+          <textarea id="spNotes" rows="2" class="input-field" placeholder="Stall preferences, workshop interest, or specific deliverables..."></textarea>
+        </div>
+
+        <div class="pt-3 flex flex-col sm:flex-row gap-3">
+          <button type="button" id="spSendWhatsappBtn" class="btn-gold flex-1 py-3 text-xs sm:text-sm">
+            Connect via WhatsApp (Sponsorship Lead) ↗
+          </button>
+          <button type="submit" class="btn-outline flex-1 py-3 text-xs sm:text-sm">
+            Compose Official Email Proposal ✉
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="volunteerSignupModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="volModalHeading">
+    <div class="modal-panel p-6 sm:p-8">
+      <div class="flex items-start justify-between gap-4 border-b pb-4 mb-5" style="border-color: var(--border-subtle);">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest" style="color: var(--gold-primary);">ASCEND '26 Taskforce</span>
+          <h3 id="volModalHeading" class="font-display text-xl sm:text-2xl font-bold mt-1">Campus Volunteer Application</h3>
+        </div>
+        <button type="button" data-close-modal="volunteerSignupModal" class="btn-action-chip p-2" aria-label="Close Modal">✕</button>
+      </div>
+
+      <form id="volunteerExpressForm" class="space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold uppercase mb-1" for="volName">Full Name *</label>
+            <input type="text" id="volName" class="input-field" placeholder="Student Name" required />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold uppercase mb-1" for="volPhone">WhatsApp Number *</label>
+            <input type="tel" id="volPhone" class="input-field" placeholder="+91..." required />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold uppercase mb-1" for="volBatch">Course &amp; Semester *</label>
+            <input type="text" id="volBatch" class="input-field" placeholder="e.g., MBA S1 / M.Com S3" required />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold uppercase mb-1" for="volWing">Preferred Committee Wing</label>
+            <select id="volWing" class="input-field">
+              <option value="Arena & Event Operations">Arena &amp; Event Operations</option>
+              <option value="Hospitality & Registration">Hospitality &amp; Registration</option>
+              <option value="Media, Reels & Promotion">Media, Reels &amp; Promotion</option>
+              <option value="Stage, Cultural & Decoration">Stage, Cultural &amp; Decoration</option>
+              <option value="Technical & Logistics">Technical &amp; Logistics</option>
+            </select>
+          </div>
+        </div>
+        <div class="p-3.5 rounded-xl text-xs" style="background: var(--bg-elevated); color: var(--text-secondary);">
+          Submitting sends your volunteer application directly via WhatsApp to <strong>Steljo (Volunteer Head, +91 81298 58290)</strong>.
+        </div>
+        <div class="flex justify-end gap-3 pt-2">
+          <button type="button" data-close-modal="volunteerSignupModal" class="btn-outline px-5 py-2.5 text-xs">Cancel</button>
+          <button type="submit" class="btn-gold px-6 py-2.5 text-xs sm:text-sm">Send to Volunteer Head ↗</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="appToast" class="toast-box" role="status" aria-live="polite">
+    <span class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
+          style="background: var(--gold-tint); color: var(--gold-primary); border: 1px solid var(--gold-border);">✓</span>
+    <span id="appToastMessage" class="text-xs sm:text-sm font-medium">Action completed!</span>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
