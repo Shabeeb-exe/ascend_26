@@ -137,10 +137,10 @@ const EVENTS_DATA = [
     title: 'IPL Auction',
     category: 'Non-Management',
     icon: '🏏',
-    format: 'Team of 3–4 Members',
+    format: 'Team of 2–4 Members',
     isTeam: true,
     fee: 250,  // fee per participant
-    minTeam: 3,
+    minTeam: 2,
     maxTeam: 4,
     desc: 'Franchise bidding war: build a championship squad with tactical purse management and cricket analytics.',
     skills: 'Purse Management • Squad Balance • Tactical Bidding',
