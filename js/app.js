@@ -411,10 +411,23 @@
     const randomCode = Math.floor(1000 + Math.random() * 9000);
     latestRefId = 'ASC26-' + randomCode;
 
-    const chosenEvents = EVENTS_DATA.filter((ev) => selectedEventIds.has(ev.id));
+  const chosenEvents = EVENTS_DATA.filter((ev) => selectedEventIds.has(ev.id));
     const teamNames = Array.from(document.querySelectorAll('.team-member-input'))
       .map((inp) => inp.value.trim())
       .filter(Boolean);
+
+    // Calculate total registration fee dynamically
+    const totalFee = chosenEvents.reduce((sum, ev) => sum + ev.fee, 0);
+
+    // --- DYNAMIC UPI LINK GENERATOR WITH CALCULATED AMOUNT ---
+    const festUpiId = "9188007846@ybl"; 
+    const payeeName = "ASCEND 26 DCMS";
+    const upiLink = `upi://pay?pa=${festUpiId}&pn=${encodeURIComponent(payeeName)}&am=${totalFee}.00&cu=INR&tn=Reg_${latestRefId}`;
+    
+    document.getElementById('upiRefDisplay').textContent = latestRefId;
+    document.getElementById('upiPayNowBtn').setAttribute('href', upiLink);
+
+    // Send data silently to Google Sheet (including calculated total fee)
     const sheetPayload = {
       refId: latestRefId,
       name: name,
@@ -424,6 +437,7 @@
       program: program,
       year: year,
       events: chosenEvents.map(c => c.title).join(', '),
+      totalFee: `₹${totalFee}`,
       teamMembers: teamNames.join(', '),
       accommodation: accom,
       dietary: diet,
@@ -432,7 +446,7 @@
 
     fetch('https://script.google.com/macros/s/AKfycbxt6ZHqEyzAjgFD48EE5SUG6yqozlLcTtvZFjN3WUYarRpStvq2lO7KxddIBFWujbgL-w/exec', {
       method: 'POST',
-      mode: 'no-cors', // Prevents CORS blocking from frontend
+      mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(sheetPayload)
     }).catch(err => console.error('Sheet sync error:', err));
@@ -479,7 +493,15 @@
     document
       .getElementById('passWhatsappConfirmBtn')
       .setAttribute('href', 'https://wa.me/919188007846?text=' + encodeURIComponent(waLines));
-
+    // --- DYNAMIC UPI LINK GENERATOR ---
+    const festUpiId = "muhammedshabeebkt2016@okicici"; // Replace with your coordinator or merchant UPI handle
+    const payeeName = "ASCEND 26 DCMS";
+    const registrationFee = "150.00"; // Change fee amount as needed
+    
+    const upiLink = `upi://pay?pa=${festUpiId}&pn=${encodeURIComponent(payeeName)}&am=${registrationFee}&cu=INR&tn=Reg_${latestRefId}`;
+    
+    document.getElementById('upiRefDisplay').textContent = latestRefId;
+    document.getElementById('upiPayNowBtn').setAttribute('href', upiLink);
     document.getElementById('registrationPassSection').classList.remove('is-hidden');
     window.scrollTo({ top: 0, behavior: 'smooth' });
     showToast('Provisional Pass ' + latestRefId + ' generated!');
