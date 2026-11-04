@@ -621,7 +621,7 @@
     setSyncNotice('ok');
     syncToSheet(sheetPayloadOf(lastPayload));
     rememberRegistration(latestRefId, phone);
-    document.getElementById('chkIdentifier').value = latestRefId;
+    document.getElementById('chkRef').value = latestRefId;
     document.getElementById('chkPhone').value = phone;
 
     document.getElementById('registrationPassSection').classList.remove('is-hidden');
@@ -717,28 +717,26 @@
     document.getElementById('statusResult').classList.remove('is-hidden');
   }
 
-  async function checkStatus(identifierInput, phoneRaw, silent) {
+  async function checkStatus(ref, phoneRaw, silent) {
     const phone = normalizePhone(phoneRaw);
-    const rawIdentifier = String(identifierInput).trim().toUpperCase();
-    const isReferenceId = /^ASC26-[0-9A-Z]{7}$/.test(rawIdentifier);
-    const identifier = isReferenceId ? rawIdentifier : rawIdentifier.replace(/\D/g, '');
-    if ((!isReferenceId && !/^\d{12}$/.test(identifier)) || !phone) {
-      if (!silent) chkNotice('Enter a valid Reference ID (ASC26-XXXXXXX) or 12-digit UPI Transaction ID / UTR, and the 10-digit mobile number you registered with.', 'bad');
+    ref = String(ref).trim().toUpperCase();
+    if (!/^ASC26-[0-9A-Z]{7}$/.test(ref) || !phone) {
+      if (!silent) chkNotice('Enter your Reference ID (ASC26-XXXXXXX) and the 10-digit mobile number you registered with.', 'bad');
       return;
     }
     const btn = document.getElementById('chkBtn');
     btn.disabled = true;
     if (!silent) chkNotice('Checking…');
     try {
-      const res = await fetch(SITE_CONFIG.sheetEndpoint + '?action=status&identifier=' + encodeURIComponent(identifier) + '&phone=' + phone);
+      const res = await fetch(SITE_CONFIG.sheetEndpoint + '?action=status&ref=' + encodeURIComponent(ref) + '&phone=' + phone);
       const d = await res.json();
       if (d && d.found) {
         chkNotice('');
         renderStatus(d);
-        rememberRegistration(d.refId, phone);
+        rememberRegistration(ref, phone);
       } else if (!silent) {
         document.getElementById('statusResult').classList.add('is-hidden');
-        chkNotice('No registration found for that ID and mobile number. Check both, or wait a minute if you just registered.', 'bad');
+        chkNotice('No registration found for that Reference ID and mobile number. Check both, or wait a minute if you just registered.', 'bad');
       }
     } catch (err) {
       if (!silent) chkNotice('Could not reach the server. Check your internet and try again.', 'bad');
@@ -749,10 +747,10 @@
 
   document.getElementById('statusCheckForm').addEventListener('submit', (e) => {
     e.preventDefault();
-    checkStatus(document.getElementById('chkIdentifier').value, document.getElementById('chkPhone').value, false);
+    checkStatus(document.getElementById('chkRef').value, document.getElementById('chkPhone').value, false);
   });
   document.getElementById('stRefreshBtn').addEventListener('click', () => {
-    checkStatus(document.getElementById('chkIdentifier').value, document.getElementById('chkPhone').value, false);
+    checkStatus(document.getElementById('chkRef').value, document.getElementById('chkPhone').value, false);
   });
   document.getElementById('stPrintBtn').addEventListener('click', () => {
     document.body.classList.add('print-status');
@@ -763,7 +761,7 @@
   // After a page refresh, restore this delegate's status automatically
   const saved = recallRegistration();
   if (saved && saved.ref) {
-    document.getElementById('chkIdentifier').value = saved.ref;
+    document.getElementById('chkRef').value = saved.ref;
     document.getElementById('chkPhone').value = saved.phone || '';
     checkStatus(saved.ref, saved.phone || '', true);
   }
