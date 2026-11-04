@@ -96,8 +96,9 @@ function doPost(e) {
 
 /**
  * Status lookup used by the website ("Check status / get my pass").
- * GET ...?action=status&ref=ASC26-XXXXXXX&phone=9876543210
- * Both the Reference ID and the mobile number must match, so nobody can browse other people's registrations.
+ * GET ...?action=status&identifier=ASC26-XXXXXXX&phone=9876543210
+ * identifier may be a Reference ID or 12-digit UPI Transaction ID / UTR.
+ * The identifier and registered mobile number must both match.
  *   Verified column = YES  -> "confirmed"   (the delegate can now see/print the confirmed pass)
  *   Verified column = NO   -> "rejected"    (payment could not be verified, contact desk)
  *   blank + payment claimed -> "pending"; blank + not paid -> "unpaid"
@@ -105,20 +106,25 @@ function doPost(e) {
 function doGet(e) {
   var p = (e && e.parameter) || {};
   if (p.action === 'status') {
-    return out_(status_(String(p.ref || '').toUpperCase().trim(), String(p.phone || '').replace(/\D/g, '').slice(-10)));
+    return out_(status_(String(p.identifier || '').toUpperCase().trim(), String(p.phone || '').replace(/\D/g, '').slice(-10)));
   }
   return out_({ result: 'ASCEND 26 endpoint is running' });
 }
 
-function status_(ref, phone) {
-  if (!/^ASC26-[0-9A-Z]{7}$/.test(ref) || phone.length !== 10) return { found: false };
+function status_(identifier, phone) {
+  var isReferenceId = /^ASC26-[0-9A-Z]{7}$/.test(identifier);
+  var isUtr = /^\d{12}$/.test(identifier);
+  if ((!isReferenceId && !isUtr) || phone.length !== 10) return { found: false };
   var sh = getSheet_();
   var last = sh.getLastRow();
   if (last < 2) return { found: false };
   var rows = sh.getRange(2, 1, last - 1, HEADERS.length).getValues();
   for (var i = rows.length - 1; i >= 0; i--) {
     var r = rows[i];
-    if (r[1] === ref && String(r[4]).replace(/\D/g, '').slice(-10) === phone) {
+    var matchesIdentifier = isReferenceId
+      ? r[1] === identifier
+      : String(r[16]).replace(/\D/g, '') === identifier;
+    if (matchesIdentifier && String(r[4]).replace(/\D/g, '').slice(-10) === phone) {
       var v = String(r[17]).trim().toUpperCase();
       var paid = String(r[15]).indexOf('Paid') === 0 || String(r[15]).indexOf('DUPLICATE') === 0;
       return {

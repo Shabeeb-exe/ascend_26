@@ -2,7 +2,6 @@
   'use strict';
 
   let activeEventCategory = 'all';
-  let activeTeamCategory = 'all';
   let selectedEventIds = new Set();
   let currentModalEventId = null;
   let toastTimer = null;
@@ -170,7 +169,6 @@
       const matchesSearch =
         !query ||
         ev.title.toLowerCase().includes(query) ||
-        ev.head.toLowerCase().includes(query) ||
         ev.skills.toLowerCase().includes(query) ||
         ev.desc.toLowerCase().includes(query);
       return matchesCat && matchesSearch;
@@ -214,20 +212,6 @@
               ${ev.skills}
             </div>
 
-            <div class="mt-4 pt-4 border-t flex items-center justify-between gap-2" style="border-color: var(--border-subtle);">
-              <div>
-                <div class="text-[11px] uppercase tracking-wider" style="color: var(--text-muted);">Event Head</div>
-                <div class="text-xs sm:text-sm font-bold">${ev.head}</div>
-                <div class="text-xs" style="color: var(--text-secondary);">${ev.phoneDisplay}</div>
-              </div>
-              <div class="flex items-center gap-1.5">
-                <a href="tel:+${ev.phoneRaw}" class="btn-action-chip px-2.5 py-1.5" title="Call ${ev.head}">Call</a>
-                <a href="https://wa.me/${ev.phoneRaw}?text=${encodeURIComponent('Hello ' + ev.head + ', I have a query regarding ' + ev.title + ' at ASCEND \'26.')}"
-                   target="_blank" rel="noopener noreferrer" class="btn-action-chip px-2.5 py-1.5" title="WhatsApp ${ev.head}">
-                  WhatsApp
-                </a>
-              </div>
-            </div>
           </div>
 
           <div class="mt-5 pt-4 border-t grid grid-cols-2 gap-2.5" style="border-color: var(--border-subtle);">
@@ -294,12 +278,6 @@
     document.getElementById('modalEventTitle').textContent = ev.title;
     document.getElementById('modalEventDesc').textContent = ev.desc;
     document.getElementById('modalEventFormat').textContent = ev.format;
-    document.getElementById('modalEventHead').textContent = ev.head + ' (' + ev.phoneDisplay + ')';
-    document.getElementById('modalEventCall').setAttribute('href', 'tel:+' + ev.phoneRaw);
-    document.getElementById('modalEventWa').setAttribute(
-      'href',
-      'https://wa.me/' + ev.phoneRaw + '?text=' + encodeURIComponent('Hello ' + ev.head + ', querying about ' + ev.title + ' at ASCEND \'26.')
-    );
     document.getElementById('modalEventRules').innerHTML = ev.rules.map((r) => `<li>${r}</li>`).join('');
     document.getElementById('eventGuidelinesModal').classList.add('is-open');
   }
@@ -329,7 +307,7 @@
           <div class="flex-grow flex items-center justify-between">
             <div>
               <div class="font-bold text-sm">${ev.title}</div>
-              <div class="text-[11px]" style="color: var(--text-muted);">${ev.format} • Head: ${ev.head}</div>
+              <div class="text-[11px]" style="color: var(--text-muted);">${ev.format}</div>
             </div>
             <div class="text-xs font-bold text-amber-400 whitespace-nowrap">₹${ev.fee}${SITE_CONFIG.feePerPerson ? ' / person' : ''}</div>
           </div>
@@ -643,7 +621,7 @@
     setSyncNotice('ok');
     syncToSheet(sheetPayloadOf(lastPayload));
     rememberRegistration(latestRefId, phone);
-    document.getElementById('chkRef').value = latestRefId;
+    document.getElementById('chkIdentifier').value = latestRefId;
     document.getElementById('chkPhone').value = phone;
 
     document.getElementById('registrationPassSection').classList.remove('is-hidden');
@@ -739,26 +717,28 @@
     document.getElementById('statusResult').classList.remove('is-hidden');
   }
 
-  async function checkStatus(ref, phoneRaw, silent) {
+  async function checkStatus(identifierInput, phoneRaw, silent) {
     const phone = normalizePhone(phoneRaw);
-    ref = String(ref).trim().toUpperCase();
-    if (!/^ASC26-[0-9A-Z]{7}$/.test(ref) || !phone) {
-      if (!silent) chkNotice('Enter your Reference ID (ASC26-XXXXXXX) and the 10-digit mobile number you registered with.', 'bad');
+    const rawIdentifier = String(identifierInput).trim().toUpperCase();
+    const isReferenceId = /^ASC26-[0-9A-Z]{7}$/.test(rawIdentifier);
+    const identifier = isReferenceId ? rawIdentifier : rawIdentifier.replace(/\D/g, '');
+    if ((!isReferenceId && !/^\d{12}$/.test(identifier)) || !phone) {
+      if (!silent) chkNotice('Enter a valid Reference ID (ASC26-XXXXXXX) or 12-digit UPI Transaction ID / UTR, and the 10-digit mobile number you registered with.', 'bad');
       return;
     }
     const btn = document.getElementById('chkBtn');
     btn.disabled = true;
     if (!silent) chkNotice('Checking…');
     try {
-      const res = await fetch(SITE_CONFIG.sheetEndpoint + '?action=status&ref=' + encodeURIComponent(ref) + '&phone=' + phone);
+      const res = await fetch(SITE_CONFIG.sheetEndpoint + '?action=status&identifier=' + encodeURIComponent(identifier) + '&phone=' + phone);
       const d = await res.json();
       if (d && d.found) {
         chkNotice('');
         renderStatus(d);
-        rememberRegistration(ref, phone);
+        rememberRegistration(d.refId, phone);
       } else if (!silent) {
         document.getElementById('statusResult').classList.add('is-hidden');
-        chkNotice('No registration found for that Reference ID and mobile number. Check both, or wait a minute if you just registered.', 'bad');
+        chkNotice('No registration found for that ID and mobile number. Check both, or wait a minute if you just registered.', 'bad');
       }
     } catch (err) {
       if (!silent) chkNotice('Could not reach the server. Check your internet and try again.', 'bad');
@@ -769,10 +749,10 @@
 
   document.getElementById('statusCheckForm').addEventListener('submit', (e) => {
     e.preventDefault();
-    checkStatus(document.getElementById('chkRef').value, document.getElementById('chkPhone').value, false);
+    checkStatus(document.getElementById('chkIdentifier').value, document.getElementById('chkPhone').value, false);
   });
   document.getElementById('stRefreshBtn').addEventListener('click', () => {
-    checkStatus(document.getElementById('chkRef').value, document.getElementById('chkPhone').value, false);
+    checkStatus(document.getElementById('chkIdentifier').value, document.getElementById('chkPhone').value, false);
   });
   document.getElementById('stPrintBtn').addEventListener('click', () => {
     document.body.classList.add('print-status');
@@ -783,7 +763,7 @@
   // After a page refresh, restore this delegate's status automatically
   const saved = recallRegistration();
   if (saved && saved.ref) {
-    document.getElementById('chkRef').value = saved.ref;
+    document.getElementById('chkIdentifier').value = saved.ref;
     document.getElementById('chkPhone').value = saved.phone || '';
     checkStatus(saved.ref, saved.phone || '', true);
   }
@@ -800,62 +780,69 @@
     document.getElementById('delegateRegForm').scrollIntoView({ behavior: 'smooth' });
   });
 
-  const teamGridContainer = document.getElementById('teamGridContainer');
   const teamSearchInput = document.getElementById('teamSearchInput');
+  const teamSections = {
+    'Core Committee': document.getElementById('coreCommitteeGrid'),
+    'Event Heads': document.getElementById('eventHeadsGrid'),
+    'Committee Heads': document.getElementById('committeeHeadsGrid')
+  };
 
   function renderTeamGrid() {
     const query = teamSearchInput.value.trim().toLowerCase();
-    const filtered = TEAM_DATA.filter((member) => {
-      const matchesCat = activeTeamCategory === 'all' || member.category === activeTeamCategory;
-      const matchesSearch =
-        !query ||
-        member.name.toLowerCase().includes(query) ||
-        member.role.toLowerCase().includes(query) ||
-        member.category.toLowerCase().includes(query);
-      return matchesCat && matchesSearch;
-    });
+    Object.entries(teamSections).forEach(([category, grid]) => {
+      const section = grid.closest('[data-team-section]');
+      const filtered = TEAM_DATA.filter((member) => {
+        if (member.category !== category) return false;
+        return (
+          !query ||
+          (member.name && member.name.toLowerCase().includes(query)) ||
+          member.role.toLowerCase().includes(query)
+        );
+      });
 
-    teamGridContainer.innerHTML = filtered
-      .map(
-        (m) => `
-        <div class="surface-card surface-card-hover p-5 flex flex-col justify-between">
-          <div class="flex items-start gap-3.5">
-            <div class="avatar-monogram">${getInitials(m.name)}</div>
-            <div class="min-w-0">
-              <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full"
-                    style="background: var(--gold-tint); color: var(--gold-primary);">
-                ${m.category}
-              </span>
-              <h3 class="font-bold text-base mt-1.5 leading-snug">${m.name}</h3>
-              <div class="text-xs font-semibold mt-0.5" style="color: var(--gold-primary);">${m.role}</div>
-              <div class="text-xs mt-1" style="color: var(--text-muted);">${m.phoneDisplay}</div>
+      section.classList.toggle('is-hidden', filtered.length === 0);
+      grid.innerHTML = filtered
+        .map((member) => {
+          if (category === 'Event Heads') {
+            return `
+              <div class="surface-card p-5 flex items-start gap-3.5">
+                <div class="avatar-monogram">${getInitials(member.name)}</div>
+                <div class="min-w-0">
+                  <h3 class="font-bold text-base leading-snug">${member.name}</h3>
+                  <div class="text-xs font-semibold mt-0.5" style="color: var(--gold-primary);">${member.role}</div>
+                </div>
+              </div>
+            `;
+          }
+
+          return `
+            <div class="surface-card surface-card-hover p-5 flex flex-col justify-between">
+              <div class="flex items-start gap-3.5">
+                <div class="avatar-monogram">${getInitials(member.name)}</div>
+                <div class="min-w-0">
+                  <h3 class="font-bold text-base leading-snug">${member.name}</h3>
+                  <div class="text-xs font-semibold mt-0.5" style="color: var(--gold-primary);">${member.role}</div>
+                  ${member.phoneDisplay ? `<div class="text-xs mt-1" style="color: var(--text-muted);">${member.phoneDisplay}</div>` : ''}
+                </div>
+              </div>
+
+              ${member.phoneRaw ? `
+                <div class="mt-4 pt-3 border-t grid grid-cols-2 gap-2" style="border-color: var(--border-subtle);">
+                  <a href="tel:+${member.phoneRaw}" class="btn-action-chip py-2 text-center">Call</a>
+                  <a href="https://wa.me/${member.phoneRaw}?text=${encodeURIComponent("Hello " + member.name + ", reaching out regarding ASCEND '26.")}"
+                     target="_blank" rel="noopener noreferrer" class="btn-action-chip py-2 text-center" style="color: var(--gold-primary);">
+                    WhatsApp ↗
+                  </a>
+                </div>
+              ` : ''}
             </div>
-          </div>
-
-          <div class="mt-4 pt-3 border-t grid grid-cols-2 gap-2" style="border-color: var(--border-subtle);">
-            <a href="tel:+${m.phoneRaw}" class="btn-action-chip py-2 text-center">Call</a>
-            <a href="https://wa.me/${m.phoneRaw}?text=${encodeURIComponent('Hello ' + m.name + ', reaching out regarding ASCEND \'26.')}"
-               target="_blank" rel="noopener noreferrer" class="btn-action-chip py-2 text-center" style="color: var(--gold-primary);">
-              WhatsApp ↗
-            </a>
-          </div>
-        </div>
-      `
-      )
-      .join('');
+          `;
+        })
+        .join('');
+    });
   }
 
   renderTeamGrid();
-
-  document.getElementById('teamFilterTabs').addEventListener('click', (e) => {
-    const tab = e.target.closest('[data-team-cat]');
-    if (!tab) return;
-    activeTeamCategory = tab.getAttribute('data-team-cat');
-    document.querySelectorAll('[data-team-cat]').forEach((b) => {
-      b.classList.toggle('is-active', b === tab);
-    });
-    renderTeamGrid();
-  });
 
   teamSearchInput.addEventListener('input', renderTeamGrid);
 

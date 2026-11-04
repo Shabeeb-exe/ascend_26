@@ -573,11 +573,11 @@
         <div id="statusCheckSection" class="mb-10 max-w-3xl mx-auto">
           <div class="surface-card p-6 no-print">
             <h2 class="font-display text-lg font-bold">Already registered? Check status &amp; get your pass</h2>
-            <p class="text-xs mt-1 mb-4" style="color: var(--text-secondary);">Enter the Reference ID you received and the mobile number you registered with. Once the ASCEND desk verifies your payment, your confirmed pass appears here.</p>
+            <p class="text-xs mt-1 mb-4" style="color: var(--text-secondary);">Enter either your Reference ID or the 12-digit UPI Transaction ID / UTR from your payment history, along with the mobile number you registered with. Once the ASCEND desk verifies your payment, your confirmed pass appears here.</p>
             <form id="statusCheckForm" class="grid grid-cols-1 sm:grid-cols-7 gap-3 items-end" novalidate>
               <div class="sm:col-span-3">
-                <label for="chkRef" class="block text-[11px] uppercase font-semibold mb-1" style="color: var(--text-muted);">Reference ID</label>
-                <input type="text" id="chkRef" class="input-field uppercase" placeholder="ASC26-XXXXXXX" maxlength="13" autocomplete="off" />
+                <label for="chkIdentifier" class="block text-[11px] uppercase font-semibold mb-1" style="color: var(--text-muted);">Reference ID or Transaction ID / UTR</label>
+                <input type="text" id="chkIdentifier" class="input-field uppercase" placeholder="ASC26-XXXXXXX or 12-digit UTR" maxlength="20" autocomplete="off" />
               </div>
               <div class="sm:col-span-2">
                 <label for="chkPhone" class="block text-[11px] uppercase font-semibold mb-1" style="color: var(--text-muted);">Mobile number</label>
@@ -1120,7 +1120,7 @@
           </div>
           <h1 class="font-display text-3xl sm:text-4xl font-bold mt-2">Meet Our Team</h1>
           <p class="text-sm sm:text-base mt-3" style="color: var(--text-secondary);">
-            Guided by DCMS faculty leadership and driven by 31 student executives across the Core Committee, Event Heads, and Operational Committees.
+            Guided by DCMS faculty leadership and driven by 31 student leaders across the Core Committee, Event Heads, and Committee Heads.
           </p>
         </div>
 
@@ -1128,28 +1128,23 @@
           <div class="surface-platinum rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
             <div class="w-20 h-20 rounded-2xl flex items-center justify-center font-display text-2xl font-black flex-shrink-0"
                  style="background: linear-gradient(135deg,#AA801A,#F5D76E); color:#090A0F;">
-              SCH
+              HKC
             </div>
             <div class="flex-grow">
               <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2"
                    style="background: var(--gold-tint); color: var(--gold-primary); border: 1px solid var(--gold-border);">
                 Faculty Coordinator • ASCEND '26
               </div>
-              <h2 class="font-display text-xl sm:text-2xl font-bold">Dr. Sreesha C H</h2>
+              <h2 class="font-display text-xl sm:text-2xl font-bold">Mr. Hari Kumar C</h2>
               <p class="text-sm mt-1" style="color: var(--text-secondary);">
-                Head of the Department &amp; Associate Professor, Department of Commerce and Management Studies (DCMS), University of Calicut
+                Faculty Coordinator, Department of Commerce and Management Studies (DCMS), University of Calicut
               </p>
+              <a href="tel:+919496831659" class="inline-block text-sm font-semibold mt-2" style="color: var(--gold-primary);">+91 94968 31659</a>
             </div>
           </div>
         </div>
 
-        <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 mb-8">
-          <div class="flex flex-wrap items-center gap-2" id="teamFilterTabs">
-            <button type="button" data-team-cat="all" class="filter-tab is-active">All (31)</button>
-            <button type="button" data-team-cat="Core Committee" class="filter-tab">Core Committee (10)</button>
-            <button type="button" data-team-cat="Event Heads" class="filter-tab">Event Heads (10)</button>
-            <button type="button" data-team-cat="Committee Heads" class="filter-tab">Committee Heads (11)</button>
-          </div>
+        <div class="flex justify-end mb-8">
           <div class="relative w-full md:w-72">
             <input
               type="text"
@@ -1165,8 +1160,19 @@
           </div>
         </div>
 
-        <div id="teamGridContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-
+        <div class="team-sections">
+          <section data-team-section>
+            <h2 class="font-display text-2xl font-bold mb-4">Core Committee Members</h2>
+            <div id="coreCommitteeGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"></div>
+          </section>
+          <section data-team-section>
+            <h2 class="font-display text-2xl font-bold mb-4">Event Heads</h2>
+            <div id="eventHeadsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"></div>
+          </section>
+          <section data-team-section>
+            <h2 class="font-display text-2xl font-bold mb-4">Committee Heads</h2>
+            <div id="committeeHeadsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"></div>
+          </section>
         </div>
       </div>
     </section>
@@ -1252,9 +1258,9 @@
             <div class="surface-platinum rounded-2xl p-6 flex items-start gap-4 md:col-span-2 lg:col-span-1">
               <div class="avatar-monogram">SCH</div>
               <div>
-                <span class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--gold-primary);">HOD &amp; ASCEND Coordinator</span>
+                <span class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--gold-primary);">Head of the Department</span>
                 <h3 class="font-bold text-base sm:text-lg mt-0.5">Dr. Sreesha C H</h3>
-                <p class="text-xs mt-1" style="color: var(--text-secondary);">Head of the Department, Associate Professor &amp; Faculty Coordinator (ASCEND)</p>
+                <p class="text-xs mt-1" style="color: var(--text-secondary);">Head of the Department &amp; Associate Professor, DCMS</p>
               </div>
             </div>
 
@@ -1288,9 +1294,10 @@
             <div class="surface-card surface-card-hover p-6 flex items-start gap-4">
               <div class="avatar-monogram">HKC</div>
               <div>
-                <span class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--gold-primary);">Faculty</span>
+                <span class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--gold-primary);">Faculty Coordinator • ASCEND '26</span>
                 <h3 class="font-bold text-base sm:text-lg mt-0.5">Mr. Hari Kumar C</h3>
                 <p class="text-xs mt-1" style="color: var(--text-secondary);">Assistant Professor, DCMS</p>
+                <a href="tel:+919496831659" class="inline-block text-xs font-semibold mt-2" style="color: var(--gold-primary);">+91 94968 31659</a>
               </div>
             </div>
           </div>
@@ -1626,16 +1633,6 @@
           <ul id="modalEventRules" class="space-y-2 text-xs sm:text-sm list-disc pl-5"></ul>
         </div>
 
-        <div class="p-4 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3" style="background: var(--bg-elevated); border: 1px solid var(--border-subtle);">
-          <div>
-            <div class="text-xs" style="color: var(--text-muted);">Event Head</div>
-            <div id="modalEventHead" class="font-bold text-sm" style="color: var(--text-primary);"></div>
-          </div>
-          <div class="flex gap-2">
-            <a id="modalEventCall" href="#" class="btn-action-chip px-3 py-2 text-xs">Call Head</a>
-            <a id="modalEventWa" href="#" target="_blank" rel="noopener noreferrer" class="btn-action-chip px-3 py-2 text-xs">WhatsApp</a>
-          </div>
-        </div>
       </div>
 
       <div class="mt-6 pt-4 border-t flex flex-col sm:flex-row justify-end gap-3" style="border-color: var(--border-subtle);">

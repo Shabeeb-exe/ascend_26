@@ -481,6 +481,10 @@ body {
   flex-shrink: 0;
 }
 
+.team-sections > [data-team-section]:not(.is-hidden) ~ [data-team-section]:not(.is-hidden) {
+  margin-top: 2.5rem;
+}
+
 .is-hidden {
   display: none !important;
 }
