@@ -1,5 +1,24 @@
 'use strict';
 
+/* ------------------------------------------------------------------
+   SITE CONFIG — change these values in ONE place.
+   ------------------------------------------------------------------ */
+const SITE_CONFIG = {
+  // UPI account that receives registration fees. Use the official fest/department account.
+  upiId: 'muhammedshabeebkt2016@oksbi',
+  payeeName: 'ASCEND 26 DCMS',
+  // Google Apps Script web-app URL (see apps-script/Code.gs)
+  sheetEndpoint: 'https://script.google.com/macros/s/AKfycbxt6ZHqEyzAjgFD48EE5SUG6yqozlLcTtvZFjN3WUYarRpStvq2lO7KxddIBFWujbgL-w/exec',
+  // WhatsApp number (country code + number, no +) that receives registration details
+  coordinatorWhatsApp: '919188007846',
+  // true  = fee is charged PER PARTICIPANT (fee x team members)
+  // false = fee is charged once per event (flat per team / entry)
+  feePerPerson: true,
+  // Max people in one contingent roster (lead + teammates)
+  maxRoster: 4
+};
+
+
 const EVENTS_DATA = [
   {
     id: 'best-manager',
@@ -8,7 +27,9 @@ const EVENTS_DATA = [
     icon: '♛',
     format: 'Individual Participation',
     isTeam: false,
-    fee: 500, // Fee per person
+    fee: 500,  // fee per participant
+    minTeam: 1,
+    maxTeam: 1,
     desc: 'The ultimate test of endurance, crisis management, boardroom poise, and executive decision-making.',
     skills: 'Stress Interviews • Executive Case Study • Crisis Command',
     head: 'Hiba Hashim M',
@@ -28,7 +49,9 @@ const EVENTS_DATA = [
     icon: '❖',
     format: 'Team of 4 Members',
     isTeam: true,
-    fee: 250, // Fee per person
+    fee: 250,  // fee per participant
+    minTeam: 4,
+    maxTeam: 4,
     desc: 'Synergy under pressure: multi-domain corporate simulations testing collective strategy and leadership.',
     skills: 'C-Suite Synergy • Corporate Turnaround • Live Board Pitch',
     head: 'Afra',
@@ -48,7 +71,9 @@ const EVENTS_DATA = [
     icon: '₹',
     format: 'Team of 2–4 Members',
     isTeam: true,
-    fee: 250,
+    fee: 250,  // fee per participant
+    minTeam: 2,
+    maxTeam: 4,
     desc: 'Portfolio mastery, capital allocation, valuation crunches, and market volatility simulations.',
     skills: 'Asset Valuation • Mock Stock Trading • M&A Structuring',
     head: 'Shifa Hasain K',
@@ -68,7 +93,9 @@ const EVENTS_DATA = [
     icon: '✦',
     format: 'Team of 2–4 Members',
     isTeam: true,
-    fee: 250,
+    fee: 250,  // fee per participant
+    minTeam: 2,
+    maxTeam: 4,
     desc: 'Brand warfare, creative pitching, consumer insights, and go-to-market campaign execution.',
     skills: 'Brand Repositioning • Guerrilla Pitch • GTM Strategy',
     head: 'Asna',
@@ -88,7 +115,9 @@ const EVENTS_DATA = [
     icon: '⚖',
     format: 'Team of 2–4 Members',
     isTeam: true,
-    fee: 250,
+    fee: 250,  // fee per participant
+    minTeam: 2,
+    maxTeam: 4,
     desc: 'Talent strategy, organizational conflict resolution, labor negotiation, and people analytics.',
     skills: 'Collective Bargaining • Talent Retention • Policy Design',
     head: 'Aparna',
@@ -107,7 +136,9 @@ const EVENTS_DATA = [
     icon: '◈',
     format: 'Team of 2 Members',
     isTeam: true,
-    fee: 250,
+    fee: 250,  // fee per participant
+    minTeam: 2,
+    maxTeam: 2,
     desc: 'High-stakes corporate trivia spanning global markets, brands, business history, and current affairs.',
     skills: 'Corporate Trivia • Brand Origins • Financial Headlines',
     head: 'Adhyasree P',
@@ -126,7 +157,9 @@ const EVENTS_DATA = [
     icon: '🏏',
     format: 'Team of 3–4 Members',
     isTeam: true,
-    fee: 250,
+    fee: 250,  // fee per participant
+    minTeam: 3,
+    maxTeam: 4,
     desc: 'Franchise bidding war: build a championship squad with tactical purse management and cricket analytics.',
     skills: 'Purse Management • Squad Balance • Tactical Bidding',
     head: 'Jubin Thomas',
@@ -145,7 +178,9 @@ const EVENTS_DATA = [
     icon: '🧭',
     format: 'Team of 4 Members',
     isTeam: true,
-    fee: 250,
+    fee: 250,  // fee per participant
+    minTeam: 4,
+    maxTeam: 4,
     desc: 'Campus-wide cryptic trails, lateral thinking puzzles, and high-energy team exploration across UoC.',
     skills: 'Cryptic Decoding • Lateral Thinking • Speed Navigation',
     head: 'Amalnath',
@@ -164,7 +199,9 @@ const EVENTS_DATA = [
     icon: '🎬',
     format: 'Individual / Team of 2',
     isTeam: true,
-    fee: 150,
+    fee: 150,  // fee per participant
+    minTeam: 1,
+    maxTeam: 2,
     desc: 'Visual storytelling, kinetic editing, and creative direction capturing the pulse of ASCEND \'26.',
     skills: 'Cinematography • Kinetic Cuts • Fest Storytelling',
     head: 'Mahitha',
@@ -183,7 +220,9 @@ const EVENTS_DATA = [
     icon: '⚡',
     format: 'On-Spot Individual / Duo',
     isTeam: false,
-    fee: 150,
+    fee: 150,  // fee per participant
+    minTeam: 1,
+    maxTeam: 2,
     desc: 'Spontaneous challenges, quick reflexes, crowd-favorite mini-games, and instant rewards.',
     skills: 'Quick Reflexes • Spontaneous Wit • Instant Rewards',
     head: 'Ansaf K',

@@ -1,0 +1,13 @@
+{
+  "name": "ascend-26",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ASCEND '26 official website",
+  "scripts": {
+    "build:css": "tailwindcss -c tailwind.config.js -i src/tailwind.input.css -o css/tailwind.css --minify",
+    "watch:css": "tailwindcss -c tailwind.config.js -i src/tailwind.input.css -o css/tailwind.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.4.17"
+  }
+}

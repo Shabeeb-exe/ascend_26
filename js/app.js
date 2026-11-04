@@ -70,6 +70,22 @@
     mobileMenuBtn.setAttribute('aria-expanded', String(isOpen));
   });
 
+  const VIEW_KEYS = ['home', 'events', 'register', 'sponsorship', 'team', 'dcms', 'contact'];
+
+  function viewFromHash() {
+    const key = window.location.hash.replace('#', '');
+    return VIEW_KEYS.includes(key) ? key : 'home';
+  }
+
+  // Navigate by changing the URL hash so the browser Back button and deep links work.
+  function goTo(viewKey) {
+    if (window.location.hash === '#' + viewKey) {
+      switchView(viewKey);
+    } else {
+      window.location.hash = viewKey;
+    }
+  }
+
   function switchView(viewKey) {
     document.querySelectorAll('.spa-view').forEach((sec) => {
       sec.classList.toggle('is-active', sec.id === 'view-' + viewKey);
@@ -86,10 +102,14 @@
   document.addEventListener('click', (e) => {
     const navTrigger = e.target.closest('[data-nav]');
     if (navTrigger) {
-      const targetView = navTrigger.getAttribute('data-nav');
-      switchView(targetView);
+      goTo(navTrigger.getAttribute('data-nav'));
     }
   });
+
+  window.addEventListener('hashchange', () => switchView(viewFromHash()));
+  if (window.location.hash && viewFromHash() !== 'home') {
+    switchView(viewFromHash());
+  }
 
   const targetTimestamp = new Date('2026-11-16T09:00:00+05:30').getTime();
   const cdDays = document.getElementById('cdDays');
@@ -182,7 +202,7 @@
             <h2 class="font-display text-xl font-bold">${ev.title}</h2>
             <div class="flex items-center justify-between mt-1">
               <span class="text-xs font-semibold" style="color: var(--gold-primary);">${ev.format}</span>
-              <span class="text-xs font-bold text-amber-400">Fee: ₹${ev.fee}</span>
+              <span class="text-xs font-bold text-amber-400">Fee: ₹${ev.fee}${SITE_CONFIG.feePerPerson ? ' / person' : ''}</span>
             </div>
 
             <p class="text-xs sm:text-sm leading-relaxed mt-3" style="color: var(--text-secondary);">
@@ -256,7 +276,7 @@
         b.classList.toggle('is-active', b.getAttribute('data-event-cat') === cat);
       });
       renderEventsGrid();
-      switchView('events');
+      goTo('events');
     }
 
     const jumpEvent = e.target.closest('[data-jump-event]');
@@ -311,7 +331,7 @@
               <div class="font-bold text-sm">${ev.title}</div>
               <div class="text-[11px]" style="color: var(--text-muted);">${ev.format} • Head: ${ev.head}</div>
             </div>
-            <div class="text-xs font-bold text-amber-400">₹${ev.fee}</div>
+            <div class="text-xs font-bold text-amber-400 whitespace-nowrap">₹${ev.fee}${SITE_CONFIG.feePerPerson ? ' / person' : ''}</div>
           </div>
         </div>
       `;
@@ -323,11 +343,12 @@
     selectedEventsCountBadge.textContent = selectedEventIds.size + ' Selected';
 
     const selectedObjs = EVENTS_DATA.filter((e) => selectedEventIds.has(e.id));
-    const teamEvents = selectedObjs.filter((e) => e.isTeam);
+    const teamEvents = selectedObjs.filter((e) => e.maxTeam > 1);
     if (teamEvents.length > 0) {
       teamMembersDynamicSection.classList.remove('is-hidden');
       teamSizeHintText.textContent =
-        'Selected team format(s): ' + teamEvents.map((t) => t.title + ' (' + t.format + ')').join(' | ');
+        'Add your teammates below (you are member 1). Needed: ' +
+        teamEvents.map((t) => t.title + ' (' + t.format + ')').join(' | ');
     } else {
       teamMembersDynamicSection.classList.add('is-hidden');
     }
@@ -348,7 +369,7 @@
     selectedEventIds.add(eventId);
     renderRegisterEventCards();
     document.getElementById('registrationPassSection').classList.add('is-hidden');
-    switchView('register');
+    goTo('register');
     const ev = EVENTS_DATA.find((e) => e.id === eventId);
     if (ev) showToast(ev.title + ' selected in your registration form!');
   }
@@ -370,10 +391,21 @@
     }
   });
 
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== ' ' && e.key !== 'Enter') return;
+    const card = e.target.closest && e.target.closest('[data-toggle-reg-event]');
+    if (!card || e.target !== card) return;
+    e.preventDefault();
+    const id = card.getAttribute('data-toggle-reg-event');
+    toggleRegisterEvent(id);
+    const again = document.querySelector('[data-toggle-reg-event="' + id + '"]');
+    if (again) again.focus();
+  });
+
   document.getElementById('addTeamMemberBtn').addEventListener('click', () => {
     const list = document.getElementById('teamMembersInputsList');
     const count = list.querySelectorAll('.team-member-input').length + 2;
-    if (count > 8) {
+    if (count > SITE_CONFIG.maxRoster) {
       showToast('Maximum team roster slots added.');
       return;
     }
@@ -387,12 +419,90 @@
   const delegateRegForm = document.getElementById('delegateRegForm');
   const regErrorBanner = document.getElementById('regErrorBanner');
   let latestRefId = '';
+  let lastPayload = null;
+
+  // Unique-enough reference ID (time-based + random), kept stable if the user edits & resubmits.
+  function makeRefId() {
+    const t = Date.now().toString(36).slice(-5).toUpperCase();
+    const r = Math.floor(Math.random() * 1296).toString(36).toUpperCase().padStart(2, '0');
+    return 'ASC26-' + t + r;
+  }
+
+  function normalizePhone(raw) {
+    let d = String(raw).replace(/\D/g, '');
+    if (d.length === 12 && d.startsWith('91')) d = d.slice(2);
+    if (d.length === 11 && d.startsWith('0')) d = d.slice(1);
+    return /^[6-9]\d{9}$/.test(d) ? d : null;
+  }
+
+  function isValidEmail(v) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+  }
+
+  // Stops spreadsheet formula injection (=, +, -, @ at the start of a cell).
+  function sheetSafe(v) {
+    const str = String(v == null ? '' : v).slice(0, 500);
+    return /^[=+\-@\t\r]/.test(str) ? "'" + str : str;
+  }
+
+  function showRegError(msg) {
+    regErrorBanner.textContent = msg;
+    regErrorBanner.classList.remove('is-hidden');
+    regErrorBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  // Fee for one event: per participant (fee x people, clamped to the event's team size) or flat.
+  function feeLine(ev, rosterSize) {
+    const people = SITE_CONFIG.feePerPerson ? Math.min(Math.max(rosterSize, ev.minTeam), ev.maxTeam) : 1;
+    return { ev: ev, people: people, amount: ev.fee * people };
+  }
+
+  function setSyncNotice(state) {
+    const el = document.getElementById('syncNotice');
+    if (!el) return;
+    if (state === 'failed') {
+      el.textContent =
+        'We could not reach the registration server (check your internet). Your details are still on this page — please also send them to the desk on WhatsApp so your registration is not lost.';
+      el.classList.remove('is-hidden');
+    } else {
+      el.classList.add('is-hidden');
+    }
+  }
+
+  function syncToSheet(payload) {
+    fetch(SITE_CONFIG.sheetEndpoint, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    })
+      .then(() => setSyncNotice('ok'))
+      .catch((err) => {
+        console.error('Sheet sync error:', err);
+        setSyncNotice('failed');
+      });
+  }
+
+  function renderUpiQr(text) {
+    const box = document.getElementById('upiQrContainer');
+    if (!box) return;
+    try {
+      const qr = qrcode(0, 'M');
+      qr.addData(text);
+      qr.make();
+      box.innerHTML = qr.createSvgTag({ cellSize: 4, margin: 0, scalable: true });
+    } catch (err) {
+      box.textContent = 'QR unavailable — use the Pay button or UPI ID below.';
+    }
+  }
 
   delegateRegForm.addEventListener('submit', (e) => {
     e.preventDefault();
+    if (document.getElementById('regWebsite').value) return; // honeypot: bots only
+
     const name = document.getElementById('regName').value.trim();
     const email = document.getElementById('regEmail').value.trim();
-    const phone = document.getElementById('regPhone').value.trim();
+    const phoneRaw = document.getElementById('regPhone').value.trim();
     const college = document.getElementById('regCollege').value.trim();
     const program = document.getElementById('regProgram').value;
     const year = document.getElementById('regYear').value;
@@ -400,64 +510,81 @@
     const diet = document.getElementById('regDietary').value;
     const notes = document.getElementById('regNotes').value.trim();
 
-    if (!name || !email || !phone || !college) {
-      regErrorBanner.textContent = 'Please complete all required Lead Delegate & Institution fields (*).';
-      regErrorBanner.classList.remove('is-hidden');
-      return;
+    if (!name || !email || !phoneRaw || !college) {
+      return showRegError('Please complete all required Lead Delegate & Institution fields (*).');
+    }
+    if (!isValidEmail(email)) {
+      return showRegError('Please enter a valid email address.');
+    }
+    const phone = normalizePhone(phoneRaw);
+    if (!phone) {
+      return showRegError('Please enter a valid 10-digit Indian mobile number (e.g., 98765 43210).');
+    }
+    if (selectedEventIds.size === 0) {
+      return showRegError('Please select at least one event in Step 02 to register.');
     }
 
-    if (selectedEventIds.size === 0) {
-      regErrorBanner.textContent = 'Please select at least one event in Step 02 to register.';
-      regErrorBanner.classList.remove('is-hidden');
-      return;
+    const chosenEvents = EVENTS_DATA.filter((ev) => selectedEventIds.has(ev.id));
+    const rosterVisible = chosenEvents.some((ev) => ev.maxTeam > 1);
+    const teamNames = rosterVisible
+      ? Array.from(document.querySelectorAll('.team-member-input')).map((inp) => inp.value.trim()).filter(Boolean)
+      : [];
+    const rosterSize = 1 + teamNames.length;
+
+    for (const ev of chosenEvents) {
+      if (rosterSize < ev.minTeam) {
+        return showRegError(
+          ev.title + ' needs ' + (ev.minTeam === ev.maxTeam ? 'exactly ' : 'at least ') + ev.minTeam +
+            ' members (you have ' + rosterSize + '). Add the remaining teammate names in Step 02.'
+        );
+      }
+    }
+    const largestAllowed = Math.max.apply(null, chosenEvents.map((ev) => ev.maxTeam));
+    if (rosterSize > largestAllowed) {
+      return showRegError(
+        'Your roster has ' + rosterSize + ' members but the selected event(s) allow at most ' + largestAllowed +
+          '. Remove extra names or select a larger team event.'
+      );
     }
 
     regErrorBanner.classList.add('is-hidden');
 
-    const randomCode = Math.floor(1000 + Math.random() * 9000);
-    latestRefId = 'ASC26-' + randomCode;
+    if (!latestRefId) latestRefId = makeRefId();
 
-    const chosenEvents = EVENTS_DATA.filter((ev) => selectedEventIds.has(ev.id));
-    const teamNames = Array.from(document.querySelectorAll('.team-member-input'))
-      .map((inp) => inp.value.trim())
-      .filter(Boolean);
+    const lines = chosenEvents.map((ev) => feeLine(ev, rosterSize));
+    const totalFee = lines.reduce((sum, l) => sum + l.amount, 0);
+    const lineText = (l) =>
+      l.ev.title + ' (' + (SITE_CONFIG.feePerPerson && l.people > 1 ? '₹' + l.ev.fee + ' × ' + l.people + ' = ' : '') + '₹' + l.amount + ')';
 
-    // Calculate total fee dynamically
-    const totalFee = chosenEvents.reduce((sum, ev) => sum + ev.fee, 0);
+    const upiLink =
+      'upi://pay?pa=' + SITE_CONFIG.upiId +
+      '&pn=' + encodeURIComponent(SITE_CONFIG.payeeName) +
+      '&am=' + totalFee + '.00&cu=INR&tn=' + encodeURIComponent('Reg_' + latestRefId);
 
-    const festUpiId = "muhammedshabeebkt2016@oksbi";
-    const payeeName = "ASCEND 26 DCMS";
-    const upiLink = `upi://pay?pa=${festUpiId}&pn=${encodeURIComponent(payeeName)}&am=${totalFee}.00&cu=INR&tn=Reg_${latestRefId}`;
-    
-    const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiLink)}`;
-    const upiQrImg = document.getElementById('dynamicUpiQrImg');
-    const upiRefDisplay = document.getElementById('upiRefDisplay');
-    const upiPayNowBtn = document.getElementById('upiPayNowBtn');
-    const passTotalFeeDisplay = document.getElementById('passTotalFeeDisplay');
+    renderUpiQr(upiLink);
+    document.getElementById('upiRefDisplay').textContent = latestRefId;
+    document.getElementById('upiPayNowBtn').setAttribute('href', upiLink);
+    document.getElementById('upiIdDisplay').textContent = SITE_CONFIG.upiId;
+    document.getElementById('upiAmountDisplay').textContent = '₹' + totalFee;
+    document.getElementById('passTotalFeeDisplay').textContent = '₹' + totalFee;
+    document.getElementById('utrInput').value = '';
 
-    if (upiQrImg) upiQrImg.setAttribute('src', qrApiUrl);
-    if (upiRefDisplay) upiRefDisplay.textContent = latestRefId;
-    if (upiPayNowBtn) upiPayNowBtn.setAttribute('href', upiLink);
-    if (passTotalFeeDisplay) passTotalFeeDisplay.textContent = `₹${totalFee}`;
-
-    // Lock behind payment gateway box initially
-    const paymentGatewayBox = document.getElementById('paymentGatewayBox');
-    const finalConfirmedPassContent = document.getElementById('finalConfirmedPassContent');
-    if (paymentGatewayBox) paymentGatewayBox.classList.remove('is-hidden');
-    if (finalConfirmedPassContent) finalConfirmedPassContent.classList.add('is-hidden');
+    document.getElementById('paymentGatewayBox').classList.remove('is-hidden');
+    document.getElementById('finalConfirmedPassContent').classList.add('is-hidden');
+    setPassStatus('pending');
 
     document.getElementById('passRefId').textContent = latestRefId;
     document.getElementById('passName').textContent = name;
-    document.getElementById('passContact').textContent = phone + ' • ' + email;
+    document.getElementById('passContact').textContent = '+91 ' + phone + ' • ' + email;
     document.getElementById('passCollege').textContent = college + ' (' + program + ', ' + year + ')';
     document.getElementById('passAccom').textContent = accom;
     document.getElementById('passDiet').textContent = diet;
 
-    document.getElementById('passEventsList').innerHTML = chosenEvents
+    document.getElementById('passEventsList').innerHTML = lines
       .map(
-        (ev) => `<span class="px-2.5 py-1 rounded-full text-xs font-bold"
+        (l) => `<span class="px-2.5 py-1 rounded-full text-xs font-bold"
                        style="background: var(--gold-tint); color: var(--gold-primary); border: 1px solid var(--gold-border);">
-                   ${ev.title} (₹${ev.fee})
+                   ${lineText(l)}
                  </span>`
       )
       .join('');
@@ -470,63 +597,99 @@
       passTeamBlock.classList.add('is-hidden');
     }
 
+    lastPayload = {
+      refId: latestRefId,
+      submittedAt: new Date().toISOString(),
+      name: sheetSafe(name),
+      email: sheetSafe(email),
+      phone: phone,
+      college: sheetSafe(college),
+      program: sheetSafe(program),
+      year: sheetSafe(year),
+      events: sheetSafe(chosenEvents.map((c) => c.title).join(', ')),
+      feeBreakdown: sheetSafe(lines.map(lineText).join('; ')),
+      totalFee: totalFee,
+      teamMembers: sheetSafe(teamNames.join(', ')),
+      accommodation: sheetSafe(accom),
+      dietary: sheetSafe(diet),
+      notes: sheetSafe(notes),
+      paymentStatus: 'Unpaid',
+      utr: ''
+    };
+
     const waLines = [
-      '*ASCEND \'26 — PROVISIONAL REGISTRATION*',
+      '*ASCEND \'26 — REGISTRATION (PAYMENT SUBMITTED)*',
       'Ref ID: *' + latestRefId + '*',
       'Lead Delegate: ' + name,
-      'Phone: ' + phone,
+      'Phone: +91 ' + phone,
       'Email: ' + email,
       'Institution: ' + college + ' (' + program + ' - ' + year + ')',
-      'Events: ' + chosenEvents.map((c) => c.title + ' (₹' + c.fee + ')').join(', '),
+      'Events: ' + lines.map(lineText).join(', '),
       'Total Fee: *₹' + totalFee + '*',
       teamNames.length ? 'Team Members: ' + teamNames.join(', ') : '',
       'Accommodation: ' + accom,
       'Dietary: ' + diet,
-      notes ? 'Notes: ' + notes : ''
+      notes ? 'Notes: ' + notes : '',
+      'UTR / Txn ID: (see screenshot)'
     ]
       .filter(Boolean)
       .join('\n');
+    lastPayload.__wa = waLines;
 
     document
       .getElementById('passWhatsappConfirmBtn')
-      .setAttribute('href', 'https://wa.me/919188007846?text=' + encodeURIComponent(waLines));
+      .setAttribute('href', 'https://wa.me/' + SITE_CONFIG.coordinatorWhatsApp + '?text=' + encodeURIComponent(waLines));
 
-    // Send data silently to Google Sheet
-    const sheetPayload = {
-      refId: latestRefId,
-      name: name,
-      email: email,
-      phone: phone,
-      college: college,
-      program: program,
-      year: year,
-      events: chosenEvents.map(c => c.title).join(', '),
-      totalFee: `₹${totalFee}`,
-      teamMembers: teamNames.join(', '),
-      accommodation: accom,
-      dietary: diet,
-      notes: notes
-    };
-
-    fetch('https://script.google.com/macros/s/AKfycbxt6ZHqEyzAjgFD48EE5SUG6yqozlLcTtvZFjN3WUYarRpStvq2lO7KxddIBFWujbgL-w/exec', {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(sheetPayload)
-    }).catch(err => console.error('Sheet sync error:', err));
+    setSyncNotice('ok');
+    syncToSheet(sheetPayloadOf(lastPayload));
 
     document.getElementById('registrationPassSection').classList.remove('is-hidden');
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    showToast('Provisional Pass ' + latestRefId + ' generated! Total Fee: ₹' + totalFee);
+    showToast('Registration saved as ' + latestRefId + '. Total Fee: ₹' + totalFee + ' — now complete payment.');
   });
 
-  // Unlock confirmed pass and WhatsApp buttons when user confirms payment
+  function sheetPayloadOf(p) {
+    const copy = Object.assign({}, p);
+    delete copy.__wa;
+    return copy;
+  }
+
+  function setPassStatus(state) {
+    const badge = document.getElementById('passStatusBadge');
+    if (!badge) return;
+    if (state === 'submitted') {
+      badge.textContent = 'Payment submitted — pending verification';
+      badge.style.color = '#34D399';
+    } else {
+      badge.textContent = 'Awaiting payment';
+      badge.style.color = '#FBBF24';
+    }
+  }
+
+  // The user says they paid. This does NOT confirm anything — the desk verifies the payment manually.
   const confirmPaymentBtn = document.getElementById('confirmPaymentDoneBtn');
   if (confirmPaymentBtn) {
     confirmPaymentBtn.addEventListener('click', () => {
+      const utrEl = document.getElementById('utrInput');
+      const utr = utrEl.value.replace(/\s/g, '');
+      if (utr && !/^\d{12}$/.test(utr)) {
+        showToast('UPI transaction ID (UTR) is a 12-digit number. Leave it blank if you are unsure.');
+        utrEl.focus();
+        return;
+      }
+      if (lastPayload) {
+        lastPayload.utr = utr;
+        lastPayload.paymentStatus = 'Paid by delegate — pending verification';
+        lastPayload.__wa = lastPayload.__wa.replace('UTR / Txn ID: (see screenshot)', utr ? 'UTR / Txn ID: ' + utr : 'UTR / Txn ID: (see screenshot)');
+        document
+          .getElementById('passWhatsappConfirmBtn')
+          .setAttribute('href', 'https://wa.me/' + SITE_CONFIG.coordinatorWhatsApp + '?text=' + encodeURIComponent(lastPayload.__wa));
+        syncToSheet(sheetPayloadOf(lastPayload));
+      }
       document.getElementById('paymentGatewayBox').classList.add('is-hidden');
       document.getElementById('finalConfirmedPassContent').classList.remove('is-hidden');
-      showToast('Payment verified & registration unlocked!');
+      setPassStatus('submitted');
+      showToast('Payment submitted — your registration is pending verification by the ASCEND desk.');
     });
   }
 
@@ -625,32 +788,6 @@
     }
   });
 
-  document.getElementById('openVolunteerModalBtn').addEventListener('click', () => {
-    document.getElementById('volunteerSignupModal').classList.add('is-open');
-  });
-
-  document.getElementById('volunteerExpressForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    const name = document.getElementById('volName').value.trim();
-    const phone = document.getElementById('volPhone').value.trim();
-    const batch = document.getElementById('volBatch').value.trim();
-    const wing = document.getElementById('volWing').value;
-    if (!name || !phone || !batch) {
-      showToast('Please fill in your name, WhatsApp number, and batch.');
-      return;
-    }
-    const msg = [
-      '*ASCEND \'26 — CAMPUS VOLUNTEER SIGN-UP*',
-      'Name: ' + name,
-      'Phone: ' + phone,
-      'Course & Sem: ' + batch,
-      'Preferred Wing: ' + wing
-    ].join('\n');
-    window.open('https://wa.me/918129858290?text=' + encodeURIComponent(msg), '_blank', 'noopener');
-    document.getElementById('volunteerSignupModal').classList.remove('is-open');
-    showToast('Opening WhatsApp to Volunteer Head Steljo!');
-  });
-
   function getSponsorPayload() {
     const tier = document.getElementById('spTierInput').value;
     const brand = document.getElementById('spBrand').value.trim();
@@ -730,7 +867,7 @@
     const mailSubject = 'ASCEND 26 Inquiry [' + topic + '] — ' + name;
     const mailBody = 'From: ' + name + '\nContact: ' + contact + '\nTopic: ' + topic + '\n\nMessage:\n' + body;
 
-    showToast('Message logged! Opening mail client to dcms.ascend26@gmail.com...');
+    showToast('Opening your email app — press Send there to deliver your message.');
     setTimeout(() => {
       window.location.href =
         'mailto:dcms.ascend26@gmail.com?subject=' +
@@ -738,6 +875,45 @@
         '&body=' +
         encodeURIComponent(mailBody);
     }, 500);
-    e.target.reset();
+  });
+
+  // ---- Modal accessibility: Escape to close, focus moves in, focus returns, Tab stays inside
+  const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])';
+  const modalReturnFocus = new WeakMap();
+
+  document.querySelectorAll('.modal-backdrop').forEach((modal) => {
+    new MutationObserver(() => {
+      if (modal.classList.contains('is-open')) {
+        modalReturnFocus.set(modal, document.activeElement);
+        const first = modal.querySelector(FOCUSABLE);
+        if (first) setTimeout(() => first.focus(), 30);
+      } else {
+        const back = modalReturnFocus.get(modal);
+        if (back && document.contains(back)) back.focus();
+        modalReturnFocus.delete(modal);
+      }
+    }).observe(modal, { attributes: true, attributeFilter: ['class'] });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    const open = document.querySelector('.modal-backdrop.is-open');
+    if (!open) return;
+    if (e.key === 'Escape') {
+      open.classList.remove('is-open');
+      return;
+    }
+    if (e.key === 'Tab') {
+      const items = Array.from(open.querySelectorAll(FOCUSABLE)).filter((el) => el.offsetParent !== null);
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
   });
 })();

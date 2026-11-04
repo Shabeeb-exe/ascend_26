@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="140 110 720 630">
+  <defs>
+    <linearGradient id="g" x1="15%" y1="95%" x2="85%" y2="5%">
+      <stop offset="0%" stop-color="#9E7312"/><stop offset="26%" stop-color="#E6BE53"/>
+      <stop offset="50%" stop-color="#FFF1A8"/><stop offset="76%" stop-color="#C89B2B"/><stop offset="100%" stop-color="#8C620A"/>
+    </linearGradient>
+    <linearGradient id="m" x1="10%" y1="90%" x2="90%" y2="10%">
+      <stop offset="0%" stop-color="#6B7280"/><stop offset="50%" stop-color="#E5E7EB"/><stop offset="100%" stop-color="#9CA3AF"/>
+    </linearGradient>
+  </defs>
+  <polygon points="240,578 502,134 555,226 355,578" fill="url(#g)"/>
+  <polygon points="162,710 222,616 377,616 581,267 758,578 645,578 581,465 430,710" fill="url(#m)"/>
+  <polygon points="583,545 532,632 577,710 839,710 783,616 626,616" fill="url(#m)"/>
+</svg>
