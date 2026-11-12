@@ -74,6 +74,7 @@ function doPost(e) {
     if (rowIdx === -1) {
       sh.appendRow(values.concat(['', now]));
       var r = sh.getLastRow();
+      sh.getRange(r, 14).setNumberFormat('0');                    // Total Fee must be a plain number
       sh.getRange(r, 5).setNumberFormat('@').setValue(values[4]); // keep phone as text
       sh.getRange(r, 17).setNumberFormat('@').setValue(utr);      // keep UTR as text (no 4.1E+11)
     } else {
@@ -85,6 +86,7 @@ function doPost(e) {
       sh.getRange(rowIdx, 5).setNumberFormat('@').setValue(values[4]);
       sh.getRange(rowIdx, 17).setNumberFormat('@').setValue(utr);
       sh.getRange(rowIdx, HEADERS.length).setValue(now);
+      sh.getRange(rowIdx, 14).setNumberFormat('0');
     }
     return out_({ result: 'success' });
   } catch (err) {
@@ -134,4 +136,14 @@ function status_(ref, phone) {
 
 function out_(obj) {
   return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
+}
+
+/** Run ONCE from the editor: headers, YES/NO dropdown and a plain-number format for Total Fee. */
+function setup() {
+  var sh = getSheet_();
+  sh.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]);
+  sh.getRange(2, COL.VERIFIED, 1000, 1).setDataValidation(
+    SpreadsheetApp.newDataValidation().requireValueInList(['YES', 'NO'], true).setAllowInvalid(false).build()
+  );
+  sh.getRange(2, 14, 1000, 1).setNumberFormat('0');
 }
