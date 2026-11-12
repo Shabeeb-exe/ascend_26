@@ -26,6 +26,7 @@
 var EVENT_DATES_TEXT = 'January 18 & 19, 2027 (tentative — final dates will be confirmed)';
 var SITE_URL = 'https://ascend26.vercel.app/#register';
 var BANNER_IMG_URL = 'https://ascend26.vercel.app/og-image.png';
+var LOGO_IMG_URL = 'https://ascend26.vercel.app/apple-touch-icon.png';
 
 // Delegate Helpdesk WhatsApp:
 // Currently set to Muhammed Shabeeb K T (+91 97440 11164).
@@ -142,27 +143,33 @@ function doPost(e) {
 function doGet(e) {
   var p = (e && e.parameter) || {};
   if (p.action === 'status') {
-    return out_(status_(String(p.ref || '').toUpperCase().trim(), String(p.phone || '').replace(/\D/g, '').slice(-10)));
+    var cleanPhone = p.phone ? String(p.phone).replace(/\D/g, '').slice(-10) : '';
+    return out_(status_(String(p.ref || '').toUpperCase().trim(), cleanPhone));
   }
   return out_({ result: 'ASCEND 26 endpoint is running' });
 }
 
 function status_(ref, phone) {
-  if (!/^ASC26-[0-9A-Z]{7}$/.test(ref) || phone.length !== 10) return { found: false };
+  if (!/^ASC26-[0-9A-Z]{7}$/.test(ref)) return { found: false };
   var sh = getSheet_();
   var last = sh.getLastRow();
   if (last < 2) return { found: false };
   var rows = sh.getRange(2, 1, last - 1, HEADERS.length).getValues();
   for (var i = rows.length - 1; i >= 0; i--) {
     var r = rows[i];
-    if (r[1] === ref && String(r[4]).replace(/\D/g, '').slice(-10) === phone) {
+    var refMatches = String(r[1] || '').trim().toUpperCase() === ref;
+    var rowPhone = String(r[4] || '').replace(/\D/g, '').slice(-10);
+    // If phone is provided, match both ref and phone; if phone is empty, match ref
+    var phoneMatches = !phone || rowPhone === phone;
+    if (refMatches && phoneMatches) {
       var v = String(r[COL.VERIFIED - 1]).trim().toUpperCase();
       var paid = String(r[COL.STATUS - 1]).indexOf('Paid') === 0 || String(r[COL.STATUS - 1]).indexOf('DUPLICATE') === 0;
       return {
         found: true,
         state: v === 'YES' ? 'confirmed' : v === 'NO' ? 'rejected' : paid ? 'pending' : 'unpaid',
         refId: r[1], name: r[2], college: r[5], program: r[6], year: r[7], events: r[8], team: r[9],
-        accommodation: r[10], dietary: r[11], total: r[13], breakdown: r[14]
+        accommodation: r[10], dietary: r[11], total: r[13], breakdown: r[14],
+        phone: rowPhone
       };
     }
   }
@@ -211,12 +218,15 @@ function sendDeskEmail_(sh, r) {
   var dietary = String(row[11] || '').trim();
   var fee = String(row[13] || '0').trim();
   var utr = String(row[COL.UTR - 1] || '').trim();
+  var cleanPhone = phone ? phone.replace(/\D/g, '').slice(-10) : '';
+  var passLiveUrl = 'https://ascend26.vercel.app/?pass=' + encodeURIComponent(ref) + (cleanPhone ? '&phone=' + encodeURIComponent(cleanPhone) : '') + '#register';
 
   var passData = {
     ref: ref,
     name: name,
     email: to,
     phone: phone,
+    cleanPhone: cleanPhone,
     college: college,
     program: program,
     year: year,
@@ -226,7 +236,7 @@ function sendDeskEmail_(sh, r) {
     dietary: dietary,
     fee: fee,
     utr: utr,
-    portalUrl: SITE_URL
+    portalUrl: passLiveUrl
   };
 
   var subject, htmlBody;
@@ -272,8 +282,10 @@ function buildEmailSignatureHtml_() {
   return (
     '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:28px; padding-top:20px; border-top:2px solid #e2e8f0; font-family:-apple-system, BlinkMacSystemFont, \'Segoe UI\', Roboto, Arial, sans-serif;">' +
       '<tr>' +
-        '<td style="vertical-align:top; width:54px; padding-right:14px;">' +
-          '<div style="width:48px; height:48px; border-radius:10px; background-color:#090A0F; border:1.5px solid #C89B2B; text-align:center; line-height:48px; font-weight:900; color:#E6BE53; font-size:20px; font-family:\'Georgia\', serif;">A</div>' +
+        '<td style="vertical-align:top; width:56px; padding-right:14px;">' +
+          '<a href="https://ascend26.vercel.app/" target="_blank" style="display:block; text-decoration:none;">' +
+            '<img src="' + LOGO_IMG_URL + '" alt="ASCEND \'26 Logo" width="52" height="52" border="0" style="width:52px; height:52px; border-radius:10px; border:1.5px solid #C89B2B; display:block; outline:none; background-color:#090A0F;" />' +
+          '</a>' +
         '</td>' +
         '<td style="vertical-align:top;">' +
           '<div style="font-size:14px; font-weight:800; color:#0f172a; letter-spacing:0.3px;">Executive Organizing Committee</div>' +
@@ -394,7 +406,7 @@ function buildConfirmedEmailHtml_(d, hasPdf) {
 
                   '<!-- Action Buttons -->' +
                   '<div style="margin-bottom:20px;">' +
-                    '<a href="' + SITE_URL + '" target="_blank" style="display:inline-block; padding:11px 20px; background:linear-gradient(135deg, #C89B2B 0%, #9E7312 100%); background-color:#C89B2B; color:#ffffff; font-size:12.5px; font-weight:700; text-decoration:none; border-radius:6px; margin-right:8px; margin-bottom:8px;">Open Live Pass on Portal ↗</a>' +
+                    '<a href="' + (d.portalUrl || SITE_URL) + '" target="_blank" style="display:inline-block; padding:11px 20px; background:linear-gradient(135deg, #C89B2B 0%, #9E7312 100%); background-color:#C89B2B; color:#ffffff; font-size:12.5px; font-weight:700; text-decoration:none; border-radius:6px; margin-right:8px; margin-bottom:8px;">Open Live Pass on Portal ↗</a>' +
                     '<a href="' + waHelpUrl + '" target="_blank" style="display:inline-block; padding:11px 20px; background-color:#25D366; color:#ffffff; font-size:12.5px; font-weight:700; text-decoration:none; border-radius:6px; margin-bottom:8px;">WhatsApp Helpdesk ↗</a>' +
                   '</div>' +
 
@@ -486,7 +498,7 @@ function buildPaymentRejectedEmailHtml_(d) {
                   '<!-- Action Buttons -->' +
                   '<div style="margin-bottom:20px;">' +
                     '<a href="' + rejectWaUrl + '" target="_blank" style="display:inline-block; padding:12px 22px; background-color:#25D366; color:#ffffff; font-size:13px; font-weight:700; text-decoration:none; border-radius:6px; margin-right:8px; margin-bottom:8px;">WhatsApp Payment Screenshot to Desk ↗</a>' +
-                    '<a href="' + SITE_URL + '" target="_blank" style="display:inline-block; padding:12px 20px; background-color:#0f172a; color:#ffffff; font-size:13px; font-weight:700; text-decoration:none; border-radius:6px; margin-bottom:8px;">Check / Pay on Portal ↗</a>' +
+                    '<a href="' + (d.portalUrl || SITE_URL) + '" target="_blank" style="display:inline-block; padding:12px 20px; background-color:#0f172a; color:#ffffff; font-size:13px; font-weight:700; text-decoration:none; border-radius:6px; margin-bottom:8px;">Check / Pay on Portal ↗</a>' +
                   '</div>' +
 
                   '<!-- Custom Signature -->' +
@@ -516,7 +528,9 @@ function buildPassPdfBlob_(d) {
 
 /** Official Printable A4 Delegate Pass HTML (for PDF engine) */
 function buildPassPdfHtml_(d) {
-  var qrCodeUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=140x140&margin=0&data=' + encodeURIComponent('https://ascend26.vercel.app/#register?ref=' + d.ref);
+  var cleanPhone = String(d.cleanPhone || d.phone || '').replace(/\D/g, '').slice(-10);
+  var passLiveUrl = 'https://ascend26.vercel.app/?pass=' + encodeURIComponent(d.ref) + (cleanPhone ? '&phone=' + encodeURIComponent(cleanPhone) : '') + '#register';
+  var qrCodeUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=160x160&margin=0&data=' + encodeURIComponent(passLiveUrl);
 
   return (
     '<!DOCTYPE html>' +
