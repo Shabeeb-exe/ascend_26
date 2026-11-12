@@ -8,7 +8,7 @@ const SITE_CONFIG = {
   upiId: 'muhammedshabeebkt2016@oksbi',
   payeeName: 'ASCEND 26 DCMS',
   // Google Apps Script web-app URL (see apps-script/Code.gs)
-  sheetEndpoint: 'https://script.google.com/macros/s/AKfycbxt6ZHqEyzAjgFD48EE5SUG6yqozlLcTtvZFjN3WUYarRpStvq2lO7KxddIBFWujbgL-w/exec',
+  sheetEndpoint: 'https://script.google.com/macros/s/AKfycbzDXStAGPsAlhsW3fO6YVZhhYrnUywlbFb1K6_Ylver3bQHfA5Mb192SXvIiH1uDgaT1g/exec',
   // WhatsApp number (country code + number, no +) that receives registration details
   // Set to Muhammed Shabeeb K T (919744011164) for now; later to be replaced by Program Co-ordinator Aswathi A K (918086382375)
   coordinatorWhatsApp: '919744011164',
