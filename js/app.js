@@ -557,6 +557,11 @@
       );
     }
 
+    const consentEl = document.getElementById('regTermsConsent');
+    if (consentEl && !consentEl.checked) {
+      return showRegError('Please acknowledge the Festival Guidelines and Partner Terms to proceed.');
+    }
+
     regErrorBanner.classList.add('is-hidden');
 
     if (!latestRefId) latestRefId = makeRefId();
@@ -623,6 +628,7 @@
       accommodation: sheetSafe(accom),
       dietary: sheetSafe(diet),
       notes: sheetSafe(notes),
+      termsAccepted: 'Yes',
       paymentStatus: 'Unpaid',
       utr: ''
     };
@@ -660,6 +666,15 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
     showToast('Registration saved as ' + latestRefId + '. Total Fee: ₹' + totalFee + ' — now complete payment.');
   });
+
+  const regConsentCheckbox = document.getElementById('regTermsConsent');
+  if (regConsentCheckbox) {
+    regConsentCheckbox.addEventListener('change', () => {
+      if (regConsentCheckbox.checked && regErrorBanner.textContent.includes('Partner Terms')) {
+        regErrorBanner.classList.add('is-hidden');
+      }
+    });
+  }
 
   function sheetPayloadOf(p) {
     const copy = Object.assign({}, p);
