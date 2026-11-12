@@ -775,7 +775,7 @@
 
   async function checkStatus(ref, phoneRaw, silent) {
     const phone = normalizePhone(phoneRaw);
-    ref = String(ref).trim().toUpperCase();
+    ref = String(ref).trim().toUpperCase().replace(/[\u2010-\u2015\u2212]/g, '-');
     if (!/^ASC26-[0-9A-Z]{7}$/.test(ref)) {
       if (!silent) chkNotice('Enter your Reference ID (ASC26-XXXXXXX).', 'bad');
       return;
@@ -787,7 +787,17 @@
       let q = '?action=status&ref=' + encodeURIComponent(ref);
       if (phone) q += '&phone=' + encodeURIComponent(phone);
       const res = await fetch(SITE_CONFIG.sheetEndpoint + q);
-      const d = await res.json();
+      if (res.status === 401 || res.status === 403) {
+        if (!silent) chkNotice('Server access denied (HTTP 403). In Google Apps Script, set "Who has access" to "Anyone" and redeploy.', 'bad');
+        return;
+      }
+      let d;
+      try {
+        d = await res.json();
+      } catch (parseErr) {
+        if (!silent) chkNotice('Server returned an unexpected response. Please ensure Google Apps Script deployment is set to "Who has access: Anyone".', 'bad');
+        return;
+      }
       if (d && d.found) {
         chkNotice('');
         renderStatus(d);
@@ -804,7 +814,7 @@
         }
       }
     } catch (err) {
-      if (!silent) chkNotice('Could not reach the server. Check your internet and try again.', 'bad');
+      if (!silent) chkNotice('Could not connect to the registration server. Please check your internet, or ensure Google Apps Script has "Who has access" set to "Anyone".', 'bad');
     } finally {
       if (btn) btn.disabled = false;
     }
