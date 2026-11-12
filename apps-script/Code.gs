@@ -22,7 +22,8 @@
 // ---------- SETTINGS (edit here) ----------
 var EVENT_DATES_TEXT = 'January 18 & 19, 2027 (tentative — final dates will be confirmed)';
 var SITE_URL = 'https://ascend26.vercel.app/#register';
-var DESK_WHATSAPP = 'https://wa.me/919188007846';
+var DESK_WHATSAPP = 'https://wa.me/919744011164';   // TEMPORARY: switch to the program coordinator's number before the event
+var FEST_EMAIL = 'dcms.ascend26@gmail.com';        // replies go here. NOTE: the email is SENT from whichever Google account owns/runs this script
 var VENUE_TEXT = 'DCMS, University of Calicut, Thenhipalam, Malappuram, Kerala – 673635';
 var REGISTRATION_OPEN = true;        // false = reject NEW registrations here too (the website also has a switch)
 var REGISTRATION_CLOSES_AT = '';     // e.g. '2027-01-10T23:59:00+05:30' ('' = no deadline)
@@ -213,7 +214,7 @@ function sendDeskEmail_(sh, r) {
       '<p>— ASCEND \'26 Desk, DCMS, University of Calicut</p>';
   }
   try {
-    MailApp.sendEmail({ to: to, subject: subject, htmlBody: html, name: "ASCEND '26 Desk" });
+    MailApp.sendEmail({ to: to, subject: subject, htmlBody: html, name: "ASCEND '26 Desk", replyTo: FEST_EMAIL });
     cell.setValue('Sent ' + verdict + ' · ' + Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'dd MMM HH:mm'));
   } catch (err) {
     cell.setValue('FAILED: ' + String(err).slice(0, 80));

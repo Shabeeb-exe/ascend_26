@@ -751,6 +751,7 @@
   async function checkStatus(ref, phoneRaw, silent) {
     const phone = normalizePhone(phoneRaw);
     ref = String(ref).trim().toUpperCase();
+    document.getElementById('statusResult').classList.add('is-hidden');
     if (!/^ASC26-[0-9A-Z]{7}$/.test(ref) || !phone) {
       if (!silent) chkNotice('Enter your Reference ID (ASC26-XXXXXXX) and the 10-digit mobile number you registered with.', 'bad');
       return;
@@ -779,6 +780,12 @@
   document.getElementById('statusCheckForm').addEventListener('submit', (e) => {
     e.preventDefault();
     checkStatus(document.getElementById('chkRef').value, document.getElementById('chkPhone').value, false);
+  });
+  ['chkRef', 'chkPhone'].forEach((id) => {
+    document.getElementById(id).addEventListener('input', () => {
+      document.getElementById('statusResult').classList.add('is-hidden');
+      chkNotice('');
+    });
   });
   document.getElementById('stRefreshBtn').addEventListener('click', () => {
     checkStatus(document.getElementById('chkRef').value, document.getElementById('chkPhone').value, false);
