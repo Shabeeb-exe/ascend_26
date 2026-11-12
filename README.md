@@ -1,6 +1,6 @@
 # Ascend '26 — Official Web Portal
 
-Official website for **Ascend '26** (16–17 November 2026), the 27th national-level management fest of the
+Official website for **Ascend '26** (**tentatively 18–19 January 2027** — dates not final), the 27th national-level management fest of the
 **Department of Commerce and Management Studies (DCMS), University of Calicut, Kerala**.
 
 Live: https://ascend26.vercel.app/

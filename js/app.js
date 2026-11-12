@@ -110,7 +110,8 @@
     switchView(viewFromHash());
   }
 
-  const targetTimestamp = new Date('2026-11-16T09:00:00+05:30').getTime();
+  const targetTimestamp = new Date(SITE_CONFIG.eventStartsAt).getTime();
+  if (SITE_CONFIG.datesTentative) document.getElementById('countdownNote').classList.remove('is-hidden');
   const cdDays = document.getElementById('cdDays');
   const cdHours = document.getElementById('cdHours');
   const cdMinutes = document.getElementById('cdMinutes');
@@ -474,8 +475,38 @@
     }
   }
 
+  function registrationIsOpen() {
+    if (!SITE_CONFIG.registrationOpen) return false;
+    if (SITE_CONFIG.registrationClosesAt && Date.now() > new Date(SITE_CONFIG.registrationClosesAt).getTime()) return false;
+    return true;
+  }
+
+  function applyRegistrationState() {
+    const open = registrationIsOpen();
+    document.getElementById('regFormGrid').classList.toggle('is-hidden', !open);
+    document.getElementById('regClosedNotice').classList.toggle('is-hidden', open);
+    document
+      .getElementById('regClosedWa')
+      .setAttribute('href', 'https://wa.me/' + SITE_CONFIG.coordinatorWhatsApp + '?text=' + encodeURIComponent("Hello, I have a query about ASCEND '26 registration."));
+    const note = document.getElementById('regDeadlineNote');
+    if (open && SITE_CONFIG.registrationClosesAt) {
+      note.textContent =
+        'Registrations close on ' +
+        new Date(SITE_CONFIG.registrationClosesAt).toLocaleString('en-IN', { dateStyle: 'long', timeStyle: 'short', timeZone: 'Asia/Kolkata' }) +
+        ' IST';
+      note.classList.remove('is-hidden');
+    } else {
+      note.classList.add('is-hidden');
+    }
+  }
+  applyRegistrationState();
+
   delegateRegForm.addEventListener('submit', (e) => {
     e.preventDefault();
+    if (!registrationIsOpen()) {
+      applyRegistrationState();
+      return;
+    }
     if (document.getElementById('regWebsite').value) return; // honeypot: bots only
 
     const name = document.getElementById('regName').value.trim();
@@ -915,7 +946,7 @@
     const body = [
       'Dear ASCEND 26 Sponsorship Team,',
       '',
-      'We are interested in partnering with ASCEND 26 (Nov 16 & 17, 2026) at DCMS, University of Calicut.',
+      'We are interested in partnering with ASCEND 26 (' + SITE_CONFIG.eventDatesLabel + (SITE_CONFIG.datesTentative ? ', tentative' : '') + ') at DCMS, University of Calicut.',
       '',
       'Selected Tier: ' + data.tier,
       'Brand / Organization: ' + data.brand,

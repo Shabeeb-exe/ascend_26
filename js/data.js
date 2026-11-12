@@ -15,7 +15,19 @@ const SITE_CONFIG = {
   // false = fee is charged once per event (flat per team / entry)
   feePerPerson: true,
   // Max people in one contingent roster (lead + teammates)
-  maxRoster: 4
+  maxRoster: 4,
+
+  // ---- Event dates (TENTATIVE — update here once final dates are confirmed) ----
+  eventDatesLabel: 'January 18 & 19, 2027',
+  eventStartsAt: '2027-01-18T09:00:00+05:30',
+  datesTentative: true,
+
+  // ---- Registration switch ----
+  // registrationOpen: false  -> the form is replaced by a "Registrations closed" notice
+  // registrationClosesAt: ISO date-time after which the form closes automatically ('' = no deadline)
+  //   e.g. '2027-01-10T23:59:00+05:30'
+  registrationOpen: true,
+  registrationClosesAt: ''
 };
 
 
