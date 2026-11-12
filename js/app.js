@@ -72,7 +72,8 @@
   const VIEW_KEYS = ['home', 'events', 'register', 'sponsorship', 'team', 'dcms', 'contact'];
 
   function viewFromHash() {
-    const key = window.location.hash.replace('#', '');
+    const raw = window.location.hash.replace('#', '');
+    const key = raw.split('?')[0].split('&')[0];
     return VIEW_KEYS.includes(key) ? key : 'home';
   }
 
@@ -745,35 +746,74 @@
     const help = document.getElementById('stHelpBtn');
     help.classList.toggle('is-hidden', d.state !== 'rejected');
     help.setAttribute('href', 'https://wa.me/' + SITE_CONFIG.coordinatorWhatsApp + '?text=' + encodeURIComponent('Hello, my payment could not be verified. Ref ID: ' + d.refId));
+
+    // Render live scannable verification QR Code on confirmed pass
+    const qrWrap = document.getElementById('stQrWrap');
+    const qrContainer = document.getElementById('stQrContainer');
+    if (qrWrap && qrContainer) {
+      if (d.state === 'confirmed' && typeof qrcode !== 'undefined') {
+        try {
+          const passLiveUrl = 'https://ascend26.vercel.app/?pass=' + encodeURIComponent(d.refId) + (d.phone ? '&phone=' + encodeURIComponent(d.phone) : '') + '#register';
+          const qr = qrcode(0, 'M');
+          qr.addData(passLiveUrl);
+          qr.make();
+          qrContainer.innerHTML = qr.createSvgTag({ cellSize: 3, margin: 0, scalable: true });
+          qrWrap.classList.remove('is-hidden');
+        } catch (qrErr) {
+          qrWrap.classList.add('is-hidden');
+        }
+      } else {
+        qrWrap.classList.add('is-hidden');
+      }
+    }
+
     document.getElementById('statusResult').classList.remove('is-hidden');
+    setTimeout(() => {
+      document.getElementById('statusResult').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 150);
   }
 
   async function checkStatus(ref, phoneRaw, silent) {
     const phone = normalizePhone(phoneRaw);
-    ref = String(ref).trim().toUpperCase();
+    ref = String(ref).trim().toUpperCase().replace(/[\u2010-\u2015\u2212]/g, '-');
     document.getElementById('statusResult').classList.add('is-hidden');
     if (!/^ASC26-[0-9A-Z]{7}$/.test(ref) || !phone) {
       if (!silent) chkNotice('Enter your Reference ID (ASC26-XXXXXXX) and the 10-digit mobile number you registered with.', 'bad');
       return;
     }
     const btn = document.getElementById('chkBtn');
-    btn.disabled = true;
+    if (btn) btn.disabled = true;
     if (!silent) chkNotice('Checking…');
     try {
-      const res = await fetch(SITE_CONFIG.sheetEndpoint + '?action=status&ref=' + encodeURIComponent(ref) + '&phone=' + phone);
-      const d = await res.json();
+      let q = '?action=status&ref=' + encodeURIComponent(ref);
+      if (phone) q += '&phone=' + encodeURIComponent(phone);
+      const res = await fetch(SITE_CONFIG.sheetEndpoint + q);
+      if (!res.ok) {
+        console.error('Status check HTTP error:', res.status, res.statusText);
+        if (!silent) chkNotice('Unable to reach the server right now. Please check your connection and try again in a moment.', 'bad');
+        return;
+      }
+      let d;
+      try {
+        d = await res.json();
+      } catch (parseErr) {
+        console.error('Status check parse error:', parseErr);
+        if (!silent) chkNotice('Unable to retrieve pass details. Please try again in a moment.', 'bad');
+        return;
+      }
       if (d && d.found) {
         chkNotice('');
         renderStatus(d);
         rememberRegistration(ref, phone);
       } else if (!silent) {
         document.getElementById('statusResult').classList.add('is-hidden');
-        chkNotice('No registration found for that Reference ID and mobile number. Check both, or wait a minute if you just registered.', 'bad');
+        chkNotice('No registration found for that Reference ID and mobile number. Please check both details.', 'bad');
       }
     } catch (err) {
-      if (!silent) chkNotice('Could not reach the server. Check your internet and try again.', 'bad');
+      console.error('Status check network error:', err);
+      if (!silent) chkNotice('Unable to connect to the server right now. Please check your internet connection and try again.', 'bad');
     } finally {
-      btn.disabled = false;
+      if (btn) btn.disabled = false;
     }
   }
 
@@ -796,12 +836,36 @@
     window.print();
   });
 
-  // After a page refresh, restore this delegate's status automatically
-  const saved = recallRegistration();
-  if (saved && saved.ref) {
-    document.getElementById('chkRef').value = saved.ref;
-    document.getElementById('chkPhone').value = saved.phone || '';
-    checkStatus(saved.ref, saved.phone || '', true);
+  // Helper to extract pass parameters from query string or hash
+  function getUrlPassParams() {
+    const params = new URLSearchParams(window.location.search);
+    if (window.location.hash.includes('?')) {
+      const hashQuery = window.location.hash.substring(window.location.hash.indexOf('?') + 1);
+      const hp = new URLSearchParams(hashQuery);
+      hp.forEach((val, key) => {
+        if (!params.has(key)) params.set(key, val);
+      });
+    }
+    const ref = (params.get('pass') || params.get('ref') || '').trim().toUpperCase();
+    const phone = (params.get('phone') || params.get('p') || '').trim();
+    return { ref, phone };
+  }
+
+  // Auto-detect pass in URL (e.g. from scanned QR code or email link)
+  const urlPass = getUrlPassParams();
+  if (urlPass.ref && /^ASC26-[0-9A-Z]{7}$/.test(urlPass.ref)) {
+    switchView('register');
+    document.getElementById('chkRef').value = urlPass.ref;
+    if (urlPass.phone) document.getElementById('chkPhone').value = urlPass.phone;
+    checkStatus(urlPass.ref, urlPass.phone, false);
+  } else {
+    // After a page refresh, restore this delegate's status automatically from localStorage
+    const saved = recallRegistration();
+    if (saved && saved.ref) {
+      document.getElementById('chkRef').value = saved.ref;
+      document.getElementById('chkPhone').value = saved.phone || '';
+      checkStatus(saved.ref, saved.phone || '', true);
+    }
   }
 
   document.getElementById('printPassBtn').addEventListener('click', () => {

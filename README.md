@@ -33,6 +33,9 @@ npx serve .
    registration is flagged **DUPLICATE UTR**).
 4. The desk matches amount + UTR against the bank / UPI app history and types **YES** in the
    *Verified by desk* column (column R, a YES/NO dropdown). The script never overwrites that column.
+   Setting **YES** automatically sends a branded confirmation email to the delegate featuring an official top banner,
+   an in-email pass card, custom ASCEND '26 executive signature, and an attached printable PDF Pass.
+   Setting **NO** emails a payment reconciliation request with a direct WhatsApp resolution button.
 5. The delegate opens **Register → Check status**, enters Ref ID + mobile number, and sees the confirmed pass
    (also restored automatically after a refresh on the same device).
 

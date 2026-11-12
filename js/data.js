@@ -10,7 +10,8 @@ const SITE_CONFIG = {
   // Google Apps Script web-app URL (see apps-script/Code.gs)
   sheetEndpoint: 'https://script.google.com/macros/s/AKfycbzDXStAGPsAlhsW3fO6YVZhhYrnUywlbFb1K6_Ylver3bQHfA5Mb192SXvIiH1uDgaT1g/exec',
   // WhatsApp number (country code + number, no +) that receives registration details
-  coordinatorWhatsApp: '919744011164',   // TEMPORARY: Shabeeb. Switch to the program coordinator's number before the event
+  // Set to Muhammed Shabeeb K T (919744011164) for now; later to be replaced by Program Co-ordinator Aswathi A K (918086382375)
+  coordinatorWhatsApp: '919744011164',
   // true  = fee is charged PER PARTICIPANT (fee x team members)
   // false = fee is charged once per event (flat per team / entry)
   feePerPerson: true,

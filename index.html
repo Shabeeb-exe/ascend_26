@@ -633,6 +633,18 @@
               <div><span class="text-xs uppercase block" style="color: var(--text-muted);">Total fee</span><strong id="stFee" class="text-amber-400"></strong></div>
               <div><span class="text-xs uppercase block" style="color: var(--text-muted);">Accommodation</span><strong id="stAccom" class="text-xs"></strong></div>
             </div>
+            <div id="stQrWrap" class="is-hidden flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-xl mt-4" style="background: var(--bg-elevated); border: 1px solid var(--border-subtle);">
+              <div class="flex items-center gap-3.5">
+                <div class="p-2 bg-white rounded-xl shadow-md inline-block flex-shrink-0">
+                  <div id="stQrContainer" role="img" aria-label="Official verification QR code" class="w-20 h-20" style="color:#000;"></div>
+                </div>
+                <div>
+                  <div class="text-[11px] uppercase tracking-wider font-bold" style="color: var(--gold-primary);">Official Verification QR Code</div>
+                  <div class="text-xs mt-1" style="color: var(--text-secondary);">Scan using any phone camera to verify this pass on the live portal.</div>
+                </div>
+              </div>
+              <div class="text-[11px] font-mono tracking-wider" style="color: var(--text-muted);">DCMS • UNIVERSITY OF CALICUT</div>
+            </div>
             <div class="mt-5 flex flex-wrap gap-2.5 no-print">
               <button type="button" id="stPrintBtn" class="btn-gold px-5 py-2.5 text-xs sm:text-sm is-hidden">Print / Save Pass</button>
               <button type="button" id="stRefreshBtn" class="btn-outline px-5 py-2.5 text-xs sm:text-sm">Refresh status</button>
