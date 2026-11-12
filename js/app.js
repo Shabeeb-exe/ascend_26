@@ -787,15 +787,17 @@
       let q = '?action=status&ref=' + encodeURIComponent(ref);
       if (phone) q += '&phone=' + encodeURIComponent(phone);
       const res = await fetch(SITE_CONFIG.sheetEndpoint + q);
-      if (res.status === 401 || res.status === 403) {
-        if (!silent) chkNotice('Server access denied (HTTP 403). In Google Apps Script, set "Who has access" to "Anyone" and redeploy.', 'bad');
+      if (!res.ok) {
+        console.error('Status check HTTP error:', res.status, res.statusText);
+        if (!silent) chkNotice('Unable to reach the server right now. Please check your connection and try again in a moment.', 'bad');
         return;
       }
       let d;
       try {
         d = await res.json();
       } catch (parseErr) {
-        if (!silent) chkNotice('Server returned an unexpected response. Please ensure Google Apps Script deployment is set to "Who has access: Anyone".', 'bad');
+        console.error('Status check parse error:', parseErr);
+        if (!silent) chkNotice('Unable to retrieve pass details. Please try again in a moment.', 'bad');
         return;
       }
       if (d && d.found) {
@@ -808,13 +810,14 @@
       } else if (!silent) {
         document.getElementById('statusResult').classList.add('is-hidden');
         if (phone) {
-          chkNotice('No registration found for that Reference ID and mobile number. Check both, or wait a minute if you just registered.', 'bad');
+          chkNotice('No registration found for that Reference ID and mobile number. Please check both details.', 'bad');
         } else {
-          chkNotice('No registration found for ' + ref + '. Please enter your registered 10-digit mobile number as well.', 'bad');
+          chkNotice('No registration found for ' + ref + '. Please enter your registered 10-digit mobile number.', 'bad');
         }
       }
     } catch (err) {
-      if (!silent) chkNotice('Could not connect to the registration server. Please check your internet, or ensure Google Apps Script has "Who has access" set to "Anyone".', 'bad');
+      console.error('Status check network error:', err);
+      if (!silent) chkNotice('Unable to connect to the server right now. Please check your internet connection and try again.', 'bad');
     } finally {
       if (btn) btn.disabled = false;
     }
