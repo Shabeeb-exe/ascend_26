@@ -779,13 +779,13 @@
                 <span class="avatar-monogram w-9 h-9 text-sm">01</span>
                 <div>
                   <h2 class="font-display text-lg font-bold">Institution &amp; Lead Delegate Info</h2>
-                  <p class="text-xs" style="color: var(--text-muted);">Primary point of contact for credentials and certificates</p>
+                  <p class="text-xs" style="color: var(--text-muted);">Primary point of contact for credentials and certificates (Member 1)</p>
                 </div>
               </div>
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" for="regName">Full Name *</label>
+                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" for="regName">Lead Delegate Full Name *</label>
                   <input type="text" id="regName" class="input-field" placeholder="e.g., Arjun Menon" required />
                 </div>
                 <div>
@@ -797,7 +797,10 @@
                   <input type="tel" id="regPhone" class="input-field" placeholder="+91 98765 43210" required />
                 </div>
                 <div>
-                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" for="regCollege">College / University Name *</label>
+                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" for="regCollege">
+                    College / University Name *
+                    <span class="text-[10px] text-amber-400 font-normal lowercase block sm:inline">(applies to entire team)</span>
+                  </label>
                   <input type="text" id="regCollege" class="input-field" placeholder="Institution Name & City" required />
                 </div>
                 <div>
@@ -820,6 +823,13 @@
                     <option value="4th Year / Final">4th Year / Final</option>
                   </select>
                 </div>
+                <div class="sm:col-span-2">
+                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" for="regDietary">Lead Delegate Dietary Preference *</label>
+                  <select id="regDietary" class="input-field" required>
+                    <option value="Non-Veg">Non-Vegetarian</option>
+                    <option value="Veg">Pure Vegetarian</option>
+                  </select>
+                </div>
               </div>
             </div>
 
@@ -828,37 +838,42 @@
                 <div class="flex items-center gap-3">
                   <span class="avatar-monogram w-9 h-9 text-sm">02</span>
                   <div>
-                    <h2 class="font-display text-lg font-bold">Select Event(s) *</h2>
-                    <p class="text-xs" style="color: var(--text-muted);">Choose one or more Management or Non-Management arenas</p>
+                    <h2 class="font-display text-lg font-bold">Select Event *</h2>
+                    <p class="text-xs" style="color: var(--text-muted);">Choose 1 event (events run concurrently on festival schedule)</p>
                   </div>
                 </div>
                 <span id="selectedEventsCountBadge" class="text-xs font-bold px-3 py-1 rounded-full self-start sm:self-auto"
                       style="background: var(--gold-tint); color: var(--gold-primary); border: 1px solid var(--gold-border);">
-                  0 Selected
+                  No Event Selected
                 </span>
               </div>
 
               <div class="mb-3 text-xs font-bold uppercase tracking-wider" style="color: var(--gold-primary);">Management Events (6)</div>
-              <div id="regManagementCheckboxes" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+              <div id="regManagementCheckboxes" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6" role="radiogroup" aria-label="Management Events">
 
               </div>
 
               <div class="mb-3 text-xs font-bold uppercase tracking-wider" style="color: var(--gold-primary);">Non-Management Events (4)</div>
-              <div id="regNonManagementCheckboxes" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div id="regNonManagementCheckboxes" class="grid grid-cols-1 sm:grid-cols-2 gap-3" role="radiogroup" aria-label="Non-Management Events">
 
               </div>
 
               <div id="teamMembersDynamicSection" class="is-hidden mt-6 pt-5 border-t" style="border-color: var(--border-subtle);">
-                <div class="flex items-center justify-between mb-2">
-                  <label class="text-xs font-bold uppercase tracking-wider" style="color: var(--gold-primary);">
-                    Team Members Roster (Optional / For Team Events)
-                  </label>
-                  <button type="button" id="addTeamMemberBtn" class="btn-action-chip px-3 py-1 text-xs">+ Add Teammate</button>
+                <div class="mb-3">
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs font-bold uppercase tracking-wider" style="color: var(--gold-primary);">
+                      Official Team Roster &amp; Member Details *
+                    </span>
+                    <span id="teamRosterCountPill" class="text-[10px] font-bold px-2 py-0.5 rounded-full"
+                          style="background: var(--gold-tint); color: var(--gold-primary); border: 1px solid var(--gold-border);">
+                      Required Members
+                    </span>
+                  </div>
+                  <p id="teamSizeHintText" class="text-xs mt-1" style="color: var(--text-secondary);"></p>
                 </div>
-                <p id="teamSizeHintText" class="text-xs mb-3" style="color: var(--text-secondary);"></p>
-                <div id="teamMembersInputsList" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  <input type="text" class="input-field team-member-input" placeholder="Team Member 2 Full Name" />
-                  <input type="text" class="input-field team-member-input" placeholder="Team Member 3 Full Name" />
+
+                <div id="teamMembersInputsContainer" class="space-y-4">
+                  <!-- Dynamically rendered team member cards -->
                 </div>
               </div>
             </div>
@@ -868,11 +883,11 @@
                 <span class="avatar-monogram w-9 h-9 text-sm">03</span>
                 <div>
                   <h2 class="font-display text-lg font-bold">Logistics &amp; Accommodation</h2>
-                  <p class="text-xs" style="color: var(--text-muted);">Hospitality &amp; dietary arrangements for outstation teams</p>
+                  <p class="text-xs" style="color: var(--text-muted);">Hospitality &amp; arrival arrangements for outstation teams</p>
                 </div>
               </div>
 
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="grid grid-cols-1 gap-4">
                 <div>
                   <label class="block text-xs font-semibold uppercase tracking-wider mb-1" for="regAccommodation">
                     Campus Accommodation (Night of Day 1 — if qualified)
@@ -886,18 +901,6 @@
                   </select>
                 </div>
                 <div>
-                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1" for="regDietary">
-                    Dietary Preference
-                  </label>
-                  <p class="text-[11px] mb-1.5 leading-snug" style="color: var(--text-muted);">
-                    Select meal preference for festival lunch &amp; refreshments.
-                  </p>
-                  <select id="regDietary" class="input-field">
-                    <option value="Non-Veg">Non-Vegetarian</option>
-                    <option value="Veg">Pure Vegetarian</option>
-                  </select>
-                </div>
-                <div class="sm:col-span-2">
                   <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" for="regNotes">
                     Special Notes / Arrival Timing (Optional)
                   </label>

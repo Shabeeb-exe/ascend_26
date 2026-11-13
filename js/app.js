@@ -2,7 +2,7 @@
   'use strict';
 
   let activeEventCategory = 'all';
-  let selectedEventIds = new Set();
+  let selectedEventId = null;
   let currentModalEventId = null;
   let toastTimer = null;
 
@@ -310,22 +310,45 @@
   const selectedEventsCountBadge = document.getElementById('selectedEventsCountBadge');
   const teamMembersDynamicSection = document.getElementById('teamMembersDynamicSection');
   const teamSizeHintText = document.getElementById('teamSizeHintText');
+  const teamRosterCountPill = document.getElementById('teamRosterCountPill');
+
+  const teammateCache = {};
+  function saveCurrentTeammateInputs() {
+    for (let i = 2; i <= 4; i++) {
+      const nameEl = document.getElementById(`tmName_${i}`);
+      if (nameEl) {
+        teammateCache[i] = {
+          name: nameEl.value,
+          phone: document.getElementById(`tmPhone_${i}`)?.value || '',
+          email: document.getElementById(`tmEmail_${i}`)?.value || '',
+          program: document.getElementById(`tmProgram_${i}`)?.value || 'MBA',
+          year: document.getElementById(`tmYear_${i}`)?.value || '1st Year',
+          diet: document.getElementById(`tmDiet_${i}`)?.value || 'Non-Veg'
+        };
+      }
+    }
+  }
 
   function renderRegisterEventCards() {
+    saveCurrentTeammateInputs();
+
     const buildCard = (ev) => {
-      const isChecked = selectedEventIds.has(ev.id);
+      const isSelected = selectedEventId === ev.id;
+      const teamFeeSuffix = ev.maxTeam > 1 ? ` (₹${ev.fee * ev.maxTeam} / team)` : '';
       return `
-        <div data-toggle-reg-event="${ev.id}" class="event-check-card ${isChecked ? 'is-selected' : ''}" role="checkbox" aria-checked="${isChecked}" tabindex="0">
-          <div class="w-5 h-5 rounded flex items-center justify-center text-xs font-bold mt-0.5 flex-shrink-0"
-               style="border: 1.5px solid var(--gold-primary); background: ${isChecked ? 'var(--gold-primary)' : 'transparent'}; color: #090A0F;">
-            ${isChecked ? '✓' : ''}
+        <div data-select-reg-event="${ev.id}" class="event-check-card ${isSelected ? 'is-selected' : ''}" role="radio" aria-checked="${isSelected}" tabindex="0">
+          <div class="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
+               style="border: 2px solid ${isSelected ? 'var(--gold-primary)' : 'rgba(255,255,255,0.3)'}; background: ${isSelected ? 'var(--gold-primary)' : 'transparent'};">
+            ${isSelected ? '<div class="w-2 h-2 rounded-full" style="background: #090A0F;"></div>' : ''}
           </div>
-          <div class="flex-grow flex items-center justify-between">
+          <div class="flex-grow flex items-center justify-between gap-3">
             <div>
-              <div class="font-bold text-sm">${ev.title}</div>
+              <div class="font-bold text-sm text-slate-100">${ev.title}</div>
               <div class="text-[11px]" style="color: var(--text-muted);">${ev.format}</div>
             </div>
-            <div class="text-xs font-bold text-amber-400 whitespace-nowrap">₹${ev.fee}${SITE_CONFIG.feePerPerson ? ' / person' : ''}</div>
+            <div class="text-xs font-bold text-amber-400 whitespace-nowrap text-right">
+              ₹${ev.fee}${SITE_CONFIG.feePerPerson && ev.maxTeam > 1 ? ' / person' + teamFeeSuffix : ''}
+            </div>
           </div>
         </div>
       `;
@@ -334,33 +357,93 @@
     regMgmtContainer.innerHTML = EVENTS_DATA.filter((e) => e.category === 'Management').map(buildCard).join('');
     regNonMgmtContainer.innerHTML = EVENTS_DATA.filter((e) => e.category === 'Non-Management').map(buildCard).join('');
 
-    selectedEventsCountBadge.textContent = selectedEventIds.size + ' Selected';
-
-    const selectedObjs = EVENTS_DATA.filter((e) => selectedEventIds.has(e.id));
-    const teamEvents = selectedObjs.filter((e) => e.maxTeam > 1);
-    if (teamEvents.length > 0) {
-      teamMembersDynamicSection.classList.remove('is-hidden');
-      teamSizeHintText.textContent =
-        'Add your teammates below (you are member 1). Needed: ' +
-        teamEvents.map((t) => t.title + ' (' + t.format + ')').join(' | ');
+    const chosen = EVENTS_DATA.find((e) => e.id === selectedEventId);
+    if (chosen) {
+      selectedEventsCountBadge.textContent = '1 Selected: ' + chosen.title;
     } else {
+      selectedEventsCountBadge.textContent = 'No Event Selected';
+    }
+
+    const container = document.getElementById('teamMembersInputsContainer');
+
+    if (!chosen || chosen.maxTeam <= 1) {
       teamMembersDynamicSection.classList.add('is-hidden');
+      if (container) container.innerHTML = '';
+    } else {
+      teamMembersDynamicSection.classList.remove('is-hidden');
+      const needed = chosen.maxTeam - 1;
+      if (teamRosterCountPill) teamRosterCountPill.textContent = `${chosen.maxTeam} Members Total`;
+      teamSizeHintText.textContent = `${chosen.title} requires a contingent team of exactly ${chosen.maxTeam} members representing the same institution. Lead Delegate is Member 1. Complete verified details for the remaining ${needed} teammate${needed > 1 ? 's' : ''}:`;
+
+      let cardsHtml = '';
+      for (let i = 2; i <= chosen.maxTeam; i++) {
+        const cached = teammateCache[i] || {};
+        cardsHtml += `
+          <div class="teammate-card p-4 sm:p-5 rounded-xl border transition-all duration-200" style="background: var(--bg-elevated); border-color: var(--gold-border);">
+            <div class="flex items-center justify-between mb-3.5 pb-2 border-b" style="border-color: var(--border-subtle);">
+              <div class="flex items-center gap-2.5">
+                <span class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold font-mono" style="background: var(--gold-primary); color: #090A0F;">0${i}</span>
+                <span class="text-xs font-bold uppercase tracking-wider text-white">Team Member ${i}</span>
+              </div>
+              <span class="text-[10px] sm:text-[11px] px-2.5 py-0.5 rounded-full font-semibold" style="background: var(--gold-tint); color: var(--gold-primary); border: 1px solid var(--gold-border);">Same Institution</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+              <div>
+                <label class="block text-[11px] font-semibold uppercase tracking-wider mb-1" for="tmName_${i}">Full Name *</label>
+                <input type="text" id="tmName_${i}" class="input-field text-sm" placeholder="Member ${i} Name" value="${cached.name || ''}" required />
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold uppercase tracking-wider mb-1" for="tmPhone_${i}">Phone / WhatsApp *</label>
+                <input type="tel" id="tmPhone_${i}" class="input-field text-sm" placeholder="+91 98765 43210" value="${cached.phone || ''}" required />
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold uppercase tracking-wider mb-1" for="tmEmail_${i}">Email Address *</label>
+                <input type="email" id="tmEmail_${i}" class="input-field text-sm" placeholder="member${i}@college.edu" value="${cached.email || ''}" required />
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold uppercase tracking-wider mb-1" for="tmProgram_${i}">Department / Program *</label>
+                <select id="tmProgram_${i}" class="input-field text-sm" required>
+                  <option value="MBA" ${cached.program === 'MBA' ? 'selected' : ''}>MBA</option>
+                  <option value="M.Com" ${cached.program === 'M.Com' ? 'selected' : ''}>M.Com</option>
+                  <option value="BBA" ${cached.program === 'BBA' ? 'selected' : ''}>BBA</option>
+                  <option value="B.Com" ${cached.program === 'B.Com' ? 'selected' : ''}>B.Com</option>
+                  <option value="B.Tech" ${cached.program === 'B.Tech' ? 'selected' : ''}>B.Tech</option>
+                  <option value="Other" ${cached.program === 'Other' ? 'selected' : ''}>Other</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold uppercase tracking-wider mb-1" for="tmYear_${i}">Year of Study *</label>
+                <select id="tmYear_${i}" class="input-field text-sm" required>
+                  <option value="1st Year" ${cached.year === '1st Year' ? 'selected' : ''}>1st Year</option>
+                  <option value="2nd Year" ${cached.year === '2nd Year' ? 'selected' : ''}>2nd Year</option>
+                  <option value="3rd Year" ${cached.year === '3rd Year' ? 'selected' : ''}>3rd Year</option>
+                  <option value="4th Year / Final" ${cached.year === '4th Year / Final' ? 'selected' : ''}>4th Year / Final</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold uppercase tracking-wider mb-1" for="tmDiet_${i}">Dietary Preference *</label>
+                <select id="tmDiet_${i}" class="input-field text-sm" required>
+                  <option value="Non-Veg" ${cached.diet === 'Non-Veg' ? 'selected' : ''}>Non-Vegetarian</option>
+                  <option value="Veg" ${cached.diet === 'Veg' ? 'selected' : ''}>Pure Vegetarian</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+      if (container) container.innerHTML = cardsHtml;
     }
   }
 
   renderRegisterEventCards();
 
-  function toggleRegisterEvent(eventId) {
-    if (selectedEventIds.has(eventId)) {
-      selectedEventIds.delete(eventId);
-    } else {
-      selectedEventIds.add(eventId);
-    }
+  function selectRegisterEvent(eventId) {
+    selectedEventId = eventId;
     renderRegisterEventCards();
   }
 
   function preselectEventAndNavigate(eventId) {
-    selectedEventIds.add(eventId);
+    selectedEventId = eventId;
     renderRegisterEventCards();
     document.getElementById('registrationPassSection').classList.add('is-hidden');
     goTo('register');
@@ -379,35 +462,21 @@
       preselectEventAndNavigate(regEvBtn.getAttribute('data-register-event'));
     }
 
-    const toggleCard = e.target.closest('[data-toggle-reg-event]');
-    if (toggleCard) {
-      toggleRegisterEvent(toggleCard.getAttribute('data-toggle-reg-event'));
+    const selectCard = e.target.closest('[data-select-reg-event]');
+    if (selectCard) {
+      selectRegisterEvent(selectCard.getAttribute('data-select-reg-event'));
     }
   });
 
   document.addEventListener('keydown', (e) => {
     if (e.key !== ' ' && e.key !== 'Enter') return;
-    const card = e.target.closest && e.target.closest('[data-toggle-reg-event]');
+    const card = e.target.closest && e.target.closest('[data-select-reg-event]');
     if (!card || e.target !== card) return;
     e.preventDefault();
-    const id = card.getAttribute('data-toggle-reg-event');
-    toggleRegisterEvent(id);
-    const again = document.querySelector('[data-toggle-reg-event="' + id + '"]');
+    const id = card.getAttribute('data-select-reg-event');
+    selectRegisterEvent(id);
+    const again = document.querySelector('[data-select-reg-event="' + id + '"]');
     if (again) again.focus();
-  });
-
-  document.getElementById('addTeamMemberBtn').addEventListener('click', () => {
-    const list = document.getElementById('teamMembersInputsList');
-    const count = list.querySelectorAll('.team-member-input').length + 2;
-    if (count > SITE_CONFIG.maxRoster) {
-      showToast('Maximum team roster slots added.');
-      return;
-    }
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.className = 'input-field team-member-input';
-    input.placeholder = 'Team Member ' + count + ' Full Name';
-    list.appendChild(input);
   });
 
   const delegateRegForm = document.getElementById('delegateRegForm');
@@ -538,37 +607,79 @@
       return showRegError('Please complete all required Lead Delegate & Institution fields (*).');
     }
     if (!isValidEmail(email)) {
-      return showRegError('Please enter a valid email address.');
+      return showRegError('Please enter a valid email address for Lead Delegate.');
     }
     const phone = normalizePhone(phoneRaw);
     if (!phone) {
-      return showRegError('Please enter a valid 10-digit Indian mobile number (e.g., 98765 43210).');
+      return showRegError('Please enter a valid 10-digit Indian mobile number for Lead Delegate (e.g., 98765 43210).');
     }
-    if (selectedEventIds.size === 0) {
-      return showRegError('Please select at least one event in Step 02 to register.');
+    if (!selectedEventId) {
+      return showRegError('Please select one event in Step 02 to register.');
     }
 
-    const chosenEvents = EVENTS_DATA.filter((ev) => selectedEventIds.has(ev.id));
-    const rosterVisible = chosenEvents.some((ev) => ev.maxTeam > 1);
-    const teamNames = rosterVisible
-      ? Array.from(document.querySelectorAll('.team-member-input')).map((inp) => inp.value.trim()).filter(Boolean)
-      : [];
-    const rosterSize = 1 + teamNames.length;
+    const chosenEvent = EVENTS_DATA.find((ev) => ev.id === selectedEventId);
+    if (!chosenEvent) {
+      return showRegError('Please select a valid event to register.');
+    }
 
-    for (const ev of chosenEvents) {
-      if (rosterSize < ev.minTeam) {
-        return showRegError(
-          ev.title + ' needs ' + (ev.minTeam === ev.maxTeam ? 'exactly ' : 'at least ') + ev.minTeam +
-            ' members (you have ' + rosterSize + '). Add the remaining teammate names in Step 02.'
-        );
+    // Build and validate full contingent roster
+    const roster = [
+      { index: 1, name: name, email: email, phone: phone, program: program, year: year, diet: diet, isLead: true }
+    ];
+    const usedPhones = new Map();
+    usedPhones.set(phone, 'Lead Delegate (' + name + ')');
+    const usedEmails = new Map();
+    usedEmails.set(email.toLowerCase(), 'Lead Delegate (' + name + ')');
+
+    if (chosenEvent.maxTeam > 1) {
+      for (let i = 2; i <= chosenEvent.maxTeam; i++) {
+        const tmNameEl = document.getElementById(`tmName_${i}`);
+        const tmEmailEl = document.getElementById(`tmEmail_${i}`);
+        const tmPhoneEl = document.getElementById(`tmPhone_${i}`);
+        const tmProgEl = document.getElementById(`tmProgram_${i}`);
+        const tmYearEl = document.getElementById(`tmYear_${i}`);
+        const tmDietEl = document.getElementById(`tmDiet_${i}`);
+
+        if (!tmNameEl || !tmEmailEl || !tmPhoneEl) {
+          return showRegError(`Missing form fields for Team Member ${i}. Please re-select the event.`);
+        }
+        const tmName = tmNameEl.value.trim();
+        const tmEmail = tmEmailEl.value.trim();
+        const tmPhoneRaw = tmPhoneEl.value.trim();
+        const tmProg = tmProgEl ? tmProgEl.value : program;
+        const tmYear = tmYearEl ? tmYearEl.value : year;
+        const tmDiet = tmDietEl ? tmDietEl.value : 'Non-Veg';
+
+        if (!tmName || !tmEmail || !tmPhoneRaw) {
+          return showRegError(`Please complete all required fields for Team Member ${i} (Full Name, Phone, and Email).`);
+        }
+        if (!isValidEmail(tmEmail)) {
+          return showRegError(`Please enter a valid email address for Team Member ${i} (${tmName}).`);
+        }
+        const tmPhone = normalizePhone(tmPhoneRaw);
+        if (!tmPhone) {
+          return showRegError(`Please enter a valid 10-digit mobile number for Team Member ${i} (${tmName}).`);
+        }
+        if (usedPhones.has(tmPhone)) {
+          return showRegError(`Mobile number +91 ${tmPhone} is entered for both ${usedPhones.get(tmPhone)} and Team Member ${i} (${tmName}). Each team member must provide their own unique mobile number.`);
+        }
+        if (usedEmails.has(tmEmail.toLowerCase())) {
+          return showRegError(`Email ${tmEmail} is entered for both ${usedEmails.get(tmEmail.toLowerCase())} and Team Member ${i} (${tmName}). Each team member must provide their own unique email address.`);
+        }
+        usedPhones.set(tmPhone, `Team Member ${i} (${tmName})`);
+        usedEmails.set(tmEmail.toLowerCase(), `Team Member ${i} (${tmName})`);
+
+        roster.push({
+          index: i,
+          name: tmName,
+          email: tmEmail,
+          phone: tmPhone,
+          program: tmProg,
+          year: tmYear,
+          diet: tmDiet,
+          isLead: false
+        });
       }
-    }
-    const largestAllowed = Math.max.apply(null, chosenEvents.map((ev) => ev.maxTeam));
-    if (rosterSize > largestAllowed) {
-      return showRegError(
-        'Your roster has ' + rosterSize + ' members but the selected event(s) allow at most ' + largestAllowed +
-          '. Remove extra names or select a larger team event.'
-      );
     }
 
     const consentEl = document.getElementById('regTermsConsent');
@@ -580,10 +691,8 @@
 
     if (!latestRefId) latestRefId = makeRefId();
 
-    const lines = chosenEvents.map((ev) => feeLine(ev, rosterSize));
-    const totalFee = lines.reduce((sum, l) => sum + l.amount, 0);
-    const lineText = (l) =>
-      l.ev.title + ' (' + (SITE_CONFIG.feePerPerson && l.people > 1 ? '₹' + l.ev.fee + ' × ' + l.people + ' = ' : '') + '₹' + l.amount + ')';
+    const totalFee = chosenEvent.fee * chosenEvent.maxTeam;
+    const feeBreakdown = chosenEvent.title + (chosenEvent.maxTeam > 1 ? ' (₹' + chosenEvent.fee + ' × ' + chosenEvent.maxTeam + ' members = ₹' + totalFee + ')' : ' (₹' + totalFee + ')');
 
     const upiLink =
       'upi://pay?pa=' + SITE_CONFIG.upiId +
@@ -614,30 +723,47 @@
     const passAccomEl = document.getElementById('passAccom');
     if (passAccomEl) passAccomEl.textContent = accom;
     const passDietEl = document.getElementById('passDiet');
-    if (passDietEl) passDietEl.textContent = diet;
+
+    const vegCount = roster.filter((m) => m.diet === 'Veg').length;
+    const nonVegCount = roster.filter((m) => m.diet === 'Non-Veg').length;
+    const dietarySummary = roster.length > 1
+      ? `${nonVegCount} Non-Veg, ${vegCount} Veg (Lead: ${diet}; ` + roster.slice(1).map((m) => `M${m.index}: ${m.diet}`).join(', ') + ')'
+      : diet;
+    if (passDietEl) passDietEl.textContent = dietarySummary;
 
     const passEventsList = document.getElementById('passEventsList');
     if (passEventsList) {
-      passEventsList.innerHTML = lines
-        .map(
-          (l) => `<span class="px-2.5 py-1 rounded-full text-xs font-bold"
-                         style="background: var(--gold-tint); color: var(--gold-primary); border: 1px solid var(--gold-border);">
-                     ${lineText(l)}
-                   </span>`
-        )
-        .join('');
+      passEventsList.innerHTML = `<span class="px-2.5 py-1 rounded-full text-xs font-bold"
+                     style="background: var(--gold-tint); color: var(--gold-primary); border: 1px solid var(--gold-border);">
+                 ${feeBreakdown}
+               </span>`;
     }
 
     const passTeamBlock = document.getElementById('passTeamBlock');
     if (passTeamBlock) {
-      if (teamNames.length > 0) {
+      if (roster.length > 1) {
         passTeamBlock.classList.remove('is-hidden');
         const passTeamMembers = document.getElementById('passTeamMembers');
-        if (passTeamMembers) passTeamMembers.textContent = teamNames.join(', ');
+        if (passTeamMembers) {
+          passTeamMembers.innerHTML = roster
+            .slice(1)
+            .map(
+              (m) =>
+                `<div class="py-1 border-b last:border-b-0 flex flex-wrap items-center justify-between gap-1 text-xs" style="border-color: var(--border-subtle);">
+                   <span class="font-bold text-slate-200">Member ${m.index}: ${m.name}</span>
+                   <span class="text-slate-400 font-mono">+91 ${m.phone} • ${m.diet}</span>
+                 </div>`
+            )
+            .join('');
+        }
       } else {
         passTeamBlock.classList.add('is-hidden');
       }
     }
+
+    const teamDetailedSummary = roster.length > 1
+      ? roster.slice(1).map((m) => `M${m.index}: ${m.name} (+91 ${m.phone}, ${m.email}, ${m.program} ${m.year}, ${m.diet})`).join('; ')
+      : '';
 
     lastPayload = {
       refId: latestRefId,
@@ -648,30 +774,34 @@
       college: sheetSafe(college),
       program: sheetSafe(program),
       year: sheetSafe(year),
-      events: sheetSafe(chosenEvents.map((c) => c.title).join(', ')),
-      feeBreakdown: sheetSafe(lines.map(lineText).join('; ')),
+      events: sheetSafe(chosenEvent.title),
+      feeBreakdown: sheetSafe(feeBreakdown),
       totalFee: totalFee,
-      teamMembers: sheetSafe(teamNames.join(', ')),
+      teamMembers: sheetSafe(teamDetailedSummary),
       accommodation: sheetSafe(accom),
-      dietary: sheetSafe(diet),
+      dietary: sheetSafe(dietarySummary),
       notes: sheetSafe(notes),
       termsAccepted: 'Yes',
       paymentStatus: 'Unpaid',
       utr: ''
     };
 
+    const rosterWaList = roster
+      .map((m) => `${m.index}. ${m.name}${m.isLead ? ' (Lead)' : ''} — +91 ${m.phone} (${m.program} ${m.year}, ${m.diet})`)
+      .join('\n');
+
     const waLines = [
       '*ASCEND \'26 — REGISTRATION (PAYMENT SUBMITTED)*',
       'Ref ID: *' + latestRefId + '*',
-      'Lead Delegate: ' + name,
-      'Phone: +91 ' + phone,
-      'Email: ' + email,
-      'Institution: ' + college + ' (' + program + ' - ' + year + ')',
-      'Events: ' + lines.map(lineText).join(', '),
+      'Event: *' + chosenEvent.title + '*',
       'Total Fee: *₹' + totalFee + '*',
-      teamNames.length ? 'Team Members: ' + teamNames.join(', ') : '',
+      'Institution: *' + college + '*',
+      '',
+      '*TEAM ROSTER (' + roster.length + ' Member' + (roster.length > 1 ? 's' : '') + '):*',
+      rosterWaList,
+      '',
       'Accommodation: ' + accom,
-      'Dietary: ' + diet,
+      'Dietary Summary: ' + dietarySummary,
       notes ? 'Notes: ' + notes : '',
       'UTR / Txn ID: (see screenshot)'
     ]
@@ -814,7 +944,15 @@
     document.getElementById('stRef').textContent = d.refId;
     document.getElementById('stCollege').textContent = d.college + ' (' + d.program + ', ' + d.year + ')';
     document.getElementById('stEvents').textContent = d.events;
-    document.getElementById('stTeam').textContent = d.team || '';
+    const teamEl = document.getElementById('stTeam');
+    if (d.team && d.team.includes(';')) {
+      teamEl.innerHTML = d.team
+        .split(';')
+        .map((part) => `<div class="py-0.5">• ${part.trim()}</div>`)
+        .join('');
+    } else {
+      teamEl.textContent = d.team || '';
+    }
     document.getElementById('stTeamWrap').classList.toggle('is-hidden', !d.team);
     document.getElementById('stFee').textContent = '₹' + d.total;
     document.getElementById('stAccom').textContent = d.accommodation;
