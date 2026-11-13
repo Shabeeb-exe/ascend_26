@@ -329,6 +329,124 @@
     }
   }
 
+  function setFieldDuplicateState(inputEl, warnEl, message) {
+    if (!inputEl) return;
+    if (message) {
+      inputEl.style.borderColor = '#EF4444';
+      inputEl.style.boxShadow = '0 0 0 2px rgba(239, 68, 68, 0.25)';
+      if (warnEl) {
+        warnEl.textContent = message;
+        warnEl.classList.remove('is-hidden');
+      }
+    } else {
+      inputEl.style.borderColor = '';
+      inputEl.style.boxShadow = '';
+      if (warnEl) {
+        warnEl.textContent = '';
+        warnEl.classList.add('is-hidden');
+      }
+    }
+  }
+
+  function checkRosterDuplicates(showAlertOnBlur = false) {
+    const chosen = EVENTS_DATA.find((e) => e.id === selectedEventId);
+    if (!chosen || chosen.maxTeam <= 1) return true;
+
+    const leadName = (document.getElementById('regName')?.value || '').trim();
+    const leadPhoneRaw = (document.getElementById('regPhone')?.value || '').trim();
+    const leadEmail = (document.getElementById('regEmail')?.value || '').trim().toLowerCase();
+    const leadPhone = normalizePhone(leadPhoneRaw) || '';
+
+    const normName = (s) => (s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    const cleanLeadName = normName(leadName);
+
+    let hasDuplicate = false;
+    let duplicateMsg = '';
+
+    for (let i = 2; i <= chosen.maxTeam; i++) {
+      const nameInput = document.getElementById(`tmName_${i}`);
+      const phoneInput = document.getElementById(`tmPhone_${i}`);
+      const emailInput = document.getElementById(`tmEmail_${i}`);
+      const nameWarn = document.getElementById(`tmNameWarn_${i}`);
+      const phoneWarn = document.getElementById(`tmPhoneWarn_${i}`);
+      const emailWarn = document.getElementById(`tmEmailWarn_${i}`);
+
+      if (!nameInput || !phoneInput || !emailInput) continue;
+
+      const tmName = nameInput.value.trim();
+      const tmPhoneRaw = phoneInput.value.trim();
+      const tmEmail = emailInput.value.trim().toLowerCase();
+      const tmPhone = normalizePhone(tmPhoneRaw) || '';
+      const cleanTmName = normName(tmName);
+
+      setFieldDuplicateState(nameInput, nameWarn, '');
+      setFieldDuplicateState(phoneInput, phoneWarn, '');
+      setFieldDuplicateState(emailInput, emailWarn, '');
+
+      // Check Name Duplicate
+      if (cleanTmName.length >= 3) {
+        if (cleanLeadName.length >= 3 && cleanTmName === cleanLeadName) {
+          hasDuplicate = true;
+          duplicateMsg = `Team Member ${i} has the same name as Lead Delegate (${leadName}).`;
+          setFieldDuplicateState(nameInput, nameWarn, '⚠️ Cannot be the same as Lead Delegate (Member 1)');
+        } else {
+          for (let j = 2; j < i; j++) {
+            const otherName = normName(document.getElementById(`tmName_${j}`)?.value || '');
+            if (otherName.length >= 3 && cleanTmName === otherName) {
+              hasDuplicate = true;
+              duplicateMsg = `Team Member ${i} has the same name as Team Member ${j}.`;
+              setFieldDuplicateState(nameInput, nameWarn, `⚠️ Name is already entered for Team Member ${j}`);
+              break;
+            }
+          }
+        }
+      }
+
+      // Check Phone Duplicate
+      if (tmPhone) {
+        if (leadPhone && tmPhone === leadPhone) {
+          hasDuplicate = true;
+          duplicateMsg = `Mobile number +91 ${tmPhone} is already used for Lead Delegate.`;
+          setFieldDuplicateState(phoneInput, phoneWarn, '⚠️ Mobile number cannot be the same as Lead Delegate');
+        } else {
+          for (let j = 2; j < i; j++) {
+            const otherPhone = normalizePhone(document.getElementById(`tmPhone_${j}`)?.value || '') || '';
+            if (otherPhone && tmPhone === otherPhone) {
+              hasDuplicate = true;
+              duplicateMsg = `Mobile number +91 ${tmPhone} is already used for Team Member ${j}.`;
+              setFieldDuplicateState(phoneInput, phoneWarn, `⚠️ Mobile number is already entered for Team Member ${j}`);
+              break;
+            }
+          }
+        }
+      }
+
+      // Check Email Duplicate
+      if (tmEmail && isValidEmail(tmEmail)) {
+        if (leadEmail && tmEmail === leadEmail) {
+          hasDuplicate = true;
+          duplicateMsg = `Email ${tmEmail} is already used for Lead Delegate.`;
+          setFieldDuplicateState(emailInput, emailWarn, '⚠️ Email cannot be the same as Lead Delegate');
+        } else {
+          for (let j = 2; j < i; j++) {
+            const otherEmail = (document.getElementById(`tmEmail_${j}`)?.value || '').trim().toLowerCase();
+            if (otherEmail && tmEmail === otherEmail) {
+              hasDuplicate = true;
+              duplicateMsg = `Email ${tmEmail} is already used for Team Member ${j}.`;
+              setFieldDuplicateState(emailInput, emailWarn, `⚠️ Email is already entered for Team Member ${j}`);
+              break;
+            }
+          }
+        }
+      }
+    }
+
+    if (hasDuplicate && showAlertOnBlur) {
+      showToast(duplicateMsg || 'Duplicate team member details detected. Each participant must have unique information.');
+    }
+    return !hasDuplicate;
+  }
+
   function renderRegisterEventCards() {
     saveCurrentTeammateInputs();
 
@@ -393,15 +511,18 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-4 sm:gap-x-5 sm:gap-y-4.5">
               <div>
                 <label class="block text-[11px] font-semibold uppercase tracking-wider mb-2 text-slate-200" for="tmName_${i}">Full Name *</label>
-                <input type="text" id="tmName_${i}" class="input-field text-sm" placeholder="Member ${i} Name" value="${cached.name || ''}" required />
+                <input type="text" id="tmName_${i}" name="tm_name_${i}" autocomplete="off" data-lpignore="true" data-1p-ignore="true" class="input-field text-sm" placeholder="Member ${i} Name" value="${cached.name || ''}" required />
+                <div id="tmNameWarn_${i}" class="text-[10px] text-rose-400 font-semibold mt-1.5 is-hidden"></div>
               </div>
               <div>
                 <label class="block text-[11px] font-semibold uppercase tracking-wider mb-2 text-slate-200" for="tmPhone_${i}">Phone / WhatsApp *</label>
-                <input type="tel" id="tmPhone_${i}" class="input-field text-sm" placeholder="+91 98765 43210" value="${cached.phone || ''}" required />
+                <input type="tel" id="tmPhone_${i}" name="tm_phone_${i}" autocomplete="off" data-lpignore="true" data-1p-ignore="true" class="input-field text-sm" placeholder="+91 98765 43210" value="${cached.phone || ''}" required />
+                <div id="tmPhoneWarn_${i}" class="text-[10px] text-rose-400 font-semibold mt-1.5 is-hidden"></div>
               </div>
               <div>
                 <label class="block text-[11px] font-semibold uppercase tracking-wider mb-2 text-slate-200" for="tmEmail_${i}">Email Address *</label>
-                <input type="email" id="tmEmail_${i}" class="input-field text-sm" placeholder="member${i}@college.edu" value="${cached.email || ''}" required />
+                <input type="email" id="tmEmail_${i}" name="tm_email_${i}" autocomplete="off" data-lpignore="true" data-1p-ignore="true" class="input-field text-sm" placeholder="member${i}@college.edu" value="${cached.email || ''}" required />
+                <div id="tmEmailWarn_${i}" class="text-[10px] text-rose-400 font-semibold mt-1.5 is-hidden"></div>
               </div>
               <div>
                 <label class="block text-[11px] font-semibold uppercase tracking-wider mb-2 text-slate-200" for="tmProgram_${i}">Department / Program *</label>
@@ -434,7 +555,10 @@
           </div>
         `;
       }
-      if (container) container.innerHTML = cardsHtml;
+      if (container) {
+        container.innerHTML = cardsHtml;
+        checkRosterDuplicates(false);
+      }
     }
   }
 
@@ -626,9 +750,14 @@
     }
 
     // Build and validate full contingent roster
+    const normName = (s) => (s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    const cleanLeadName = normName(name);
+
     const roster = [
       { index: 1, name: name, email: email, phone: phone, program: program, year: year, diet: diet, isLead: true }
     ];
+    const usedNames = new Map();
+    usedNames.set(cleanLeadName, 'Lead Delegate (' + name + ')');
     const usedPhones = new Map();
     usedPhones.set(phone, 'Lead Delegate (' + name + ')');
     const usedEmails = new Map();
@@ -657,18 +786,33 @@
           return showRegError(`Please complete all required fields for Team Member ${i} (Full Name, Phone, and Email).`);
         }
         if (!isValidEmail(tmEmail)) {
+          tmEmailEl.focus();
           return showRegError(`Please enter a valid email address for Team Member ${i} (${tmName}).`);
         }
         const tmPhone = normalizePhone(tmPhoneRaw);
         if (!tmPhone) {
+          tmPhoneEl.focus();
           return showRegError(`Please enter a valid 10-digit mobile number for Team Member ${i} (${tmName}).`);
         }
+
+        const cleanTmName = normName(tmName);
+        if (cleanTmName.length >= 3 && usedNames.has(cleanTmName)) {
+          setFieldDuplicateState(tmNameEl, document.getElementById(`tmNameWarn_${i}`), `⚠️ Cannot duplicate name of ${usedNames.get(cleanTmName)}`);
+          tmNameEl.focus();
+          return showRegError(`Duplicate participant name: Team Member ${i} has the same name as ${usedNames.get(cleanTmName)}. Each member in the contingent must be an individual student representing your institution.`);
+        }
         if (usedPhones.has(tmPhone)) {
-          return showRegError(`Mobile number +91 ${tmPhone} is entered for both ${usedPhones.get(tmPhone)} and Team Member ${i} (${tmName}). Each team member must provide their own unique mobile number.`);
+          setFieldDuplicateState(tmPhoneEl, document.getElementById(`tmPhoneWarn_${i}`), `⚠️ Mobile number already entered for ${usedPhones.get(tmPhone)}`);
+          tmPhoneEl.focus();
+          return showRegError(`Duplicate mobile number: +91 ${tmPhone} is entered for both ${usedPhones.get(tmPhone)} and Team Member ${i} (${tmName}). Each team member must provide their own unique mobile number.`);
         }
         if (usedEmails.has(tmEmail.toLowerCase())) {
-          return showRegError(`Email ${tmEmail} is entered for both ${usedEmails.get(tmEmail.toLowerCase())} and Team Member ${i} (${tmName}). Each team member must provide their own unique email address.`);
+          setFieldDuplicateState(tmEmailEl, document.getElementById(`tmEmailWarn_${i}`), `⚠️ Email already entered for ${usedEmails.get(tmEmail.toLowerCase())}`);
+          tmEmailEl.focus();
+          return showRegError(`Duplicate email address: ${tmEmail} is entered for both ${usedEmails.get(tmEmail.toLowerCase())} and Team Member ${i} (${tmName}). Each team member must provide their own unique email address.`);
         }
+
+        usedNames.set(cleanTmName, `Team Member ${i} (${tmName})`);
         usedPhones.set(tmPhone, `Team Member ${i} (${tmName})`);
         usedEmails.set(tmEmail.toLowerCase(), `Team Member ${i} (${tmName})`);
 
@@ -894,6 +1038,25 @@
       }
     });
   }
+
+  const rosterInputsContainer = document.getElementById('teamMembersInputsContainer');
+  if (rosterInputsContainer) {
+    rosterInputsContainer.addEventListener('input', () => checkRosterDuplicates(false));
+    rosterInputsContainer.addEventListener('change', () => checkRosterDuplicates(false));
+    rosterInputsContainer.addEventListener('focusout', (e) => {
+      if (e.target && e.target.matches && e.target.matches('input')) {
+        checkRosterDuplicates(true);
+      }
+    });
+  }
+
+  ['regName', 'regPhone', 'regEmail'].forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('input', () => checkRosterDuplicates(false));
+      el.addEventListener('change', () => checkRosterDuplicates(false));
+    }
+  });
 
   function sheetPayloadOf(p) {
     const copy = Object.assign({}, p);
