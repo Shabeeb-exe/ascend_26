@@ -1237,7 +1237,7 @@
 
           if (category === 'Event Heads') {
             return `
-              <div class="surface-card p-5 flex items-start gap-3.5">
+              <div class="surface-card surface-card-hover p-5 flex items-start gap-3.5">
                 ${avatarHtml}
                 <div class="min-w-0">
                   <h3 class="font-bold text-base leading-snug">${member.name}</h3>
