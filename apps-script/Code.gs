@@ -108,7 +108,7 @@ function doPost(e) {
     var values = [
       now, d.refId, clean_(d.name, 120), clean_(d.email, 160), String(d.phone || '').replace(/\D/g, '').slice(0, 12),
       clean_(d.college, 200), clean_(d.program, 60), clean_(d.year, 40), clean_(d.events, 300),
-      clean_(d.teamMembers, 400), clean_(d.accommodation, 80), clean_(d.dietary, 60), clean_(d.notes, 500),
+      clean_(d.teamMembers, 1500), clean_(d.accommodation, 80), clean_(d.dietary, 150), clean_(d.notes, 500),
       Number(d.totalFee) || 0, clean_(d.feeBreakdown, 500), status, utr
     ];
 

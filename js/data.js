@@ -132,15 +132,15 @@ const EVENTS_DATA = [
     title: 'Business Quiz',
     category: 'Management',
     icon: '◈',
-    format: 'Individual / Team of 2 Members',
+    format: 'Team of 2 Members',
     isTeam: true,
     fee: 250,  // fee per participant
-    minTeam: 1,
+    minTeam: 2,
     maxTeam: 2,
     desc: 'High-stakes corporate trivia spanning global markets, brands, business history, and current affairs.',
     skills: 'Corporate Trivia • Brand Origins • Financial Headlines',
     rules: [
-      'Open to individual participants or teams of 2 quizzers from the same or cross-disciplinary streams within an institution.',
+      'Open to teams of 2 quizzers representing the same institution.',
       'Written preliminary round followed by high-intensity stage finals with buzzer and wager rounds.',
       'Covers global conglomerates, Indian business history, logos, taglines, startups, and economics.'
     ]
@@ -150,16 +150,16 @@ const EVENTS_DATA = [
     title: 'IPL Auction',
     category: 'Non-Management',
     icon: '🏏',
-    format: 'Team of 2–4 Members',
+    format: 'Team of 4 Members',
     isTeam: true,
     fee: 250,  // fee per participant
-    minTeam: 2,
+    minTeam: 4,
     maxTeam: 4,
     desc: 'Franchise bidding war: build a championship squad with tactical purse management and cricket analytics.',
     skills: 'Purse Management • Squad Balance • Tactical Bidding',
     rules: [
       'Preliminary cricket & franchise analytics quiz selects top franchises for the live gavel auction.',
-      'Each qualified franchise operates within a fixed virtual salary cap and overseas player quota.',
+      'Each qualified franchise team comprises 4 members representing the same institution, operating within a fixed virtual salary cap.',
       'Final squad rating, balance across batting/bowling/all-rounders, and remaining purse efficiency decide winners.'
     ]
   },
@@ -240,6 +240,7 @@ const TEAM_DATA = [
   { name: 'Jubin Thomas', role: 'IPL Auction Head', category: 'Event Heads', photo: 'assets/team/jubin-thomas.png' },
   { name: 'Amalnath S', role: 'Treasure Hunt Head', category: 'Event Heads', photo: 'assets/team/amalnath-s.png' },
   { name: 'Mahitha S', role: 'Reel Making Head', category: 'Event Heads', photo: 'assets/team/mahitha-s.png' },
+  { name: 'Shibin C', role: 'E-Football Head', category: 'Event Heads', photo: 'assets/team/shibin-c.png' },
   { name: 'Ansaf K', role: 'Spot Games Head', category: 'Event Heads', photo: 'assets/team/ansaf-k.png' },
 
   { name: 'Steljo P S', role: 'Volunteer Head', category: 'Committee Heads', photo: 'assets/team/steljo-ps.png' },

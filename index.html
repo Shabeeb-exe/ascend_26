@@ -492,10 +492,9 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-12">
-          <div class="surface-card surface-card-hover p-6 flex items-start gap-4 transition-all duration-300">
-            <div class="w-16 h-16 sm:w-18 sm:h-18 flex-shrink-0 rounded-full p-1 bg-white border-2 flex items-center justify-center shadow-lg"
-                 style="border-color: var(--gold-border);">
-              <img src="assets/ecosystem/iedc.png" alt="IEDC — Innovation &amp; Entrepreneurship Development Centre, University of Calicut" class="w-full h-full object-contain rounded-full" loading="lazy" />
+          <div class="surface-card surface-card-hover p-6 flex items-start gap-4">
+            <div class="ecosystem-logo-box">
+              <img src="assets/ecosystem/iedc.png" alt="IEDC — Innovation &amp; Entrepreneurship Development Centre, University of Calicut" width="44" height="44" class="ecosystem-logo-img" loading="lazy" />
             </div>
             <div>
               <div class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--gold-primary);">Incubation &amp; Startups</div>
@@ -505,11 +504,9 @@
               </p>
             </div>
           </div>
-
-          <div class="surface-card surface-card-hover p-6 flex items-start gap-4 transition-all duration-300">
-            <div class="w-16 h-16 sm:w-18 sm:h-18 flex-shrink-0 rounded-full p-1 bg-white border-2 flex items-center justify-center shadow-lg"
-                 style="border-color: var(--gold-border);">
-              <img src="assets/ecosystem/cie.png" alt="Center for Innovation and Entrepreneurship (CIE)" class="w-full h-full object-contain rounded-full" loading="lazy" />
+          <div class="surface-card surface-card-hover p-6 flex items-start gap-4">
+            <div class="ecosystem-logo-box">
+              <img src="assets/ecosystem/cie.png" alt="Center for Innovation and Entrepreneurship (CIE)" width="44" height="44" class="ecosystem-logo-img" loading="lazy" />
             </div>
             <div>
               <div class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--gold-primary);">Venture Ideation</div>
@@ -519,11 +516,9 @@
               </p>
             </div>
           </div>
-
-          <div class="surface-card surface-card-hover p-6 flex items-start gap-4 transition-all duration-300">
-            <div class="w-16 h-16 sm:w-18 sm:h-18 flex-shrink-0 rounded-full p-1 bg-white border-2 flex items-center justify-center shadow-lg"
-                 style="border-color: var(--gold-border);">
-              <img src="assets/ecosystem/placement-cell.png" alt="DCMS Placement Cell, University of Calicut" class="w-full h-full object-contain rounded-full" loading="lazy" />
+          <div class="surface-card surface-card-hover p-6 flex items-start gap-4">
+            <div class="ecosystem-logo-box">
+              <img src="assets/ecosystem/placement-cell.png" alt="DCMS Placement Cell, University of Calicut" width="44" height="44" class="ecosystem-logo-img" loading="lazy" />
             </div>
             <div>
               <div class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--gold-primary);">Corporate Connect</div>
@@ -812,13 +807,13 @@
                 <span class="avatar-monogram w-9 h-9 text-sm">01</span>
                 <div>
                   <h2 class="font-display text-lg font-bold">Institution &amp; Lead Delegate Info</h2>
-                  <p class="text-xs" style="color: var(--text-muted);">Primary point of contact for credentials and certificates</p>
+                  <p class="text-xs" style="color: var(--text-muted);">Primary point of contact for credentials and certificates (Member 1)</p>
                 </div>
               </div>
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" for="regName">Full Name *</label>
+                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" for="regName">Lead Delegate Full Name *</label>
                   <input type="text" id="regName" class="input-field" placeholder="e.g., Arjun Menon" required />
                 </div>
                 <div>
@@ -830,7 +825,10 @@
                   <input type="tel" id="regPhone" class="input-field" placeholder="+91 98765 43210" required />
                 </div>
                 <div>
-                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" for="regCollege">College / University Name *</label>
+                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" for="regCollege">
+                    College / University Name *
+                    <span class="text-[10px] text-amber-400 font-normal lowercase block sm:inline">(applies to entire team)</span>
+                  </label>
                   <input type="text" id="regCollege" class="input-field" placeholder="Institution Name & City" required />
                 </div>
                 <div>
@@ -853,6 +851,13 @@
                     <option value="4th Year / Final">4th Year / Final</option>
                   </select>
                 </div>
+                <div class="sm:col-span-2">
+                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" for="regDietary">Lead Delegate Dietary Preference *</label>
+                  <select id="regDietary" class="input-field" required>
+                    <option value="Non-Veg">Non-Vegetarian</option>
+                    <option value="Veg">Pure Vegetarian</option>
+                  </select>
+                </div>
               </div>
             </div>
 
@@ -861,37 +866,42 @@
                 <div class="flex items-center gap-3">
                   <span class="avatar-monogram w-9 h-9 text-sm">02</span>
                   <div>
-                    <h2 class="font-display text-lg font-bold">Select Event(s) *</h2>
-                    <p class="text-xs" style="color: var(--text-muted);">Choose one or more Management or Non-Management arenas</p>
+                    <h2 class="font-display text-lg font-bold">Select Event *</h2>
+                    <p class="text-xs" style="color: var(--text-muted);">Choose 1 event (events run concurrently on festival schedule)</p>
                   </div>
                 </div>
                 <span id="selectedEventsCountBadge" class="text-xs font-bold px-3 py-1 rounded-full self-start sm:self-auto"
                       style="background: var(--gold-tint); color: var(--gold-primary); border: 1px solid var(--gold-border);">
-                  0 Selected
+                  No Event Selected
                 </span>
               </div>
 
               <div class="mb-3 text-xs font-bold uppercase tracking-wider" style="color: var(--gold-primary);">Management Events (6)</div>
-              <div id="regManagementCheckboxes" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+              <div id="regManagementCheckboxes" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6" role="radiogroup" aria-label="Management Events">
 
               </div>
 
               <div class="mb-3 text-xs font-bold uppercase tracking-wider" style="color: var(--gold-primary);">Non-Management Events (4)</div>
-              <div id="regNonManagementCheckboxes" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div id="regNonManagementCheckboxes" class="grid grid-cols-1 sm:grid-cols-2 gap-3" role="radiogroup" aria-label="Non-Management Events">
 
               </div>
 
               <div id="teamMembersDynamicSection" class="is-hidden mt-6 pt-5 border-t" style="border-color: var(--border-subtle);">
-                <div class="flex items-center justify-between mb-2">
-                  <label class="text-xs font-bold uppercase tracking-wider" style="color: var(--gold-primary);">
-                    Team Members Roster (Optional / For Team Events)
-                  </label>
-                  <button type="button" id="addTeamMemberBtn" class="btn-action-chip px-3 py-1 text-xs">+ Add Teammate</button>
+                <div class="mb-3">
+                  <div class="flex items-center gap-2">
+                    <span class="text-xs font-bold uppercase tracking-wider" style="color: var(--gold-primary);">
+                      Official Team Roster &amp; Member Details *
+                    </span>
+                    <span id="teamRosterCountPill" class="text-[10px] font-bold px-2 py-0.5 rounded-full"
+                          style="background: var(--gold-tint); color: var(--gold-primary); border: 1px solid var(--gold-border);">
+                      Required Members
+                    </span>
+                  </div>
+                  <p id="teamSizeHintText" class="text-xs mt-1" style="color: var(--text-secondary);"></p>
                 </div>
-                <p id="teamSizeHintText" class="text-xs mb-3" style="color: var(--text-secondary);"></p>
-                <div id="teamMembersInputsList" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  <input type="text" class="input-field team-member-input" placeholder="Team Member 2 Full Name" />
-                  <input type="text" class="input-field team-member-input" placeholder="Team Member 3 Full Name" />
+
+                <div id="teamMembersInputsContainer" class="space-y-4">
+                  <!-- Dynamically rendered team member cards -->
                 </div>
               </div>
             </div>
@@ -901,11 +911,11 @@
                 <span class="avatar-monogram w-9 h-9 text-sm">03</span>
                 <div>
                   <h2 class="font-display text-lg font-bold">Logistics &amp; Accommodation</h2>
-                  <p class="text-xs" style="color: var(--text-muted);">Hospitality &amp; dietary arrangements for outstation teams</p>
+                  <p class="text-xs" style="color: var(--text-muted);">Hospitality &amp; arrival arrangements for outstation teams</p>
                 </div>
               </div>
 
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="grid grid-cols-1 gap-4">
                 <div>
                   <label class="block text-xs font-semibold uppercase tracking-wider mb-1" for="regAccommodation">
                     Campus Accommodation (Night of Day 1 — if qualified)
@@ -919,22 +929,54 @@
                   </select>
                 </div>
                 <div>
-                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1" for="regDietary">
-                    Dietary Preference
-                  </label>
-                  <p class="text-[11px] mb-1.5 leading-snug" style="color: var(--text-muted);">
-                    Select meal preference for festival lunch &amp; refreshments.
-                  </p>
-                  <select id="regDietary" class="input-field">
-                    <option value="Non-Veg">Non-Vegetarian</option>
-                    <option value="Veg">Pure Vegetarian</option>
-                  </select>
-                </div>
-                <div class="sm:col-span-2">
                   <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" for="regNotes">
                     Special Notes / Arrival Timing (Optional)
                   </label>
                   <textarea id="regNotes" rows="2" class="input-field" placeholder="Any specific outstation arrival train/bus details or accessibility notes..."></textarea>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" for="regReferralSource">
+                    How Did You Hear About ASCEND '26? *
+                  </label>
+                  <select id="regReferralSource" class="input-field" required>
+                    <option value="" disabled selected>Select an option</option>
+                    <option value="Student from DCMS, University of Calicut">Student from DCMS, University of Calicut (Referral)</option>
+                    <option value="Instagram">Instagram (@ascend.dcms)</option>
+                    <option value="WhatsApp">WhatsApp (Message / Status / Fest Group)</option>
+                    <option value="Official Invitation Letter / Faculty Referral">Official Invitation Letter / Faculty Referral</option>
+                    <option value="LinkedIn">LinkedIn</option>
+                    <option value="Friends / College Contingent">Friends / College Contingent (Word of Mouth)</option>
+                    <option value="Google / Search">Google / Web Search</option>
+                    <option value="Other">Other</option>
+                  </select>
+
+                  <!-- Dynamic DCMS Referral Reveal Card -->
+                  <div id="dcmsReferralCard" class="is-hidden p-4 rounded-xl border mt-3 transition-all duration-300"
+                       style="background: var(--bg-elevated); border-color: var(--gold-border);">
+                    <div class="flex items-center gap-2 mb-3">
+                      <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                      <span class="text-[11px] font-bold uppercase tracking-wider text-amber-400">DCMS Student Referral Details</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                      <div>
+                        <label for="regDcmsStudentName" class="block text-[11px] font-semibold uppercase tracking-wider mb-1">
+                          DCMS Student Name *
+                        </label>
+                        <input type="text" id="regDcmsStudentName" class="input-field text-sm" placeholder="e.g., Mohammed Irfan, Nandana..." />
+                      </div>
+                      <div>
+                        <label for="regDcmsStudentBatch" class="block text-[11px] font-semibold uppercase tracking-wider mb-1">
+                          DCMS Batch &amp; Program *
+                        </label>
+                        <select id="regDcmsStudentBatch" class="input-field text-sm">
+                          <option value="MBA 1st Year (2026–28)">MBA 1st Year (2026–28)</option>
+                          <option value="MBA 2nd Year (2025–27)">MBA 2nd Year (2025–27)</option>
+                          <option value="M.Com 1st Year (2026–28)">M.Com 1st Year (2026–28)</option>
+                          <option value="M.Com 2nd Year (2025–27)">M.Com 2nd Year (2025–27)</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -1202,7 +1244,7 @@
           </div>
           <h1 class="font-display text-3xl sm:text-4xl font-bold mt-2">Meet Our Team</h1>
           <p class="text-sm sm:text-base mt-3" style="color: var(--text-secondary);">
-            Guided by DCMS faculty leadership and driven by 31 student leaders across the Core Committee, Event Heads, and Committee Heads.
+            Guided by DCMS faculty leadership and driven by 32 student leaders across the Core Committee, Event Heads, and Committee Heads.
           </p>
         </div>
 
@@ -1408,24 +1450,31 @@
                 <p class="text-xs mt-1" style="color: var(--text-secondary);">Assistant Professor, DCMS</p>
               </div>
             </div>
-          </div>
 
-          <div class="surface-card p-6 sm:p-8">
-            <div class="text-xs uppercase tracking-widest font-bold mb-4" style="color: var(--gold-primary);">
-              Guest Faculty • DCMS
+            <div class="surface-card surface-card-hover p-6 flex items-start gap-4">
+              <div class="avatar-monogram">SES</div>
+              <div>
+                <span class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--gold-primary);">Faculty</span>
+                <h3 class="font-bold text-base sm:text-lg mt-0.5">Dr. Sreedevi E S</h3>
+                <p class="text-xs mt-1" style="color: var(--text-secondary);">Assistant Professor, DCMS</p>
+              </div>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
-              <div class="p-3.5 rounded-xl flex items-center gap-3" style="background: var(--bg-elevated);">
-                <div class="avatar-monogram w-9 h-9 text-xs">SES</div>
-                <div class="text-xs sm:text-sm font-semibold">Dr. Sreedevi E S</div>
+
+            <div class="surface-card surface-card-hover p-6 flex items-start gap-4">
+              <div class="avatar-monogram">PTM</div>
+              <div>
+                <span class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--gold-primary);">Faculty</span>
+                <h3 class="font-bold text-base sm:text-lg mt-0.5">Dr. Preethi T M</h3>
+                <p class="text-xs mt-1" style="color: var(--text-secondary);">Assistant Professor, DCMS</p>
               </div>
-              <div class="p-3.5 rounded-xl flex items-center gap-3" style="background: var(--bg-elevated);">
-                <div class="avatar-monogram w-9 h-9 text-xs">PTM</div>
-                <div class="text-xs sm:text-sm font-semibold">Dr. Preethi T M</div>
-              </div>
-              <div class="p-3.5 rounded-xl flex items-center gap-3" style="background: var(--bg-elevated);">
-                <div class="avatar-monogram w-9 h-9 text-xs">ACJ</div>
-                <div class="text-xs sm:text-sm font-semibold">Dr. Anson C J</div>
+            </div>
+
+            <div class="surface-card surface-card-hover p-6 flex items-start gap-4">
+              <div class="avatar-monogram">ACJ</div>
+              <div>
+                <span class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--gold-primary);">Faculty</span>
+                <h3 class="font-bold text-base sm:text-lg mt-0.5">Dr. Anson C J</h3>
+                <p class="text-xs mt-1" style="color: var(--text-secondary);">Assistant Professor, DCMS</p>
               </div>
             </div>
           </div>
@@ -1463,7 +1512,7 @@
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              <div class="surface-card p-6 space-y-4">
+              <div class="surface-card surface-card-hover p-6 space-y-4">
                 <div class="flex items-center gap-3.5">
                   <div class="avatar-photo">
                     <img src="assets/team/mohammed-irfan.png" alt="Mohammed Irfan C" class="avatar-img" loading="lazy" />
@@ -1483,7 +1532,7 @@
                 </div>
               </div>
 
-              <div class="surface-card p-6 space-y-4">
+              <div class="surface-card surface-card-hover p-6 space-y-4">
                 <div class="flex items-center gap-3.5">
                   <div class="avatar-photo">
                     <img src="assets/team/muhammed-shabeeb.png" alt="Muhammed Shabeeb K T" class="avatar-img" loading="lazy" />
