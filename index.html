@@ -541,7 +541,7 @@
         </div>
 
         <!-- Event-day information -->
-        <div class="max-w-5xl mx-auto mb-10 grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="max-w-5xl mx-auto mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
           <div class="surface-card p-5">
             <div class="text-[11px] uppercase tracking-widest font-bold" style="color: var(--gold-primary);">Dates</div>
             <div class="font-bold mt-1">January 18 &amp; 19, 2027 <span class="text-xs font-medium" style="color: var(--text-muted);">(tentative)</span></div>
@@ -558,6 +558,25 @@
             <p class="text-xs mt-1.5" style="color: var(--text-secondary);">Thenhipalam, Malappuram, Kerala – 673635</p>
             <a href="https://www.google.com/maps/search/?api=1&amp;query=Department+of+Commerce+and+Management+Studies+University+of+Calicut+Thenhipalam+Kerala+673635" target="_blank" rel="noopener noreferrer" class="inline-block text-xs font-semibold mt-2" style="color: var(--gold-primary);">How to reach — Open in Google Maps ↗</a>
           </div>
+        </div>
+
+        <div class="max-w-5xl mx-auto mb-10 p-4 sm:p-5 rounded-2xl border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+             style="background: linear-gradient(135deg, rgba(234,179,8,0.06), rgba(0,0,0,0.4)); border-color: var(--gold-border);">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-lg flex-shrink-0"
+                 style="background: var(--gold-tint); color: var(--gold-primary); border: 1px solid var(--gold-border);">
+              📋
+            </div>
+            <div>
+              <div class="font-bold text-sm sm:text-base text-white">General Festival Guidelines &amp; Delegate Policy</div>
+              <p class="text-xs text-secondary mt-0.5" style="color: var(--text-secondary);">
+                Important rules on eligibility, college IDs, complimentary lunch, Day 2 accommodation, and code of conduct.
+              </p>
+            </div>
+          </div>
+          <button type="button" data-open-modal="generalGuidelinesModal" class="btn-outline px-4 py-2 text-xs font-semibold flex-shrink-0 whitespace-nowrap">
+            View General Guidelines ↗
+          </button>
         </div>
 
         <div class="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 mb-8">
@@ -975,7 +994,7 @@
                     required
                   />
                   <span class="text-xs leading-relaxed" style="color: var(--text-secondary);">
-                    I agree to the <span class="font-semibold" style="color: var(--text-primary);">Festival Guidelines &amp; Code of Conduct</span>, and acknowledge that my registration details (Name, College, and Contact) will be shared with official ASCEND '26 partners and sponsors for festival operations, exclusive delegate perks, and career/internship opportunities. <span class="font-bold" style="color: var(--gold-primary);">*</span>
+                    I agree to the <button type="button" data-open-modal="generalGuidelinesModal" class="underline font-semibold hover:text-amber-400 text-left inline p-0 m-0 bg-transparent border-0 cursor-pointer" style="color: var(--gold-primary);">Festival Guidelines &amp; Code of Conduct</button>, and acknowledge that my registration details (Name, College, and Contact) will be shared with official ASCEND '26 partners and sponsors for festival operations, exclusive delegate perks, and career/internship opportunities. <span class="font-bold" style="color: var(--gold-primary);">*</span>
                   </span>
                 </label>
               </div>
@@ -1235,9 +1254,9 @@
 
         <div class="max-w-3xl mx-auto mb-12">
           <div class="surface-platinum rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
-            <div class="w-20 h-20 rounded-2xl flex items-center justify-center font-display text-2xl font-black flex-shrink-0"
-                 style="background: linear-gradient(135deg,#AA801A,#F5D76E); color:#090A0F;">
-              HKC
+            <div class="w-20 h-20 rounded-2xl overflow-hidden flex-shrink-0 border-2"
+                 style="background: radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.22) 0%, rgba(20, 24, 34, 0.96) 75%); border-color: var(--gold-border);">
+              <img src="assets/faculty/hari-kumar-c.png" alt="Mr. Hari Kumar C" class="w-full h-full object-cover object-top" loading="lazy" />
             </div>
             <div class="flex-grow">
               <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2"
@@ -1391,7 +1410,9 @@
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
 
             <div class="surface-platinum rounded-2xl p-6 flex items-start gap-4 md:col-span-2 lg:col-span-1">
-              <div class="avatar-monogram">SCH</div>
+              <div class="avatar-photo">
+                <img src="assets/faculty/dr-sreesha-ch.png" alt="Dr. Sreesha C H" class="avatar-img" loading="lazy" />
+              </div>
               <div>
                 <span class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--gold-primary);">Head of the Department</span>
                 <h3 class="font-bold text-base sm:text-lg mt-0.5">Dr. Sreesha C H</h3>
@@ -1400,7 +1421,9 @@
             </div>
 
             <div class="surface-card surface-card-hover p-6 flex items-start gap-4">
-              <div class="avatar-monogram">EKS</div>
+              <div class="avatar-photo">
+                <img src="assets/faculty/prof-ek-satheesh.png" alt="Prof. (Dr.) E. K. Satheesh" class="avatar-img" loading="lazy" />
+              </div>
               <div>
                 <span class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--gold-primary);">Senior Professor</span>
                 <h3 class="font-bold text-base sm:text-lg mt-0.5">Prof. (Dr.) E. K. Satheesh</h3>
@@ -1409,7 +1432,9 @@
             </div>
 
             <div class="surface-card surface-card-hover p-6 flex items-start gap-4">
-              <div class="avatar-monogram">HKC</div>
+              <div class="avatar-photo">
+                <img src="assets/faculty/hari-kumar-c.png" alt="Mr. Hari Kumar C" class="avatar-img" loading="lazy" />
+              </div>
               <div>
                 <span class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--gold-primary);">Faculty Coordinator • ASCEND '26</span>
                 <h3 class="font-bold text-base sm:text-lg mt-0.5">Mr. Hari Kumar C</h3>
@@ -1419,7 +1444,9 @@
             </div>
 
             <div class="surface-card surface-card-hover p-6 flex items-start gap-4">
-              <div class="avatar-monogram">NP</div>
+              <div class="avatar-photo">
+                <img src="assets/faculty/dr-natasha-p.png" alt="Dr. Natasha P" class="avatar-img" loading="lazy" />
+              </div>
               <div>
                 <span class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--gold-primary);">Faculty</span>
                 <h3 class="font-bold text-base sm:text-lg mt-0.5">Dr. Natasha P</h3>
@@ -1428,7 +1455,9 @@
             </div>
 
             <div class="surface-card surface-card-hover p-6 flex items-start gap-4">
-              <div class="avatar-monogram">AS</div>
+              <div class="avatar-photo">
+                <img src="assets/faculty/dr-aparna-sajeev.png" alt="Dr. Aparna Sajeev" class="avatar-img" loading="lazy" />
+              </div>
               <div>
                 <span class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--gold-primary);">Faculty</span>
                 <h3 class="font-bold text-base sm:text-lg mt-0.5">Dr. Aparna Sajeev</h3>
@@ -1437,7 +1466,9 @@
             </div>
 
             <div class="surface-card surface-card-hover p-6 flex items-start gap-4">
-              <div class="avatar-monogram">SES</div>
+              <div class="avatar-photo">
+                <img src="assets/faculty/dr-sreedevi-es.png" alt="Dr. Sreedevi E S" class="avatar-img" loading="lazy" />
+              </div>
               <div>
                 <span class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--gold-primary);">Faculty</span>
                 <h3 class="font-bold text-base sm:text-lg mt-0.5">Dr. Sreedevi E S</h3>
@@ -1446,7 +1477,9 @@
             </div>
 
             <div class="surface-card surface-card-hover p-6 flex items-start gap-4">
-              <div class="avatar-monogram">PTM</div>
+              <div class="avatar-photo">
+                <img src="assets/faculty/dr-preethi-tm.png" alt="Dr. Preethi T M" class="avatar-img" loading="lazy" />
+              </div>
               <div>
                 <span class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--gold-primary);">Faculty</span>
                 <h3 class="font-bold text-base sm:text-lg mt-0.5">Dr. Preethi T M</h3>
@@ -1455,7 +1488,9 @@
             </div>
 
             <div class="surface-card surface-card-hover p-6 flex items-start gap-4">
-              <div class="avatar-monogram">ACJ</div>
+              <div class="avatar-photo">
+                <img src="assets/faculty/dr-anson-cj.png" alt="Dr. Anson C J" class="avatar-img" loading="lazy" />
+              </div>
               <div>
                 <span class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--gold-primary);">Faculty</span>
                 <h3 class="font-bold text-base sm:text-lg mt-0.5">Dr. Anson C J</h3>
@@ -1811,11 +1846,74 @@
           <ul id="modalEventRules" class="space-y-2 text-xs sm:text-sm list-disc pl-5"></ul>
         </div>
 
+        <div class="p-3 rounded-xl border flex items-center justify-between gap-3 text-xs" style="background: var(--bg-elevated); border-color: var(--border-subtle);">
+          <span style="color: var(--text-secondary);">Looking for fest-wide accommodation, lunch &amp; code of conduct rules?</span>
+          <button type="button" data-open-modal="generalGuidelinesModal" class="font-semibold underline hover:text-amber-400 whitespace-nowrap" style="color: var(--gold-primary);">
+            General Fest Rules →
+          </button>
+        </div>
+
       </div>
 
       <div class="mt-6 pt-4 border-t flex flex-col sm:flex-row justify-end gap-3" style="border-color: var(--border-subtle);">
         <button type="button" data-close-modal="eventGuidelinesModal" class="btn-outline px-5 py-2.5 text-xs sm:text-sm">Close</button>
         <button type="button" id="modalRegisterTriggerBtn" class="btn-gold px-6 py-2.5 text-xs sm:text-sm">Register for This Event →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="generalGuidelinesModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="generalGuidelinesTitle">
+    <div class="modal-panel max-w-2xl p-6 sm:p-8 max-h-[90vh] overflow-y-auto">
+      <div class="flex items-start justify-between gap-4 border-b pb-4 mb-5" style="border-color: var(--border-subtle);">
+        <div>
+          <span class="px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider"
+                style="background: var(--gold-tint); color: var(--gold-primary);">Official Delegate Manual</span>
+          <h3 id="generalGuidelinesTitle" class="font-display text-2xl font-bold mt-2">Festival Guidelines &amp; Code of Conduct</h3>
+        </div>
+        <button type="button" data-close-modal="generalGuidelinesModal" class="btn-action-chip p-2" aria-label="Close Modal">✕</button>
+      </div>
+
+      <div class="space-y-4 text-xs sm:text-sm leading-relaxed" style="color: var(--text-secondary);">
+        <div class="p-4 rounded-xl border border-amber-500/20 bg-amber-500/5">
+          <p class="font-medium text-amber-200">
+            Welcome to ASCEND '26 at the Department of Commerce and Management Studies (DCMS), University of Calicut. All registered participants, contingents, and delegates must strictly adhere to the following fest guidelines:
+          </p>
+        </div>
+
+        <div class="space-y-3.5 divide-y" style="border-color: var(--border-subtle);">
+          <div class="pt-3">
+            <h4 class="font-bold text-sm text-white mb-1">1. Eligibility</h4>
+            <p>All undergraduate (UG) and postgraduate (PG) students from any stream/discipline and recognized affiliated colleges or universities are eligible to participate. Students pursuing professional courses such as ACCA, CA, CMA, CS, etc., are also eligible.</p>
+          </div>
+          <div class="pt-3">
+            <h4 class="font-bold text-sm text-white mb-1">2. Identification &amp; Team Composition</h4>
+            <p>A valid College ID card or an official authorization letter from the college authority for each participant is mandatory during registration and spot verification. All members of any registered team must belong to the same college/institution. There is no limit to the number of teams/delegates representing a single college.</p>
+          </div>
+          <div class="pt-3">
+            <h4 class="font-bold text-sm text-white mb-1">3. Event Schedule &amp; Reporting</h4>
+            <p>All flagship competitions are 2-day events, with the following exceptions: <strong>Treasure Hunt</strong> and <strong>IPL Auction</strong> take place on Day 1; <strong>Business Quiz</strong> takes place on Day 2. Teams failing to report at the specified venue within the stipulated time will be disqualified. Team composition cannot be modified after registration.</p>
+          </div>
+          <div class="pt-3">
+            <h4 class="font-bold text-sm text-white mb-1">4. Food (Lunch) &amp; Accommodation</h4>
+            <p>Complimentary food (lunch) and accommodation will be provided only to participants of registered flagship events (excluding spot events). Complimentary accommodation is provided to participants/teams who qualify for Day 2. Participants requiring accommodation before Day 1 or for Day 2 can avail it for a nominal fee.</p>
+          </div>
+          <div class="pt-3">
+            <h4 class="font-bold text-sm text-white mb-1">5. Electronic Gadgets &amp; Materials</h4>
+            <p>Laptops, mobile phones, chargers, and USB cables will not be provided by the institute. Participants must bring their own required devices as specified in the event rules. Writing materials and basic stationery items will be provided by the organizers.</p>
+          </div>
+          <div class="pt-3">
+            <h4 class="font-bold text-sm text-white mb-1">6. Code of Conduct &amp; Discipline</h4>
+            <p>The use or possession of cigarettes, alcohol, narcotics, or any unfair means is strictly prohibited. Misbehavior, vulgarity, aggressive behavior, catcalling, profanity, or any form of malpractice will result in immediate disqualification and removal from campus.</p>
+          </div>
+          <div class="pt-3">
+            <h4 class="font-bold text-sm text-white mb-1">7. Decisions &amp; Certifications</h4>
+            <p>Decisions taken by the committees and judges shall be final and binding under all circumstances. Scorecards will not be disclosed. Official participation e-certificates will be provided to all registered participants within 10 days of the event.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 pt-4 border-t flex justify-end" style="border-color: var(--border-subtle);">
+        <button type="button" data-close-modal="generalGuidelinesModal" class="btn-gold px-6 py-2.5 text-xs sm:text-sm">Understood &amp; Close</button>
       </div>
     </div>
   </div>

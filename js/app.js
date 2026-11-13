@@ -1553,6 +1553,16 @@
       document.getElementById('sponsorInquiryModal').classList.add('is-open');
     }
 
+    const openModalTrigger = e.target.closest('[data-open-modal]');
+    if (openModalTrigger) {
+      const modalId = openModalTrigger.getAttribute('data-open-modal');
+      const targetModal = document.getElementById(modalId);
+      if (targetModal) {
+        document.querySelectorAll('.modal-backdrop.is-open').forEach((m) => m.classList.remove('is-open'));
+        targetModal.classList.add('is-open');
+      }
+    }
+
     const closeTrigger = e.target.closest('[data-close-modal]');
     if (closeTrigger) {
       const modalId = closeTrigger.getAttribute('data-close-modal');
