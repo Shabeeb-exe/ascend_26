@@ -334,20 +334,23 @@
 
     const buildCard = (ev) => {
       const isSelected = selectedEventId === ev.id;
-      const teamFeeSuffix = ev.maxTeam > 1 ? ` (₹${ev.fee * ev.maxTeam} / team)` : '';
+      const isTeam = ev.maxTeam > 1;
       return `
         <div data-select-reg-event="${ev.id}" class="event-check-card ${isSelected ? 'is-selected' : ''}" role="radio" aria-checked="${isSelected}" tabindex="0">
-          <div class="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
+          <div class="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
                style="border: 2px solid ${isSelected ? 'var(--gold-primary)' : 'rgba(255,255,255,0.3)'}; background: ${isSelected ? 'var(--gold-primary)' : 'transparent'};">
             ${isSelected ? '<div class="w-2 h-2 rounded-full" style="background: #090A0F;"></div>' : ''}
           </div>
-          <div class="flex-grow flex items-center justify-between gap-3">
-            <div>
-              <div class="font-bold text-sm text-slate-100">${ev.title}</div>
-              <div class="text-[11px]" style="color: var(--text-muted);">${ev.format}</div>
+          <div class="flex-grow min-w-0 flex items-center justify-between gap-2.5">
+            <div class="min-w-0 pr-1">
+              <div class="font-bold text-sm text-slate-100 leading-snug">${ev.title}</div>
+              <div class="text-[11px] mt-0.5" style="color: var(--text-muted);">${ev.format}</div>
             </div>
-            <div class="text-xs font-bold text-amber-400 whitespace-nowrap text-right">
-              ₹${ev.fee}${SITE_CONFIG.feePerPerson && ev.maxTeam > 1 ? ' / person' + teamFeeSuffix : ''}
+            <div class="text-right flex-shrink-0">
+              <div class="text-xs sm:text-sm font-bold text-amber-400 whitespace-nowrap">
+                ₹${ev.fee}${isTeam ? '<span class="text-[10px] sm:text-[11px] font-normal text-slate-300"> / person</span>' : ''}
+              </div>
+              ${isTeam ? `<div class="text-[10px] text-slate-400 font-medium whitespace-nowrap mt-0.5">(₹${ev.fee * ev.maxTeam} / team)</div>` : ''}
             </div>
           </div>
         </div>
@@ -379,29 +382,29 @@
       for (let i = 2; i <= chosen.maxTeam; i++) {
         const cached = teammateCache[i] || {};
         cardsHtml += `
-          <div class="teammate-card p-4 sm:p-5 rounded-xl border transition-all duration-200" style="background: var(--bg-elevated); border-color: var(--gold-border);">
-            <div class="flex items-center justify-between mb-3.5 pb-2 border-b" style="border-color: var(--border-subtle);">
+          <div class="teammate-card p-5 sm:p-6 rounded-xl border transition-all duration-200" style="background: var(--bg-elevated); border-color: var(--gold-border); box-shadow: var(--shadow-elevated);">
+            <div class="flex items-center justify-between pb-3.5 mb-6 border-b" style="border-color: rgba(212, 175, 55, 0.28);">
               <div class="flex items-center gap-2.5">
-                <span class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold font-mono" style="background: var(--gold-primary); color: #090A0F;">0${i}</span>
-                <span class="text-xs font-bold uppercase tracking-wider text-white">Team Member ${i}</span>
+                <span class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold font-mono shadow-sm" style="background: var(--gold-primary); color: #090A0F;">0${i}</span>
+                <span class="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-100">Team Member ${i}</span>
               </div>
               <span class="text-[10px] sm:text-[11px] px-2.5 py-0.5 rounded-full font-semibold" style="background: var(--gold-tint); color: var(--gold-primary); border: 1px solid var(--gold-border);">Same Institution</span>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-4 sm:gap-x-5 sm:gap-y-4.5">
               <div>
-                <label class="block text-[11px] font-semibold uppercase tracking-wider mb-1" for="tmName_${i}">Full Name *</label>
+                <label class="block text-[11px] font-semibold uppercase tracking-wider mb-2 text-slate-200" for="tmName_${i}">Full Name *</label>
                 <input type="text" id="tmName_${i}" class="input-field text-sm" placeholder="Member ${i} Name" value="${cached.name || ''}" required />
               </div>
               <div>
-                <label class="block text-[11px] font-semibold uppercase tracking-wider mb-1" for="tmPhone_${i}">Phone / WhatsApp *</label>
+                <label class="block text-[11px] font-semibold uppercase tracking-wider mb-2 text-slate-200" for="tmPhone_${i}">Phone / WhatsApp *</label>
                 <input type="tel" id="tmPhone_${i}" class="input-field text-sm" placeholder="+91 98765 43210" value="${cached.phone || ''}" required />
               </div>
               <div>
-                <label class="block text-[11px] font-semibold uppercase tracking-wider mb-1" for="tmEmail_${i}">Email Address *</label>
+                <label class="block text-[11px] font-semibold uppercase tracking-wider mb-2 text-slate-200" for="tmEmail_${i}">Email Address *</label>
                 <input type="email" id="tmEmail_${i}" class="input-field text-sm" placeholder="member${i}@college.edu" value="${cached.email || ''}" required />
               </div>
               <div>
-                <label class="block text-[11px] font-semibold uppercase tracking-wider mb-1" for="tmProgram_${i}">Department / Program *</label>
+                <label class="block text-[11px] font-semibold uppercase tracking-wider mb-2 text-slate-200" for="tmProgram_${i}">Department / Program *</label>
                 <select id="tmProgram_${i}" class="input-field text-sm" required>
                   <option value="MBA" ${cached.program === 'MBA' ? 'selected' : ''}>MBA</option>
                   <option value="M.Com" ${cached.program === 'M.Com' ? 'selected' : ''}>M.Com</option>
@@ -412,7 +415,7 @@
                 </select>
               </div>
               <div>
-                <label class="block text-[11px] font-semibold uppercase tracking-wider mb-1" for="tmYear_${i}">Year of Study *</label>
+                <label class="block text-[11px] font-semibold uppercase tracking-wider mb-2 text-slate-200" for="tmYear_${i}">Year of Study *</label>
                 <select id="tmYear_${i}" class="input-field text-sm" required>
                   <option value="1st Year" ${cached.year === '1st Year' ? 'selected' : ''}>1st Year</option>
                   <option value="2nd Year" ${cached.year === '2nd Year' ? 'selected' : ''}>2nd Year</option>
@@ -421,7 +424,7 @@
                 </select>
               </div>
               <div>
-                <label class="block text-[11px] font-semibold uppercase tracking-wider mb-1" for="tmDiet_${i}">Dietary Preference *</label>
+                <label class="block text-[11px] font-semibold uppercase tracking-wider mb-2 text-slate-200" for="tmDiet_${i}">Dietary Preference *</label>
                 <select id="tmDiet_${i}" class="input-field text-sm" required>
                   <option value="Non-Veg" ${cached.diet === 'Non-Veg' ? 'selected' : ''}>Non-Vegetarian</option>
                   <option value="Veg" ${cached.diet === 'Veg' ? 'selected' : ''}>Pure Vegetarian</option>
