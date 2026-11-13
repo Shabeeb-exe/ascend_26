@@ -322,6 +322,7 @@
           phone: document.getElementById(`tmPhone_${i}`)?.value || '',
           email: document.getElementById(`tmEmail_${i}`)?.value || '',
           program: document.getElementById(`tmProgram_${i}`)?.value || '',
+          programOther: document.getElementById(`tmProgramOther_${i}`)?.value || '',
           year: document.getElementById(`tmYear_${i}`)?.value || '',
           diet: document.getElementById(`tmDiet_${i}`)?.value || ''
         };
@@ -526,15 +527,25 @@
               </div>
               <div>
                 <label class="block text-xs font-semibold uppercase tracking-wider mb-2 text-slate-200" for="tmProgram_${i}">Department / Program *</label>
-                <select id="tmProgram_${i}" class="input-field text-sm" required>
+                <select id="tmProgram_${i}" class="input-field text-sm tm-prog-select" data-member="${i}" required>
                   <option value="" disabled ${!cached.program ? 'selected' : ''}>Select Department / Program</option>
                   <option value="MBA" ${cached.program === 'MBA' ? 'selected' : ''}>MBA</option>
                   <option value="M.Com" ${cached.program === 'M.Com' ? 'selected' : ''}>M.Com</option>
                   <option value="BBA" ${cached.program === 'BBA' ? 'selected' : ''}>BBA</option>
                   <option value="B.Com" ${cached.program === 'B.Com' ? 'selected' : ''}>B.Com</option>
-                  <option value="B.Tech" ${cached.program === 'B.Tech' ? 'selected' : ''}>B.Tech</option>
-                  <option value="Other" ${cached.program === 'Other' ? 'selected' : ''}>Other</option>
+                  <option value="BCA" ${cached.program === 'BCA' ? 'selected' : ''}>BCA</option>
+                  <option value="MCA" ${cached.program === 'MCA' ? 'selected' : ''}>MCA</option>
+                  <option value="B.Tech / B.E" ${cached.program === 'B.Tech / B.E' ? 'selected' : ''}>B.Tech / B.E</option>
+                  <option value="B.Sc" ${cached.program === 'B.Sc' ? 'selected' : ''}>B.Sc</option>
+                  <option value="M.Sc" ${cached.program === 'M.Sc' ? 'selected' : ''}>M.Sc</option>
+                  <option value="BA" ${cached.program === 'BA' ? 'selected' : ''}>BA</option>
+                  <option value="MA" ${cached.program === 'MA' ? 'selected' : ''}>MA</option>
+                  <option value="Other" ${cached.program === 'Other' ? 'selected' : ''}>Other (Specify)</option>
                 </select>
+                <div id="tmProgramOtherWrap_${i}" class="${cached.program === 'Other' ? '' : 'is-hidden'} mt-2.5">
+                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1 text-slate-200" for="tmProgramOther_${i}">Specify Department / Program *</label>
+                  <input type="text" id="tmProgramOther_${i}" name="tm_program_other_${i}" class="input-field text-sm" placeholder="e.g., B.Voc Banking, Integrated M.Sc" value="${cached.programOther || ''}" autocomplete="off" />
+                </div>
               </div>
               <div>
                 <label class="block text-xs font-semibold uppercase tracking-wider mb-2 text-slate-200" for="tmYear_${i}">Year of Study *</label>
@@ -740,6 +751,15 @@
       document.getElementById('regProgram').focus();
       return showRegError('Please select Department / Program for Lead Delegate.');
     }
+    let finalLeadProgram = program;
+    if (program === 'Other') {
+      const customProg = document.getElementById('regProgramOther') ? document.getElementById('regProgramOther').value.trim() : '';
+      if (!customProg) {
+        document.getElementById('regProgramOther')?.focus();
+        return showRegError('Please specify your Department / Program for Lead Delegate.');
+      }
+      finalLeadProgram = customProg;
+    }
     if (!year) {
       document.getElementById('regYear').focus();
       return showRegError('Please select Year of Study for Lead Delegate.');
@@ -769,7 +789,7 @@
     const cleanLeadName = normName(name);
 
     const roster = [
-      { index: 1, name: name, email: email, phone: phone, program: program, year: year, diet: diet, isLead: true }
+      { index: 1, name: name, email: email, phone: phone, program: finalLeadProgram, year: year, diet: diet, isLead: true }
     ];
     const usedNames = new Map();
     usedNames.set(cleanLeadName, 'Lead Delegate (' + name + ')');
@@ -813,6 +833,15 @@
           tmProgEl && tmProgEl.focus();
           return showRegError(`Please select Department / Program for Team Member ${i} (${tmName || 'Member ' + i}).`);
         }
+        let finalTmProg = tmProg;
+        if (tmProg === 'Other') {
+          const customTmProg = document.getElementById(`tmProgramOther_${i}`) ? document.getElementById(`tmProgramOther_${i}`).value.trim() : '';
+          if (!customTmProg) {
+            document.getElementById(`tmProgramOther_${i}`)?.focus();
+            return showRegError(`Please specify Department / Program for Team Member ${i} (${tmName || 'Member ' + i}).`);
+          }
+          finalTmProg = customTmProg;
+        }
         if (!tmYear) {
           tmYearEl && tmYearEl.focus();
           return showRegError(`Please select Year of Study for Team Member ${i} (${tmName || 'Member ' + i}).`);
@@ -848,7 +877,7 @@
           name: tmName,
           email: tmEmail,
           phone: tmPhone,
-          program: tmProg,
+          program: finalTmProg,
           year: tmYear,
           diet: tmDiet,
           isLead: false
@@ -1055,6 +1084,51 @@
       }
       if (regErrorBanner && regErrorBanner.textContent.includes('heard about ASCEND')) {
         regErrorBanner.classList.add('is-hidden');
+      }
+    });
+  }
+
+  // Dynamic "Other (Specify)" reveal for Lead Delegate
+  const regProgramEl = document.getElementById('regProgram');
+  const regProgramOtherWrap = document.getElementById('regProgramOtherWrap');
+  const regProgramOtherInput = document.getElementById('regProgramOther');
+  if (regProgramEl && regProgramOtherWrap) {
+    regProgramEl.addEventListener('change', () => {
+      const isOther = regProgramEl.value === 'Other';
+      regProgramOtherWrap.classList.toggle('is-hidden', !isOther);
+      if (regProgramOtherInput) {
+        if (isOther) {
+          regProgramOtherInput.setAttribute('required', 'required');
+          regProgramOtherInput.focus();
+        } else {
+          regProgramOtherInput.removeAttribute('required');
+          regProgramOtherInput.value = '';
+        }
+      }
+    });
+  }
+
+  // Dynamic "Other (Specify)" reveal for Teammates via delegation
+  const tmContainer = document.getElementById('teamMembersInputsContainer');
+  if (tmContainer) {
+    tmContainer.addEventListener('change', (e) => {
+      if (e.target && e.target.classList.contains('tm-prog-select')) {
+        const memberIdx = e.target.getAttribute('data-member');
+        const otherWrap = document.getElementById(`tmProgramOtherWrap_${memberIdx}`);
+        const otherInput = document.getElementById(`tmProgramOther_${memberIdx}`);
+        if (otherWrap) {
+          const isOther = e.target.value === 'Other';
+          otherWrap.classList.toggle('is-hidden', !isOther);
+          if (otherInput) {
+            if (isOther) {
+              otherInput.setAttribute('required', 'required');
+              otherInput.focus();
+            } else {
+              otherInput.removeAttribute('required');
+              otherInput.value = '';
+            }
+          }
+        }
       }
     });
   }
