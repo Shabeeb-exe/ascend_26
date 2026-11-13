@@ -500,15 +500,15 @@
       for (let i = 2; i <= chosen.maxTeam; i++) {
         const cached = teammateCache[i] || {};
         cardsHtml += `
-          <div class="teammate-card p-6 rounded-2xl border transition-all duration-200" style="background: var(--bg-elevated); border-color: var(--gold-border); box-shadow: var(--shadow-elevated);">
-            <div class="flex items-center justify-between pb-4 mb-6 border-b" style="border-color: var(--gold-border);">
+          <div class="teammate-card p-6 sm:p-7 rounded-2xl border transition-all duration-200" style="background: var(--bg-elevated); border-color: var(--gold-border); box-shadow: var(--shadow-elevated);">
+            <div class="flex items-center justify-between pb-5 sm:pb-6 mb-7 sm:mb-8 border-b" style="border-color: var(--gold-border);">
               <div class="flex items-center gap-3">
                 <span class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold font-mono shadow-sm" style="background: var(--gold-primary); color: #090A0F;">0${i}</span>
                 <span class="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-100">Team Member ${i}</span>
               </div>
               <span class="text-[10px] sm:text-[11px] px-2.5 py-0.5 rounded-full font-semibold" style="background: var(--gold-tint); color: var(--gold-primary); border: 1px solid var(--gold-border);">Same Institution</span>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-5 sm:gap-x-6 gap-y-7 sm:gap-y-8">
               <div>
                 <label class="block text-xs font-semibold uppercase tracking-wider mb-2 text-slate-200" for="tmName_${i}">Full Name *</label>
                 <input type="text" id="tmName_${i}" name="tm_name_${i}" autocomplete="off" data-lpignore="true" data-1p-ignore="true" class="input-field text-sm" placeholder="Member ${i} Name" value="${cached.name || ''}" required />
