@@ -682,6 +682,29 @@
       }
     }
 
+    const referralEl = document.getElementById('regReferralSource');
+    const referralSource = referralEl ? referralEl.value : '';
+    const dcmsNameEl = document.getElementById('regDcmsStudentName');
+    const dcmsStudentName = dcmsNameEl ? dcmsNameEl.value.trim() : '';
+    const dcmsBatchEl = document.getElementById('regDcmsStudentBatch');
+    const dcmsStudentBatch = dcmsBatchEl ? dcmsBatchEl.value : '';
+
+    if (!referralSource) {
+      return showRegError('Please let us know how you heard about ASCEND \'26 in Step 03.');
+    }
+    if (referralSource === 'Student from DCMS, University of Calicut' && !dcmsStudentName) {
+      return showRegError('Please enter the name of the DCMS student who referred you.');
+    }
+
+    const referralSummary = referralSource === 'Student from DCMS, University of Calicut'
+      ? `DCMS Referral: ${dcmsStudentName} (${dcmsStudentBatch})`
+      : referralSource;
+
+    const combinedNotes = [
+      notes ? `Notes: ${notes}` : '',
+      `Source: ${referralSummary}`
+    ].filter(Boolean).join(' | ');
+
     const consentEl = document.getElementById('regTermsConsent');
     if (consentEl && !consentEl.checked) {
       return showRegError('Please acknowledge the Festival Guidelines and Partner Terms to proceed.');
@@ -780,7 +803,8 @@
       teamMembers: sheetSafe(teamDetailedSummary),
       accommodation: sheetSafe(accom),
       dietary: sheetSafe(dietarySummary),
-      notes: sheetSafe(notes),
+      notes: sheetSafe(combinedNotes),
+      referralSource: sheetSafe(referralSummary),
       termsAccepted: 'Yes',
       paymentStatus: 'Unpaid',
       utr: ''
@@ -802,6 +826,7 @@
       '',
       'Accommodation: ' + accom,
       'Dietary Summary: ' + dietarySummary,
+      'Source: ' + referralSummary,
       notes ? 'Notes: ' + notes : '',
       'UTR / Txn ID: (see screenshot)'
     ]
@@ -833,6 +858,35 @@
   if (regConsentCheckbox) {
     regConsentCheckbox.addEventListener('change', () => {
       if (regConsentCheckbox.checked && regErrorBanner.textContent.includes('Partner Terms')) {
+        regErrorBanner.classList.add('is-hidden');
+      }
+    });
+  }
+
+  const referralSelect = document.getElementById('regReferralSource');
+  const dcmsCard = document.getElementById('dcmsReferralCard');
+  const dcmsNameInput = document.getElementById('regDcmsStudentName');
+  if (referralSelect && dcmsCard) {
+    referralSelect.addEventListener('change', () => {
+      const isDcms = referralSelect.value === 'Student from DCMS, University of Calicut';
+      dcmsCard.classList.toggle('is-hidden', !isDcms);
+      if (dcmsNameInput) {
+        if (isDcms) {
+          dcmsNameInput.setAttribute('required', 'required');
+          dcmsNameInput.focus();
+        } else {
+          dcmsNameInput.removeAttribute('required');
+          dcmsNameInput.value = '';
+        }
+      }
+      if (regErrorBanner && regErrorBanner.textContent.includes('heard about ASCEND')) {
+        regErrorBanner.classList.add('is-hidden');
+      }
+    });
+  }
+  if (dcmsNameInput) {
+    dcmsNameInput.addEventListener('input', () => {
+      if (regErrorBanner && regErrorBanner.textContent.includes('name of the DCMS student')) {
         regErrorBanner.classList.add('is-hidden');
       }
     });

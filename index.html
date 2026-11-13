@@ -906,6 +906,50 @@
                   </label>
                   <textarea id="regNotes" rows="2" class="input-field" placeholder="Any specific outstation arrival train/bus details or accessibility notes..."></textarea>
                 </div>
+                <div>
+                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" for="regReferralSource">
+                    How Did You Hear About ASCEND '26? *
+                  </label>
+                  <select id="regReferralSource" class="input-field" required>
+                    <option value="" disabled selected>Select an option</option>
+                    <option value="Student from DCMS, University of Calicut">Student from DCMS, University of Calicut (Referral)</option>
+                    <option value="Instagram">Instagram (@ascend.dcms)</option>
+                    <option value="WhatsApp">WhatsApp (Message / Status / Fest Group)</option>
+                    <option value="Official Invitation Letter / Faculty Referral">Official Invitation Letter / Faculty Referral</option>
+                    <option value="LinkedIn">LinkedIn</option>
+                    <option value="Friends / College Contingent">Friends / College Contingent (Word of Mouth)</option>
+                    <option value="Google / Search">Google / Web Search</option>
+                    <option value="Other">Other</option>
+                  </select>
+
+                  <!-- Dynamic DCMS Referral Reveal Card -->
+                  <div id="dcmsReferralCard" class="is-hidden p-4 rounded-xl border mt-3 transition-all duration-300"
+                       style="background: var(--bg-elevated); border-color: var(--gold-border);">
+                    <div class="flex items-center gap-2 mb-3">
+                      <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                      <span class="text-[11px] font-bold uppercase tracking-wider text-amber-400">DCMS Student Referral Details</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                      <div>
+                        <label for="regDcmsStudentName" class="block text-[11px] font-semibold uppercase tracking-wider mb-1">
+                          DCMS Student Name *
+                        </label>
+                        <input type="text" id="regDcmsStudentName" class="input-field text-sm" placeholder="e.g., Mohammed Irfan, Nandana..." />
+                      </div>
+                      <div>
+                        <label for="regDcmsStudentBatch" class="block text-[11px] font-semibold uppercase tracking-wider mb-1">
+                          DCMS Batch &amp; Program *
+                        </label>
+                        <select id="regDcmsStudentBatch" class="input-field text-sm">
+                          <option value="MBA 1st Year (2026–28)">MBA 1st Year (2026–28)</option>
+                          <option value="MBA 2nd Year (2025–27)">MBA 2nd Year (2025–27)</option>
+                          <option value="M.Com 1st Year (2026–28)">M.Com 1st Year (2026–28)</option>
+                          <option value="M.Com 2nd Year (2025–27)">M.Com 2nd Year (2025–27)</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <!-- Declaration & Partner Data Consent Checkbox -->
