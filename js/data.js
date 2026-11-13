@@ -240,6 +240,7 @@ const TEAM_DATA = [
   { name: 'Jubin Thomas', role: 'IPL Auction Head', category: 'Event Heads', photo: 'assets/team/jubin-thomas.png' },
   { name: 'Amalnath S', role: 'Treasure Hunt Head', category: 'Event Heads', photo: 'assets/team/amalnath-s.png' },
   { name: 'Mahitha S', role: 'Reel Making Head', category: 'Event Heads', photo: 'assets/team/mahitha-s.png' },
+  { name: 'Shibin C', role: 'E-Football Head', category: 'Event Heads', photo: 'assets/team/shibin-c.png' },
   { name: 'Ansaf K', role: 'Spot Games Head', category: 'Event Heads', photo: 'assets/team/ansaf-k.png' },
 
   { name: 'Steljo P S', role: 'Volunteer Head', category: 'Committee Heads', photo: 'assets/team/steljo-ps.png' },
