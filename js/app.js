@@ -595,35 +595,48 @@
     document.getElementById('upiPayNowBtn').setAttribute('href', upiLink);
     document.getElementById('upiIdDisplay').textContent = SITE_CONFIG.upiId;
     document.getElementById('upiAmountDisplay').textContent = '₹' + totalFee;
-    document.getElementById('passTotalFeeDisplay').textContent = '₹' + totalFee;
+    const passTotalFeeDisplay = document.getElementById('passTotalFeeDisplay');
+    if (passTotalFeeDisplay) passTotalFeeDisplay.textContent = '₹' + totalFee;
     document.getElementById('utrInput').value = '';
 
     document.getElementById('paymentGatewayBox').classList.remove('is-hidden');
-    document.getElementById('finalConfirmedPassContent').classList.add('is-hidden');
+    const finalPassContent = document.getElementById('finalConfirmedPassContent');
+    if (finalPassContent) finalPassContent.classList.add('is-hidden');
     setPassStatus('pending');
 
     document.getElementById('passRefId').textContent = latestRefId;
-    document.getElementById('passName').textContent = name;
-    document.getElementById('passContact').textContent = '+91 ' + phone + ' • ' + email;
-    document.getElementById('passCollege').textContent = college + ' (' + program + ', ' + year + ')';
-    document.getElementById('passAccom').textContent = accom;
-    document.getElementById('passDiet').textContent = diet;
+    const passNameEl = document.getElementById('passName');
+    if (passNameEl) passNameEl.textContent = name;
+    const passContactEl = document.getElementById('passContact');
+    if (passContactEl) passContactEl.textContent = '+91 ' + phone + ' • ' + email;
+    const passCollegeEl = document.getElementById('passCollege');
+    if (passCollegeEl) passCollegeEl.textContent = college + ' (' + program + ', ' + year + ')';
+    const passAccomEl = document.getElementById('passAccom');
+    if (passAccomEl) passAccomEl.textContent = accom;
+    const passDietEl = document.getElementById('passDiet');
+    if (passDietEl) passDietEl.textContent = diet;
 
-    document.getElementById('passEventsList').innerHTML = lines
-      .map(
-        (l) => `<span class="px-2.5 py-1 rounded-full text-xs font-bold"
-                       style="background: var(--gold-tint); color: var(--gold-primary); border: 1px solid var(--gold-border);">
-                   ${lineText(l)}
-                 </span>`
-      )
-      .join('');
+    const passEventsList = document.getElementById('passEventsList');
+    if (passEventsList) {
+      passEventsList.innerHTML = lines
+        .map(
+          (l) => `<span class="px-2.5 py-1 rounded-full text-xs font-bold"
+                         style="background: var(--gold-tint); color: var(--gold-primary); border: 1px solid var(--gold-border);">
+                     ${lineText(l)}
+                   </span>`
+        )
+        .join('');
+    }
 
     const passTeamBlock = document.getElementById('passTeamBlock');
-    if (teamNames.length > 0) {
-      passTeamBlock.classList.remove('is-hidden');
-      document.getElementById('passTeamMembers').textContent = teamNames.join(', ');
-    } else {
-      passTeamBlock.classList.add('is-hidden');
+    if (passTeamBlock) {
+      if (teamNames.length > 0) {
+        passTeamBlock.classList.remove('is-hidden');
+        const passTeamMembers = document.getElementById('passTeamMembers');
+        if (passTeamMembers) passTeamMembers.textContent = teamNames.join(', ');
+      } else {
+        passTeamBlock.classList.add('is-hidden');
+      }
     }
 
     lastPayload = {
@@ -666,9 +679,14 @@
       .join('\n');
     lastPayload.__wa = waLines;
 
-    document
-      .getElementById('passWhatsappConfirmBtn')
-      .setAttribute('href', 'https://wa.me/' + SITE_CONFIG.coordinatorWhatsApp + '?text=' + encodeURIComponent(waLines));
+    const passWaConfirm = document.getElementById('passWhatsappConfirmBtn');
+    if (passWaConfirm) {
+      passWaConfirm.setAttribute('href', 'https://wa.me/' + SITE_CONFIG.coordinatorWhatsApp + '?text=' + encodeURIComponent(waLines));
+    }
+    const passWaHelp = document.getElementById('passWhatsappHelpBtn');
+    if (passWaHelp) {
+      passWaHelp.setAttribute('href', 'https://wa.me/' + SITE_CONFIG.coordinatorWhatsApp + '?text=' + encodeURIComponent('Hello ASCEND Desk, I need help with payment for Ref ID: ' + latestRefId));
+    }
 
     setSyncNotice('ok');
     syncToSheet(sheetPayloadOf(lastPayload));
@@ -677,8 +695,8 @@
     document.getElementById('chkPhone').value = phone;
 
     document.getElementById('registrationPassSection').classList.remove('is-hidden');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    showToast('Registration saved as ' + latestRefId + '. Total Fee: ₹' + totalFee + ' — now complete payment.');
+    document.getElementById('registrationPassSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    showToast('Registration saved as ' + latestRefId + '. Total Fee: ₹' + totalFee + ' — now complete payment via UPI.');
   });
 
   const regConsentCheckbox = document.getElementById('regTermsConsent');
@@ -708,30 +726,40 @@
     }
   }
 
-  // The user says they paid. This does NOT confirm anything — the desk verifies the payment manually.
+  // The user says they paid. This records their submission and directs them to check status.
   const confirmPaymentBtn = document.getElementById('confirmPaymentDoneBtn');
   if (confirmPaymentBtn) {
     confirmPaymentBtn.addEventListener('click', () => {
       const utrEl = document.getElementById('utrInput');
-      const utr = utrEl.value.replace(/\s/g, '');
+      const utr = utrEl ? utrEl.value.replace(/\s/g, '') : '';
       if (utr && !/^\d{12}$/.test(utr)) {
         showToast('UPI transaction ID (UTR) is a 12-digit number. Leave it blank if you are unsure.');
-        utrEl.focus();
+        if (utrEl) utrEl.focus();
         return;
       }
       if (lastPayload) {
         lastPayload.utr = utr;
         lastPayload.paymentStatus = 'Paid by delegate — pending verification';
         lastPayload.__wa = lastPayload.__wa.replace('UTR / Txn ID: (see screenshot)', utr ? 'UTR / Txn ID: ' + utr : 'UTR / Txn ID: (see screenshot)');
-        document
-          .getElementById('passWhatsappConfirmBtn')
-          .setAttribute('href', 'https://wa.me/' + SITE_CONFIG.coordinatorWhatsApp + '?text=' + encodeURIComponent(lastPayload.__wa));
         syncToSheet(sheetPayloadOf(lastPayload));
       }
-      document.getElementById('paymentGatewayBox').classList.add('is-hidden');
-      document.getElementById('finalConfirmedPassContent').classList.remove('is-hidden');
-      setPassStatus('submitted');
-      showToast('Payment submitted — your registration is pending verification by the ASCEND desk.');
+
+      // Hide the payment gateway section
+      document.getElementById('registrationPassSection').classList.add('is-hidden');
+
+      // Populate status check inputs and persist in localStorage
+      const phoneToUse = lastPayload ? lastPayload.phone : '';
+      rememberRegistration(latestRefId, phoneToUse);
+      document.getElementById('chkRef').value = latestRefId;
+      if (phoneToUse) document.getElementById('chkPhone').value = phoneToUse;
+
+      showToast('Payment submitted! Checking your registration status...');
+
+      // Smooth scroll to status check section so they see their pass & pending verification
+      document.getElementById('statusCheckSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      // Run status check (auto-resolves from lastPayload if sheet write is in flight)
+      checkStatus(latestRefId, phoneToUse, false);
     });
   }
 
@@ -742,6 +770,25 @@
   }
   function recallRegistration() {
     try { return JSON.parse(localStorage.getItem(STORE_KEY) || 'null'); } catch (err) { return null; }
+  }
+
+  function fallbackStatusFromPayload(p) {
+    if (!p) return null;
+    const isPaid = p.paymentStatus && p.paymentStatus.toLowerCase().includes('paid');
+    return {
+      found: true,
+      state: isPaid ? 'pending' : 'unpaid',
+      refId: p.refId,
+      name: p.name,
+      phone: p.phone,
+      college: p.college,
+      program: p.program,
+      year: p.year,
+      events: p.events,
+      team: p.teamMembers,
+      total: p.totalFee,
+      accommodation: p.accommodation
+    };
   }
 
   const chkMsg = document.getElementById('statusCheckMsg');
@@ -772,9 +819,26 @@
     document.getElementById('stFee').textContent = '₹' + d.total;
     document.getElementById('stAccom').textContent = d.accommodation;
     document.getElementById('stPrintBtn').classList.toggle('is-hidden', d.state !== 'confirmed');
+
     const help = document.getElementById('stHelpBtn');
-    help.classList.toggle('is-hidden', d.state !== 'rejected');
-    help.setAttribute('href', 'https://wa.me/' + SITE_CONFIG.coordinatorWhatsApp + '?text=' + encodeURIComponent('Hello, my payment could not be verified. Ref ID: ' + d.refId));
+    if (help) {
+      if (d.state === 'rejected') {
+        help.textContent = 'Contact the desk on WhatsApp ↗';
+        help.className = 'btn-outline px-5 py-2.5 text-xs sm:text-sm';
+        help.classList.remove('is-hidden');
+        help.setAttribute('href', 'https://wa.me/' + SITE_CONFIG.coordinatorWhatsApp + '?text=' + encodeURIComponent('Hello, my payment could not be verified. Ref ID: ' + d.refId));
+      } else if (d.state === 'pending') {
+        help.textContent = 'Send Payment Screenshot on WhatsApp ↗';
+        help.className = 'btn-gold px-5 py-2.5 text-xs sm:text-sm inline-flex items-center gap-1.5 font-bold';
+        help.classList.remove('is-hidden');
+        const waMsg = (lastPayload && lastPayload.__wa)
+          ? lastPayload.__wa
+          : 'Hello ASCEND Desk, I have completed the registration payment for Ref ID: *' + d.refId + '*. Here is my payment screenshot.';
+        help.setAttribute('href', 'https://wa.me/' + SITE_CONFIG.coordinatorWhatsApp + '?text=' + encodeURIComponent(waMsg));
+      } else {
+        help.classList.add('is-hidden');
+      }
+    }
 
     // Render live scannable verification QR Code on confirmed pass
     const qrWrap = document.getElementById('stQrWrap');
@@ -819,6 +883,12 @@
       const res = await fetch(SITE_CONFIG.sheetEndpoint + q);
       if (!res.ok) {
         console.error('Status check HTTP error:', res.status, res.statusText);
+        if (lastPayload && lastPayload.refId === ref) {
+          chkNotice('');
+          renderStatus(fallbackStatusFromPayload(lastPayload));
+          rememberRegistration(ref, phone);
+          return;
+        }
         if (!silent) chkNotice('Unable to reach the server right now. Please check your connection and try again in a moment.', 'bad');
         return;
       }
@@ -827,6 +897,12 @@
         d = await res.json();
       } catch (parseErr) {
         console.error('Status check parse error:', parseErr);
+        if (lastPayload && lastPayload.refId === ref) {
+          chkNotice('');
+          renderStatus(fallbackStatusFromPayload(lastPayload));
+          rememberRegistration(ref, phone);
+          return;
+        }
         if (!silent) chkNotice('Unable to retrieve pass details. Please try again in a moment.', 'bad');
         return;
       }
@@ -834,12 +910,22 @@
         chkNotice('');
         renderStatus(d);
         rememberRegistration(ref, phone);
+      } else if (lastPayload && lastPayload.refId === ref) {
+        chkNotice('');
+        renderStatus(fallbackStatusFromPayload(lastPayload));
+        rememberRegistration(ref, phone);
       } else if (!silent) {
         document.getElementById('statusResult').classList.add('is-hidden');
         chkNotice('No registration found for that Reference ID and mobile number. Please check both details.', 'bad');
       }
     } catch (err) {
       console.error('Status check network error:', err);
+      if (lastPayload && lastPayload.refId === ref) {
+        chkNotice('');
+        renderStatus(fallbackStatusFromPayload(lastPayload));
+        rememberRegistration(ref, phone);
+        return;
+      }
       if (!silent) chkNotice('Unable to connect to the server right now. Please check your internet connection and try again.', 'bad');
     } finally {
       if (btn) btn.disabled = false;
@@ -897,23 +983,36 @@
     }
   }
 
-  document.getElementById('printPassBtn').addEventListener('click', () => {
-    window.print();
-  });
+  const printPassBtn = document.getElementById('printPassBtn');
+  if (printPassBtn) {
+    printPassBtn.addEventListener('click', () => {
+      window.print();
+    });
+  }
 
-  document.getElementById('copyRefBtn').addEventListener('click', () => {
-    const refId = document.getElementById('passRefId').textContent.trim();
-    if (refId) copyTextSafe(refId);
-  });
+  const copyRefBtn = document.getElementById('copyRefBtn');
+  if (copyRefBtn) {
+    copyRefBtn.addEventListener('click', () => {
+      const refId = document.getElementById('passRefId').textContent.trim();
+      if (refId) copyTextSafe(refId);
+    });
+  }
 
-  document.getElementById('stCopyRefBtn').addEventListener('click', () => {
-    const refId = document.getElementById('stRef').textContent.trim();
-    if (refId) copyTextSafe(refId);
-  });
+  const stCopyRefBtn = document.getElementById('stCopyRefBtn');
+  if (stCopyRefBtn) {
+    stCopyRefBtn.addEventListener('click', () => {
+      const refId = document.getElementById('stRef').textContent.trim();
+      if (refId) copyTextSafe(refId);
+    });
+  }
 
-  document.getElementById('editRegistrationBtn').addEventListener('click', () => {
-    document.getElementById('delegateRegForm').scrollIntoView({ behavior: 'smooth' });
-  });
+  const editRegBtn = document.getElementById('editRegistrationBtn');
+  if (editRegBtn) {
+    editRegBtn.addEventListener('click', () => {
+      document.getElementById('registrationPassSection').classList.add('is-hidden');
+      document.getElementById('delegateRegForm').scrollIntoView({ behavior: 'smooth' });
+    });
+  }
 
   const teamSearchInput = document.getElementById('teamSearchInput');
   const teamSections = {
@@ -938,10 +1037,16 @@
       section.classList.toggle('is-hidden', filtered.length === 0);
       grid.innerHTML = filtered
         .map((member) => {
+          const avatarHtml = member.photo
+            ? `<div class="avatar-photo">
+                 <img src="${member.photo}" alt="${member.name}" class="avatar-img" loading="lazy" />
+               </div>`
+            : `<div class="avatar-monogram">${getInitials(member.name)}</div>`;
+
           if (category === 'Event Heads') {
             return `
               <div class="surface-card p-5 flex items-start gap-3.5">
-                <div class="avatar-monogram">${getInitials(member.name)}</div>
+                ${avatarHtml}
                 <div class="min-w-0">
                   <h3 class="font-bold text-base leading-snug">${member.name}</h3>
                   <div class="text-xs font-semibold mt-0.5" style="color: var(--gold-primary);">${member.role}</div>
@@ -953,7 +1058,7 @@
           return `
             <div class="surface-card surface-card-hover p-5 flex flex-col justify-between">
               <div class="flex items-start gap-3.5">
-                <div class="avatar-monogram">${getInitials(member.name)}</div>
+                ${avatarHtml}
                 <div class="min-w-0">
                   <h3 class="font-bold text-base leading-snug">${member.name}</h3>
                   <div class="text-xs font-semibold mt-0.5" style="color: var(--gold-primary);">${member.role}</div>
