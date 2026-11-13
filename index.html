@@ -1236,7 +1236,20 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-14">
 
           <div class="surface-platinum rounded-2xl p-6 sm:p-8 space-y-4">
-            <div class="flex items-center justify-between">
+            <div class="relative rounded-xl overflow-hidden mb-2 border border-amber-500/25 group">
+              <img
+                src="assets/campus/dcms-building.webp"
+                alt="DCMS Department Complex &amp; Aerial Campus View, University of Calicut"
+                class="w-full h-48 sm:h-56 object-cover transition-transform duration-500 group-hover:scale-105"
+                loading="lazy"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent"></div>
+              <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between text-xs">
+                <span class="font-semibold text-white drop-shadow">DCMS Department Complex</span>
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500 text-black">Fest Venue</span>
+              </div>
+            </div>
+            <div class="flex items-center justify-between pt-1">
               <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
                     style="background: var(--gold-tint); color: var(--gold-primary); border: 1px solid var(--gold-border);">
                 Established 1982 • AICTE Accredited
@@ -1255,7 +1268,20 @@
           </div>
 
           <div class="surface-card p-6 sm:p-8 space-y-4">
-            <div class="flex items-center justify-between">
+            <div class="relative rounded-xl overflow-hidden mb-2 border border-slate-700/60 group">
+              <img
+                src="assets/campus/uoc-admin-block.webp"
+                alt="University of Calicut Central Administrative Block"
+                class="w-full h-48 sm:h-56 object-cover transition-transform duration-500 group-hover:scale-105"
+                loading="lazy"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent"></div>
+              <div class="absolute bottom-3 left-3 right-3 flex items-center justify-between text-xs">
+                <span class="font-semibold text-white drop-shadow">Central Administrative Block</span>
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-white/20 text-white backdrop-blur-sm">Thenhipalam Main Campus</span>
+              </div>
+            </div>
+            <div class="flex items-center justify-between pt-1">
               <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
                     style="background: var(--bg-elevated); color: var(--text-primary); border: 1px solid var(--border-strong);">
                 Established 1968 • "Nirmaya Karmana Sree"
@@ -1476,9 +1502,39 @@
             </div>
 
             <div class="surface-card p-6 space-y-4">
-              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <!-- Campus Visual Preview Banner -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 rounded-xl overflow-hidden border border-border-subtle">
+                <div class="relative group h-36 sm:h-40 overflow-hidden">
+                  <img
+                    src="assets/campus/dcms-building.webp"
+                    alt="DCMS Department Complex — Festival Venue, University of Calicut"
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent"></div>
+                  <div class="absolute bottom-2.5 left-3 right-3 text-xs font-semibold text-white flex items-center justify-between">
+                    <span>DCMS Building</span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500 text-black">Fest Venue</span>
+                  </div>
+                </div>
+                <div class="relative group h-36 sm:h-40 overflow-hidden">
+                  <img
+                    src="assets/campus/uoc-admin-block.webp"
+                    alt="University of Calicut Administrative Block"
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent"></div>
+                  <div class="absolute bottom-2.5 left-3 right-3 text-xs font-semibold text-white flex items-center justify-between">
+                    <span>UoC Administrative Block</span>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-white/20 text-white backdrop-blur-sm">Thenhipalam</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1">
                 <div>
-                  <div class="text-xs uppercase tracking-widest font-bold" style="color: var(--gold-primary);">Venue Address</div>
+                  <div class="text-xs uppercase tracking-widest font-bold" style="color: var(--gold-primary);">Festival Venue &amp; Main Campus</div>
                   <h3 class="font-bold text-base mt-1">Department of Commerce and Management Studies (DCMS)</h3>
                   <p class="text-xs mt-0.5" style="color: var(--text-secondary);">
                     University of Calicut, Thenhipalam, Malappuram, Kerala – 673635
