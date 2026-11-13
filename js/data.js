@@ -234,7 +234,7 @@ const TEAM_DATA = [
   { name: 'Hiba Hashim M', role: 'Best Manager Head', category: 'Event Heads' },
   { name: 'Afra', role: 'Best Management Team Head', category: 'Event Heads' },
   { name: 'Shifa Hasain K', role: 'Finance Game Head', category: 'Event Heads' },
-  { name: 'Asna', role: 'Marketing Game Head', category: 'Event Heads' },
+  { name: 'Asna Fathima S', role: 'Marketing Game Head', category: 'Event Heads' },
   { name: 'Aparna', role: 'HR Game Head', category: 'Event Heads' },
   { name: 'Adhyasree P', role: 'Business Quiz Head', category: 'Event Heads' },
   { name: 'Jubin Thomas', role: 'IPL Auction Head', category: 'Event Heads' },
