@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="css/styles.css?v=2.5" />
-  <link rel="stylesheet" href="css/tailwind.css?v=2.5" />
+  <link rel="stylesheet" href="css/styles.css?v=2.6" />
+  <link rel="stylesheet" href="css/tailwind.css?v=2.6" />
 
   <meta name="theme-color" content="#090A0F" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
@@ -821,15 +821,12 @@
                   <input type="email" id="regEmail" class="input-field" placeholder="delegate@gmail.com" required />
                 </div>
                 <div>
-                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" for="regPhone">Phone / WhatsApp Number *</label>
+                  <label class="block text-xs font-semibold uppercase tracking-wider mb-2" for="regPhone">Phone / WhatsApp Number *</label>
                   <input type="tel" id="regPhone" class="input-field" placeholder="+91 98765 43210" required />
                 </div>
                 <div>
-                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" for="regCollege">
-                    College / University Name *
-                    <span class="text-[10px] text-amber-400 font-normal lowercase block sm:inline">(applies to entire team)</span>
-                  </label>
-                  <input type="text" id="regCollege" class="input-field" placeholder="Institution Name & City" required />
+                  <label class="block text-xs font-semibold uppercase tracking-wider mb-2" for="regCollege">College / University Name *</label>
+                  <input type="text" id="regCollege" class="input-field" placeholder="Institution Name & City (Applies to all team members)" required />
                 </div>
                 <div>
                   <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" for="regProgram">Department / Program *</label>
@@ -901,7 +898,7 @@
 
               </div>
 
-              <div id="teamMembersDynamicSection" class="is-hidden mt-12 sm:mt-14 pt-8 sm:pt-9 border-t" style="border-color: var(--gold-border);">
+              <div id="teamMembersDynamicSection" class="is-hidden mt-8 pt-8" style="border-top: 1px solid var(--gold-border);">
                 <div class="mb-6 sm:mb-8">
                   <div class="flex items-center gap-2">
                     <span class="text-xs font-bold uppercase tracking-wider" style="color: var(--gold-primary);">
@@ -1907,7 +1904,7 @@
   </div>
 
   <script src="js/vendor/qrcode.js"></script>
-  <script src="js/data.js?v=2.5"></script>
-  <script src="js/app.js?v=2.5"></script>
+  <script src="js/data.js?v=2.6"></script>
+  <script src="js/app.js?v=2.6"></script>
 </body>
 </html>
