@@ -644,6 +644,154 @@ select.input-field option {
   display: none !important;
 }
 
+/* ==========================================================================
+   Registration Form - Symmetrical Gold Dividers & Responsive Card Spacing
+   ========================================================================== */
+
+/* 1. Official Team Roster Section & Gold Divider */
+#teamMembersDynamicSection {
+  margin-top: 2.25rem !important;  /* 36px space above the gold line */
+  padding-top: 2.25rem !important; /* 36px space below the gold line */
+  border-top: 1px solid var(--gold-border) !important;
+}
+
+#teamMembersInputsContainer {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1.75rem !important; /* 28px even gap between multiple teammate cards */
+}
+
+/* 2. Teammate Card Container */
+.teammate-card {
+  background: var(--bg-elevated) !important;
+  border: 1px solid var(--gold-border) !important;
+  border-radius: 1rem !important;
+  box-shadow: var(--shadow-elevated) !important;
+  padding: 1.25rem !important; /* 20px on mobile */
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+@media (min-width: 640px) {
+  .teammate-card {
+    padding: 1.5rem !important; /* 24px on tablet */
+  }
+}
+
+@media (min-width: 1024px) {
+  .teammate-card {
+    padding: 1.75rem !important; /* 28px on desktop */
+  }
+}
+
+/* 3. Teammate Card Header with EXACT equal padding above and margin below gold line */
+.teammate-card-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 0.75rem !important;
+  padding-bottom: 1.25rem !important; /* 20px space between text and gold line */
+  margin-bottom: 1.25rem !important;  /* 20px space between gold line and first input label */
+  border-bottom: 1px solid var(--gold-border) !important;
+}
+
+@media (min-width: 640px) {
+  .teammate-card-header {
+    padding-bottom: 1.5rem !important; /* 24px space above gold line */
+    margin-bottom: 1.5rem !important;  /* 24px space below gold line */
+  }
+}
+
+.teammate-num-badge {
+  width: 1.75rem !important;
+  height: 1.75rem !important;
+  min-width: 1.75rem !important;
+  min-height: 1.75rem !important;
+  border-radius: 9999px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  font-family: var(--font-mono, monospace) !important;
+  background: var(--gold-primary) !important;
+  color: #090A0F !important;
+}
+
+.teammate-inst-badge {
+  font-size: 0.6875rem !important; /* 11px */
+  font-weight: 600 !important;
+  padding: 0.25rem 0.65rem !important;
+  border-radius: 9999px !important;
+  background: var(--gold-tint) !important;
+  color: var(--gold-primary) !important;
+  border: 1px solid var(--gold-border) !important;
+  white-space: nowrap !important;
+}
+
+/* 4. Teammate Grid: Strict responsive columns and identical row-to-row spacing */
+.teammate-grid {
+  display: grid !important;
+  grid-template-columns: 1fr !important; /* 1 column on mobile */
+  row-gap: 1.5rem !important;            /* 24px vertical distance between every input box and the next label */
+  column-gap: 1.25rem !important;         /* 20px horizontal gap */
+  align-items: start !important;
+}
+
+@media (min-width: 640px) {
+  .teammate-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important; /* 2 columns on tablet: 3 rows of 2 */
+    row-gap: 1.5rem !important;                                  /* 24px vertical gap between Row 1, Row 2, and Row 3 */
+    column-gap: 1.25rem !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .teammate-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important; /* 3 columns on desktop: 2 rows of 3 */
+    row-gap: 1.5rem !important;                                  /* 24px vertical gap between Row 1 and Row 2 */
+    column-gap: 1.25rem !important;
+  }
+}
+
+/* 5. Lead Delegate Grid in Section 01 */
+.lead-delegate-grid {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  row-gap: 1.5rem !important;
+  column-gap: 1.25rem !important;
+  align-items: start !important;
+}
+
+@media (min-width: 640px) {
+  .lead-delegate-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    row-gap: 1.5rem !important;
+    column-gap: 1.25rem !important;
+  }
+}
+
+/* 6. Form Labels: Consistent typography and uniform 8px margin to input field below */
+.teammate-grid label,
+.lead-delegate-grid label,
+#registrationSection label {
+  display: block;
+  font-size: 0.75rem !important; /* 12px */
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  margin-bottom: 0.5rem !important; /* exactly 8px between label and its input box */
+  color: var(--text-secondary);
+}
+
+/* 7. Field warning text for validation / duplicates */
+.roster-field-warn,
+.text-rose-400 {
+  color: #FB7185 !important;
+  font-size: 0.6875rem !important;
+  font-weight: 600 !important;
+  margin-top: 0.375rem !important;
+}
+
 [data-theme="dark"] .icon-moon { display: none; }
 [data-theme="light"] .icon-sun { display: none; }
 

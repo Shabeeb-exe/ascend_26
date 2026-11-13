@@ -501,32 +501,32 @@
       for (let i = 2; i <= chosen.maxTeam; i++) {
         const cached = teammateCache[i] || {};
         cardsHtml += `
-          <div class="teammate-card p-6 sm:p-7 rounded-2xl border transition-all duration-200" style="background: var(--bg-elevated); border-color: var(--gold-border); box-shadow: var(--shadow-elevated);">
-            <div class="flex items-center justify-between pb-6 mb-6" style="border-bottom: 1px solid var(--gold-border);">
+          <div class="teammate-card">
+            <div class="teammate-card-header">
               <div class="flex items-center gap-3">
-                <span class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold font-mono shadow-sm" style="background: var(--gold-primary); color: #090A0F;">0${i}</span>
+                <span class="teammate-num-badge">0${i}</span>
                 <span class="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-100">Team Member ${i}</span>
               </div>
-              <span class="text-[10px] sm:text-[11px] px-2.5 py-0.5 rounded-full font-semibold" style="background: var(--gold-tint); color: var(--gold-primary); border: 1px solid var(--gold-border);">Same Institution</span>
+              <span class="teammate-inst-badge">Same Institution</span>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-6">
+            <div class="teammate-grid">
               <div>
-                <label class="block text-xs font-semibold uppercase tracking-wider mb-2 text-slate-200" for="tmName_${i}">Full Name *</label>
+                <label for="tmName_${i}">Full Name *</label>
                 <input type="text" id="tmName_${i}" name="tm_name_${i}" autocomplete="off" data-lpignore="true" data-1p-ignore="true" class="input-field text-sm" placeholder="Member ${i} Name" value="${cached.name || ''}" required />
-                <div id="tmNameWarn_${i}" class="text-[10px] text-rose-400 font-semibold mt-1.5 is-hidden"></div>
+                <div id="tmNameWarn_${i}" class="roster-field-warn is-hidden"></div>
               </div>
               <div>
-                <label class="block text-xs font-semibold uppercase tracking-wider mb-2 text-slate-200" for="tmPhone_${i}">Phone / WhatsApp *</label>
+                <label for="tmPhone_${i}">Phone / WhatsApp *</label>
                 <input type="tel" id="tmPhone_${i}" name="tm_phone_${i}" autocomplete="off" data-lpignore="true" data-1p-ignore="true" class="input-field text-sm" placeholder="+91 98765 43210" value="${cached.phone || ''}" required />
-                <div id="tmPhoneWarn_${i}" class="text-[10px] text-rose-400 font-semibold mt-1.5 is-hidden"></div>
+                <div id="tmPhoneWarn_${i}" class="roster-field-warn is-hidden"></div>
               </div>
               <div>
-                <label class="block text-xs font-semibold uppercase tracking-wider mb-2 text-slate-200" for="tmEmail_${i}">Email Address *</label>
+                <label for="tmEmail_${i}">Email Address *</label>
                 <input type="email" id="tmEmail_${i}" name="tm_email_${i}" autocomplete="off" data-lpignore="true" data-1p-ignore="true" class="input-field text-sm" placeholder="member${i}@gmail.com" value="${cached.email || ''}" required />
-                <div id="tmEmailWarn_${i}" class="text-[10px] text-rose-400 font-semibold mt-1.5 is-hidden"></div>
+                <div id="tmEmailWarn_${i}" class="roster-field-warn is-hidden"></div>
               </div>
               <div>
-                <label class="block text-xs font-semibold uppercase tracking-wider mb-2 text-slate-200" for="tmProgram_${i}">Department / Program *</label>
+                <label for="tmProgram_${i}">Department / Program *</label>
                 <select id="tmProgram_${i}" class="input-field text-sm tm-prog-select" data-member="${i}" required>
                   <option value="" disabled ${!cached.program ? 'selected' : ''}>Select Department / Program</option>
                   <option value="MBA" ${cached.program === 'MBA' ? 'selected' : ''}>MBA</option>
@@ -543,12 +543,12 @@
                   <option value="Other" ${cached.program === 'Other' ? 'selected' : ''}>Other (Specify)</option>
                 </select>
                 <div id="tmProgramOtherWrap_${i}" class="${cached.program === 'Other' ? '' : 'is-hidden'} mt-2.5">
-                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1 text-slate-200" for="tmProgramOther_${i}">Specify Department / Program *</label>
+                  <label for="tmProgramOther_${i}">Specify Department / Program *</label>
                   <input type="text" id="tmProgramOther_${i}" name="tm_program_other_${i}" class="input-field text-sm" placeholder="e.g., B.Voc Banking, Integrated M.Sc" value="${cached.programOther || ''}" autocomplete="off" />
                 </div>
               </div>
               <div>
-                <label class="block text-xs font-semibold uppercase tracking-wider mb-2 text-slate-200" for="tmYear_${i}">Year of Study *</label>
+                <label for="tmYear_${i}">Year of Study *</label>
                 <select id="tmYear_${i}" class="input-field text-sm" required>
                   <option value="" disabled ${!cached.year ? 'selected' : ''}>Select Year of Study</option>
                   <option value="1st Year" ${cached.year === '1st Year' ? 'selected' : ''}>1st Year</option>
@@ -558,7 +558,7 @@
                 </select>
               </div>
               <div>
-                <label class="block text-xs font-semibold uppercase tracking-wider mb-2 text-slate-200" for="tmDiet_${i}">Dietary Preference *</label>
+                <label for="tmDiet_${i}">Dietary Preference *</label>
                 <select id="tmDiet_${i}" class="input-field text-sm" required>
                   <option value="" disabled ${!cached.diet ? 'selected' : ''}>Select Dietary Preference</option>
                   <option value="Non-Veg" ${cached.diet === 'Non-Veg' ? 'selected' : ''}>Non-Vegetarian</option>
