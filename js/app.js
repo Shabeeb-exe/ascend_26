@@ -146,13 +146,13 @@
 
   function renderSponsorsMarquee() {
     const track = document.getElementById('sponsorsMarqueeTrack');
+    if (!track) return;
     const doubled = PAST_SPONSORS.concat(PAST_SPONSORS);
     track.innerHTML = doubled
       .map(
         (brand) => `
-        <div class="sponsor-pill">
-          <span style="color: var(--gold-primary);">◆</span>
-          <span>${brand}</span>
+        <div class="sponsor-logo-card" title="${brand.name}">
+          <img src="${brand.logo}" alt="${brand.name}" class="sponsor-logo-img" loading="lazy" />
         </div>
       `
       )
