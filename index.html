@@ -505,9 +505,15 @@
               Become an ASCEND '26 Partner →
             </button>
           </div>
-          <div class="marquee-wrapper">
-            <div id="sponsorsMarqueeTrack" class="marquee-track">
-
+          <div class="sponsors-marquee-container flex flex-col gap-2.5 sm:gap-3">
+            <div class="marquee-wrapper">
+              <div id="sponsorsMarqueeTrack1" class="marquee-track marquee-track-1"></div>
+            </div>
+            <div class="marquee-wrapper">
+              <div id="sponsorsMarqueeTrack2" class="marquee-track marquee-track-2"></div>
+            </div>
+            <div class="marquee-wrapper">
+              <div id="sponsorsMarqueeTrack3" class="marquee-track marquee-track-3"></div>
             </div>
           </div>
         </div>
@@ -890,31 +896,50 @@
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" for="regAccommodation">
-                    Campus Accommodation (nights of Jan 17 &amp; 18 — tentative)?
+                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1" for="regAccommodation">
+                    Campus Accommodation (Night of Day 1 — if qualified)
                   </label>
+                  <p class="text-[11px] mb-1.5 leading-snug" style="color: var(--text-muted);">
+                    Provided exclusively for outstation delegates who qualify in Day 1 elimination rounds and advance to Day 2 (Night of Day 1 only).
+                  </p>
                   <select id="regAccommodation" class="input-field">
                     <option value="No — Day Scholar / Own Arrangement">No — Day Scholar / Own Arrangement</option>
-                    <option value="Yes — Nights of Jan 17 & 18 (tentative)">Yes — Nights of Jan 17 &amp; 18</option>
-                    <option value="Yes — Night of Jan 18 only (tentative)">Yes — Night of Jan 18 only</option>
+                    <option value="Yes — Required if qualified for Day 2 (Night of Day 1)">Yes — Required if qualified for Day 2 (Night of Day 1)</option>
                   </select>
                 </div>
                 <div>
-                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" for="regDietary">
+                  <label class="block text-xs font-semibold uppercase tracking-wider mb-1" for="regDietary">
                     Dietary Preference
                   </label>
+                  <p class="text-[11px] mb-1.5 leading-snug" style="color: var(--text-muted);">
+                    Select meal preference for festival lunch &amp; refreshments.
+                  </p>
                   <select id="regDietary" class="input-field">
                     <option value="Non-Veg">Non-Vegetarian</option>
                     <option value="Veg">Pure Vegetarian</option>
-                    <option value="Mixed (Team)">Mixed (Veg &amp; Non-Veg Team)</option>
                   </select>
                 </div>
                 <div class="sm:col-span-2">
                   <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" for="regNotes">
                     Special Notes / Arrival Timing (Optional)
                   </label>
-                  <textarea id="regNotes" rows="2" class="input-field" placeholder="Any specific accommodation, arrival train/flight, or accessibility notes..."></textarea>
+                  <textarea id="regNotes" rows="2" class="input-field" placeholder="Any specific outstation arrival train/bus details or accessibility notes..."></textarea>
                 </div>
+              </div>
+
+              <!-- Declaration & Partner Data Consent Checkbox -->
+              <div class="mt-5 p-4 rounded-xl border" style="background: var(--bg-elevated); border-color: var(--border-strong);">
+                <label class="flex items-start gap-3 cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    id="regTermsConsent"
+                    class="mt-1 w-4 h-4 rounded text-amber-500 accent-amber-500 flex-shrink-0 cursor-pointer"
+                    required
+                  />
+                  <span class="text-xs leading-relaxed" style="color: var(--text-secondary);">
+                    I agree to the <span class="font-semibold" style="color: var(--text-primary);">Festival Guidelines &amp; Code of Conduct</span>, and acknowledge that my registration details (Name, College, and Contact) will be shared with official ASCEND '26 partners and sponsors for festival operations, exclusive delegate perks, and career/internship opportunities. <span class="font-bold" style="color: var(--gold-primary);">*</span>
+                  </span>
+                </label>
               </div>
 
               <div id="regErrorBanner" class="is-hidden mt-4 p-3.5 rounded-xl text-xs font-semibold bg-red-500/15 border border-red-500/40 text-red-300"></div>
@@ -953,7 +978,7 @@
                   </div>
                 </div>
                 <div class="p-3 rounded-xl" style="background: var(--bg-elevated);">
-                  <div class="font-bold">Sasma — Hospitality Head</div>
+                  <div class="font-bold">Sasma K — Hospitality Head</div>
                   <div class="mt-1 flex items-center justify-between" style="color: var(--text-secondary);">
                     <span>+91 97475 10695</span>
                     <a href="https://wa.me/919747510695" target="_blank" rel="noopener noreferrer" style="color: var(--gold-primary);" class="font-bold">WhatsApp ↗</a>
@@ -1443,21 +1468,21 @@
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs">
                 <div class="p-3.5 rounded-xl flex items-center justify-between" style="background: var(--bg-elevated);">
                   <div>
-                    <div class="font-bold">Fathimathul Safa (MBA)</div>
+                    <div class="font-bold">Fathimathul Safa K (MBA)</div>
                     <div style="color: var(--text-muted);">Grievance Head • +91 95394 97391</div>
                   </div>
                   <a href="tel:+919539497391" class="btn-action-chip px-2.5 py-1.5">Call</a>
                 </div>
                 <div class="p-3.5 rounded-xl flex items-center justify-between" style="background: var(--bg-elevated);">
                   <div>
-                    <div class="font-bold">Mohammed Shameem (M.Com)</div>
+                    <div class="font-bold">Mohammed Shameem V (M.Com)</div>
                     <div style="color: var(--text-muted);">Grievance Head • +91 90747 60194</div>
                   </div>
                   <a href="tel:+919074760194" class="btn-action-chip px-2.5 py-1.5">Call</a>
                 </div>
                 <div class="p-3.5 rounded-xl flex items-center justify-between" style="background: var(--bg-elevated);">
                   <div>
-                    <div class="font-bold">Sasma</div>
+                    <div class="font-bold">Sasma K</div>
                     <div style="color: var(--text-muted);">Hospitality Head • +91 97475 10695</div>
                   </div>
                   <a href="tel:+919747510695" class="btn-action-chip px-2.5 py-1.5">Call</a>

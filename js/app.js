@@ -145,18 +145,32 @@
   setInterval(updateCountdown, 1000);
 
   function renderSponsorsMarquee() {
-    const track = document.getElementById('sponsorsMarqueeTrack');
-    const doubled = PAST_SPONSORS.concat(PAST_SPONSORS);
-    track.innerHTML = doubled
-      .map(
-        (brand) => `
-        <div class="sponsor-pill">
-          <span style="color: var(--gold-primary);">◆</span>
-          <span>${brand}</span>
-        </div>
-      `
-      )
-      .join('');
+    const track1 = document.getElementById('sponsorsMarqueeTrack1');
+    const track2 = document.getElementById('sponsorsMarqueeTrack2');
+    const track3 = document.getElementById('sponsorsMarqueeTrack3');
+    const singleTrack = document.getElementById('sponsorsMarqueeTrack');
+
+    const renderTrack = (trackEl, items) => {
+      if (!trackEl) return;
+      const doubled = items.concat(items);
+      trackEl.innerHTML = doubled
+        .map(
+          (brand) => `
+          <div class="sponsor-logo-card" title="${brand.name}">
+            <img src="${brand.logo}" alt="${brand.name}" class="sponsor-logo-img" loading="lazy" />
+          </div>
+        `
+        )
+        .join('');
+    };
+
+    if (track1 && track2 && track3) {
+      renderTrack(track1, PAST_SPONSORS.slice(0, 10));
+      renderTrack(track2, PAST_SPONSORS.slice(10, 20));
+      renderTrack(track3, PAST_SPONSORS.slice(20, 30));
+    } else if (singleTrack) {
+      renderTrack(singleTrack, PAST_SPONSORS);
+    }
   }
   renderSponsorsMarquee();
 
@@ -557,6 +571,11 @@
       );
     }
 
+    const consentEl = document.getElementById('regTermsConsent');
+    if (consentEl && !consentEl.checked) {
+      return showRegError('Please acknowledge the Festival Guidelines and Partner Terms to proceed.');
+    }
+
     regErrorBanner.classList.add('is-hidden');
 
     if (!latestRefId) latestRefId = makeRefId();
@@ -623,6 +642,7 @@
       accommodation: sheetSafe(accom),
       dietary: sheetSafe(diet),
       notes: sheetSafe(notes),
+      termsAccepted: 'Yes',
       paymentStatus: 'Unpaid',
       utr: ''
     };
@@ -660,6 +680,15 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
     showToast('Registration saved as ' + latestRefId + '. Total Fee: ₹' + totalFee + ' — now complete payment.');
   });
+
+  const regConsentCheckbox = document.getElementById('regTermsConsent');
+  if (regConsentCheckbox) {
+    regConsentCheckbox.addEventListener('change', () => {
+      if (regConsentCheckbox.checked && regErrorBanner.textContent.includes('Partner Terms')) {
+        regErrorBanner.classList.add('is-hidden');
+      }
+    });
+  }
 
   function sheetPayloadOf(p) {
     const copy = Object.assign({}, p);
