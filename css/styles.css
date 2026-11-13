@@ -381,17 +381,29 @@ body {
   overflow: hidden;
   position: relative;
   width: 100%;
-  padding: 0.5rem 0;
-  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
-  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  padding: 0.35rem 0;
+  mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
 }
 
 .marquee-track {
   display: flex;
-  gap: 1.25rem;
+  gap: 1.15rem;
   align-items: center;
   width: max-content;
-  animation: sponsorScroll 55s linear infinite;
+  animation: sponsorScroll 34s linear infinite;
+}
+
+.marquee-track-1 {
+  animation: sponsorScroll 34s linear infinite;
+}
+
+.marquee-track-2 {
+  animation: sponsorScrollReverse 38s linear infinite;
+}
+
+.marquee-track-3 {
+  animation: sponsorScroll 30s linear infinite;
 }
 
 .marquee-track:hover {
@@ -403,32 +415,37 @@ body {
   100% { transform: translateX(-50%); }
 }
 
+@keyframes sponsorScrollReverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
 .sponsor-logo-card {
   background: #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 0.85rem;
-  padding: 0.5rem 1.15rem;
+  padding: 0.45rem 1.05rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 60px;
-  min-width: 135px;
-  max-width: 220px;
+  height: 54px;
+  min-width: 125px;
+  max-width: 200px;
   flex-shrink: 0;
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   user-select: none;
 }
 
 .sponsor-logo-card:hover {
-  transform: translateY(-3px) scale(1.03);
+  transform: translateY(-2px) scale(1.03);
   border-color: var(--gold-primary);
-  box-shadow: 0 10px 25px rgba(212, 175, 55, 0.28);
+  box-shadow: 0 8px 22px rgba(212, 175, 55, 0.28);
 }
 
 .sponsor-logo-img {
-  max-height: 42px;
-  max-width: 155px;
+  max-height: 38px;
+  max-width: 145px;
   width: auto;
   height: auto;
   object-fit: contain;

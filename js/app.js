@@ -145,18 +145,32 @@
   setInterval(updateCountdown, 1000);
 
   function renderSponsorsMarquee() {
-    const track = document.getElementById('sponsorsMarqueeTrack');
-    if (!track) return;
-    const doubled = PAST_SPONSORS.concat(PAST_SPONSORS);
-    track.innerHTML = doubled
-      .map(
-        (brand) => `
-        <div class="sponsor-logo-card" title="${brand.name}">
-          <img src="${brand.logo}" alt="${brand.name}" class="sponsor-logo-img" loading="lazy" />
-        </div>
-      `
-      )
-      .join('');
+    const track1 = document.getElementById('sponsorsMarqueeTrack1');
+    const track2 = document.getElementById('sponsorsMarqueeTrack2');
+    const track3 = document.getElementById('sponsorsMarqueeTrack3');
+    const singleTrack = document.getElementById('sponsorsMarqueeTrack');
+
+    const renderTrack = (trackEl, items) => {
+      if (!trackEl) return;
+      const doubled = items.concat(items);
+      trackEl.innerHTML = doubled
+        .map(
+          (brand) => `
+          <div class="sponsor-logo-card" title="${brand.name}">
+            <img src="${brand.logo}" alt="${brand.name}" class="sponsor-logo-img" loading="lazy" />
+          </div>
+        `
+        )
+        .join('');
+    };
+
+    if (track1 && track2 && track3) {
+      renderTrack(track1, PAST_SPONSORS.slice(0, 10));
+      renderTrack(track2, PAST_SPONSORS.slice(10, 20));
+      renderTrack(track3, PAST_SPONSORS.slice(20, 30));
+    } else if (singleTrack) {
+      renderTrack(singleTrack, PAST_SPONSORS);
+    }
   }
   renderSponsorsMarquee();
 
