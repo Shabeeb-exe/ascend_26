@@ -321,9 +321,9 @@
           name: nameEl.value,
           phone: document.getElementById(`tmPhone_${i}`)?.value || '',
           email: document.getElementById(`tmEmail_${i}`)?.value || '',
-          program: document.getElementById(`tmProgram_${i}`)?.value || 'MBA',
-          year: document.getElementById(`tmYear_${i}`)?.value || '1st Year',
-          diet: document.getElementById(`tmDiet_${i}`)?.value || 'Non-Veg'
+          program: document.getElementById(`tmProgram_${i}`)?.value || '',
+          year: document.getElementById(`tmYear_${i}`)?.value || '',
+          diet: document.getElementById(`tmDiet_${i}`)?.value || ''
         };
       }
     }
@@ -521,12 +521,13 @@
               </div>
               <div>
                 <label class="block text-xs font-semibold uppercase tracking-wider mb-2 text-slate-200" for="tmEmail_${i}">Email Address *</label>
-                <input type="email" id="tmEmail_${i}" name="tm_email_${i}" autocomplete="off" data-lpignore="true" data-1p-ignore="true" class="input-field text-sm" placeholder="member${i}@college.edu" value="${cached.email || ''}" required />
+                <input type="email" id="tmEmail_${i}" name="tm_email_${i}" autocomplete="off" data-lpignore="true" data-1p-ignore="true" class="input-field text-sm" placeholder="member${i}@gmail.com" value="${cached.email || ''}" required />
                 <div id="tmEmailWarn_${i}" class="text-[10px] text-rose-400 font-semibold mt-1.5 is-hidden"></div>
               </div>
               <div>
                 <label class="block text-xs font-semibold uppercase tracking-wider mb-2 text-slate-200" for="tmProgram_${i}">Department / Program *</label>
                 <select id="tmProgram_${i}" class="input-field text-sm" required>
+                  <option value="" disabled ${!cached.program ? 'selected' : ''}>Select Department / Program</option>
                   <option value="MBA" ${cached.program === 'MBA' ? 'selected' : ''}>MBA</option>
                   <option value="M.Com" ${cached.program === 'M.Com' ? 'selected' : ''}>M.Com</option>
                   <option value="BBA" ${cached.program === 'BBA' ? 'selected' : ''}>BBA</option>
@@ -538,6 +539,7 @@
               <div>
                 <label class="block text-xs font-semibold uppercase tracking-wider mb-2 text-slate-200" for="tmYear_${i}">Year of Study *</label>
                 <select id="tmYear_${i}" class="input-field text-sm" required>
+                  <option value="" disabled ${!cached.year ? 'selected' : ''}>Select Year of Study</option>
                   <option value="1st Year" ${cached.year === '1st Year' ? 'selected' : ''}>1st Year</option>
                   <option value="2nd Year" ${cached.year === '2nd Year' ? 'selected' : ''}>2nd Year</option>
                   <option value="3rd Year" ${cached.year === '3rd Year' ? 'selected' : ''}>3rd Year</option>
@@ -547,6 +549,7 @@
               <div>
                 <label class="block text-xs font-semibold uppercase tracking-wider mb-2 text-slate-200" for="tmDiet_${i}">Dietary Preference *</label>
                 <select id="tmDiet_${i}" class="input-field text-sm" required>
+                  <option value="" disabled ${!cached.diet ? 'selected' : ''}>Select Dietary Preference</option>
                   <option value="Non-Veg" ${cached.diet === 'Non-Veg' ? 'selected' : ''}>Non-Vegetarian</option>
                   <option value="Veg" ${cached.diet === 'Veg' ? 'selected' : ''}>Pure Vegetarian</option>
                 </select>
@@ -733,6 +736,18 @@
     if (!name || !email || !phoneRaw || !college) {
       return showRegError('Please complete all required Lead Delegate & Institution fields (*).');
     }
+    if (!program) {
+      document.getElementById('regProgram').focus();
+      return showRegError('Please select Department / Program for Lead Delegate.');
+    }
+    if (!year) {
+      document.getElementById('regYear').focus();
+      return showRegError('Please select Year of Study for Lead Delegate.');
+    }
+    if (!diet) {
+      document.getElementById('regDietary').focus();
+      return showRegError('Please select Dietary Preference for Lead Delegate.');
+    }
     if (!isValidEmail(email)) {
       return showRegError('Please enter a valid email address for Lead Delegate.');
     }
@@ -778,21 +793,33 @@
         const tmName = tmNameEl.value.trim();
         const tmEmail = tmEmailEl.value.trim();
         const tmPhoneRaw = tmPhoneEl.value.trim();
-        const tmProg = tmProgEl ? tmProgEl.value : program;
-        const tmYear = tmYearEl ? tmYearEl.value : year;
-        const tmDiet = tmDietEl ? tmDietEl.value : 'Non-Veg';
+        const tmProg = tmProgEl ? tmProgEl.value : '';
+        const tmYear = tmYearEl ? tmYearEl.value : '';
+        const tmDiet = tmDietEl ? tmDietEl.value : '';
 
         if (!tmName || !tmEmail || !tmPhoneRaw) {
           return showRegError(`Please complete all required fields for Team Member ${i} (Full Name, Phone, and Email).`);
         }
         if (!isValidEmail(tmEmail)) {
           tmEmailEl.focus();
-          return showRegError(`Please enter a valid email address for Team Member ${i} (${tmName}).`);
+          return showRegError(`Please enter a valid email address for Team Member ${i} (${tmName || 'Member ' + i}).`);
         }
         const tmPhone = normalizePhone(tmPhoneRaw);
         if (!tmPhone) {
           tmPhoneEl.focus();
-          return showRegError(`Please enter a valid 10-digit mobile number for Team Member ${i} (${tmName}).`);
+          return showRegError(`Please enter a valid 10-digit mobile number for Team Member ${i} (${tmName || 'Member ' + i}).`);
+        }
+        if (!tmProg) {
+          tmProgEl && tmProgEl.focus();
+          return showRegError(`Please select Department / Program for Team Member ${i} (${tmName || 'Member ' + i}).`);
+        }
+        if (!tmYear) {
+          tmYearEl && tmYearEl.focus();
+          return showRegError(`Please select Year of Study for Team Member ${i} (${tmName || 'Member ' + i}).`);
+        }
+        if (!tmDiet) {
+          tmDietEl && tmDietEl.focus();
+          return showRegError(`Please select Dietary Preference for Team Member ${i} (${tmName || 'Member ' + i}).`);
         }
 
         const cleanTmName = normName(tmName);
