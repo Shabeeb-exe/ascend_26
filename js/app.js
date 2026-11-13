@@ -938,10 +938,16 @@
       section.classList.toggle('is-hidden', filtered.length === 0);
       grid.innerHTML = filtered
         .map((member) => {
+          const avatarHtml = member.photo
+            ? `<div class="avatar-photo">
+                 <img src="${member.photo}" alt="${member.name}" class="avatar-img" loading="lazy" />
+               </div>`
+            : `<div class="avatar-monogram">${getInitials(member.name)}</div>`;
+
           if (category === 'Event Heads') {
             return `
               <div class="surface-card p-5 flex items-start gap-3.5">
-                <div class="avatar-monogram">${getInitials(member.name)}</div>
+                ${avatarHtml}
                 <div class="min-w-0">
                   <h3 class="font-bold text-base leading-snug">${member.name}</h3>
                   <div class="text-xs font-semibold mt-0.5" style="color: var(--gold-primary);">${member.role}</div>
@@ -953,7 +959,7 @@
           return `
             <div class="surface-card surface-card-hover p-5 flex flex-col justify-between">
               <div class="flex items-start gap-3.5">
-                <div class="avatar-monogram">${getInitials(member.name)}</div>
+                ${avatarHtml}
                 <div class="min-w-0">
                   <h3 class="font-bold text-base leading-snug">${member.name}</h3>
                   <div class="text-xs font-semibold mt-0.5" style="color: var(--gold-primary);">${member.role}</div>
