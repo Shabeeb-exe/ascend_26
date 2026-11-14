@@ -725,7 +725,10 @@
                 <div class="w-px h-8 bg-slate-700 hidden sm:block"></div>
                 <div>
                   <span class="text-[10px] uppercase tracking-wider block" style="color: var(--text-muted);">UPI ID</span>
-                  <span id="upiIdDisplay" class="font-mono text-xs sm:text-sm font-bold text-slate-200 select-all"></span>
+                  <div class="flex items-center justify-center gap-1.5 mt-0.5">
+                    <span id="upiIdDisplay" class="font-mono text-xs sm:text-sm font-bold text-slate-200 select-all"></span>
+                    <button type="button" id="copyUpiIdBtn" class="btn-outline px-2 py-0.5 text-[10px] font-semibold" title="Copy UPI ID">Copy</button>
+                  </div>
                 </div>
                 <div class="w-px h-8 bg-slate-700 hidden sm:block"></div>
                 <div>
@@ -740,16 +743,26 @@
               </p>
 
               <!-- Real Scannable UPI QR Code Image or Container -->
-              <div class="flex justify-center mb-4">
+              <div class="flex justify-center mb-2">
                 <div class="p-3.5 bg-white rounded-2xl shadow-xl inline-block">
                   <div id="upiQrContainer" role="img" aria-label="UPI payment QR code" class="w-44 h-44 sm:w-48 sm:h-48" style="color:#000;"></div>
                 </div>
               </div>
 
-              <div class="flex justify-center mb-5">
+              <!-- Mobile / iPhone Helpful Tip Banner -->
+              <div class="max-w-md mx-auto mb-4 p-2.5 rounded-xl border text-center text-xs"
+                   style="background: rgba(200, 155, 43, 0.08); border-color: rgba(200, 155, 43, 0.3);">
+                <span class="font-bold text-amber-300">📱 Paying from this phone (iPhone / Android)?</span>
+                <span class="block text-[11px] text-slate-300 mt-0.5 leading-relaxed">
+                  Take a <strong>screenshot of the QR code</strong> above &rarr; open <strong>GPay / PhonePe / Paytm</strong> &rarr; tap <strong>Scan QR</strong> &rarr; choose <strong>Upload from Gallery / Photos</strong>.
+                </span>
+              </div>
+
+              <div class="flex flex-col items-center justify-center mb-5">
                 <a id="upiPayNowBtn" href="#" class="btn-gold px-6 py-2.5 text-xs sm:text-sm inline-flex items-center gap-2 font-bold shadow-lg">
                   <span>Pay via Mobile UPI App (GPay/PhonePe) ↗</span>
                 </a>
+                <span class="text-[10px] text-slate-400 mt-1.5">(Works on Android • For iPhone, use QR screenshot or copy UPI ID above)</span>
               </div>
 
               <!-- Verification / UTR Section -->

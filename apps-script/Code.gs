@@ -195,6 +195,23 @@ function esc_(v) {
   return String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
+/** Extracts valid unique team member emails from the formatted team text, excluding the lead email */
+function extractTeamEmails_(teamStr, leadEmail) {
+  if (!teamStr) return [];
+  var matches = String(teamStr).match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g) || [];
+  var result = [];
+  var seen = {};
+  if (leadEmail) seen[String(leadEmail).trim().toLowerCase()] = true;
+  for (var i = 0; i < matches.length; i++) {
+    var em = String(matches[i]).trim().toLowerCase();
+    if (!seen[em]) {
+      seen[em] = true;
+      result.push(em);
+    }
+  }
+  return result;
+}
+
 function sendDeskEmail_(sh, r) {
   var row = sh.getRange(r, 1, 1, HEADERS.length).getValues()[0];
   var verdict = String(row[COL.VERIFIED - 1]).trim().toUpperCase();
@@ -261,16 +278,26 @@ function sendDeskEmail_(sh, r) {
     htmlBody = buildPaymentRejectedEmailHtml_(passData);
   }
 
+  var teamEmails = [];
+  if (verdict === 'YES') {
+    teamEmails = extractTeamEmails_(team, to);
+  }
+
   try {
-    MailApp.sendEmail({
+    var mailOptions = {
       to: to,
       subject: subject,
       htmlBody: htmlBody,
       name: "ASCEND '26 Desk",
       replyTo: FEST_EMAIL,
       attachments: attachments
-    });
-    var stamp = 'Sent ' + verdict + (attachments.length ? ' (+PDF)' : '') + ' · ' +
+    };
+    if (teamEmails.length > 0) {
+      mailOptions.cc = teamEmails.join(',');
+    }
+    MailApp.sendEmail(mailOptions);
+    var stamp = 'Sent ' + verdict + (attachments.length ? ' (+PDF)' : '') +
+                (teamEmails.length ? ' (+' + teamEmails.length + ' tm)' : '') + ' · ' +
                 Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'dd MMM HH:mm');
     cell.setValue(stamp);
   } catch (err) {
@@ -358,7 +385,7 @@ function buildConfirmedEmailHtml_(d, hasPdf) {
                     'Welcome to ASCEND \'26!' +
                   '</h1>' +
                   '<p style="margin:0 0 14px 0; font-size:13.5px; line-height:1.6; color:#334155;">' +
-                    'Dear <strong>' + esc_(d.name) + '</strong>,' +
+                    'Dear <strong>' + esc_(d.name) + '</strong>' + (d.team ? ' &amp; Team' : '') + ',' +
                   '</p>' +
                   '<p style="margin:0 0 18px 0; font-size:13.5px; line-height:1.6; color:#334155;">' +
                     'Your payment has been verified by our executive desk, and your registration for <strong>ASCEND \'26</strong> is officially <strong>CONFIRMED</strong>. Your delegate pass is issued below.' +

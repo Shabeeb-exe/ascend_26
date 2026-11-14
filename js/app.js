@@ -1323,6 +1323,8 @@
         lastPayload.paymentStatus = 'Paid by delegate — pending verification';
         lastPayload.__wa = lastPayload.__wa.replace('UTR / Txn ID: (see screenshot)', utr ? 'UTR / Txn ID: ' + utr : 'UTR / Txn ID: (see screenshot)');
         syncToSheet(sheetPayloadOf(lastPayload));
+        // Immediately render pending verification status so the delegate never sees an "unpaid" state
+        renderStatus(fallbackStatusFromPayload(lastPayload));
       }
 
       // Hide the payment gateway section
@@ -1383,8 +1385,8 @@
     const banner = document.getElementById('stBanner');
     const tones = {
       confirmed: ['✅ REGISTRATION CONFIRMED — your payment is verified. Show this pass (with your college ID) at the ASCEND registration desk.', 'rgba(16,185,129,.12)', '#6EE7B7'],
-      pending: ['⏳ Payment received from you — pending verification by the ASCEND desk. Check again later; this page updates automatically once verified.', 'rgba(245,158,11,.12)', '#FCD34D'],
-      unpaid: ['💳 Registration saved, but no payment has been reported yet. Complete the UPI payment to continue.', 'rgba(245,158,11,.12)', '#FCD34D'],
+      pending: ['⏳ Payment verification is under process by the ASCEND desk. Show this pass at the desk on arrival; once verified, your registration status will update to confirmed.', 'rgba(245,158,11,.12)', '#FCD34D'],
+      unpaid: ['💳 Registration details saved. If you have already paid or submitted your UTR, payment verification is under process by the desk. If not, complete your UPI payment to proceed.', 'rgba(245,158,11,.12)', '#FCD34D'],
       rejected: ['⚠️ We could not verify your payment. Please contact the ASCEND desk on WhatsApp with your payment screenshot.', 'rgba(239,68,68,.12)', '#FCA5A5']
     };
     const t = tones[d.state] || tones.pending;
@@ -1496,6 +1498,9 @@
         return;
       }
       if (d && d.found) {
+        if (lastPayload && lastPayload.refId === d.refId && lastPayload.paymentStatus && lastPayload.paymentStatus.toLowerCase().includes('paid') && d.state === 'unpaid') {
+          d.state = 'pending';
+        }
         chkNotice('');
         renderStatus(d);
         rememberRegistration(ref, phone);
@@ -1576,6 +1581,13 @@
   if (printPassBtn) {
     printPassBtn.addEventListener('click', () => {
       window.print();
+    });
+  }
+
+  const copyUpiIdBtn = document.getElementById('copyUpiIdBtn');
+  if (copyUpiIdBtn) {
+    copyUpiIdBtn.addEventListener('click', () => {
+      copyTextSafe(SITE_CONFIG.upiId);
     });
   }
 
