@@ -854,7 +854,7 @@
                     <option value="4th Year / Final">4th Year / Final</option>
                   </select>
                 </div>
-                <div class="sm:col-span-2">
+                <div class="sm:col-span-2" id="leadDietaryFieldWrap">
                   <label class="block text-xs font-semibold uppercase tracking-wider mb-2" for="regDietary">Lead Delegate Dietary Preference *</label>
                   <select id="regDietary" class="input-field" required>
                     <option value="" disabled selected>Select Dietary Preference</option>
@@ -919,18 +919,52 @@
                 </div>
               </div>
 
-              <div class="grid grid-cols-1 gap-4">
+              <div class="grid grid-cols-1 gap-5">
                 <div>
                   <label class="block text-xs font-semibold uppercase tracking-wider mb-1" for="regAccommodation">
-                    Campus Accommodation (Night of Day 1 — if qualified)
+                    Campus Accommodation (Outstation Paid Stay — ₹100 / person)
                   </label>
-                  <p class="text-[11px] mb-1.5 leading-snug" style="color: var(--text-muted);">
-                    Provided exclusively for outstation delegates who qualify in Day 1 elimination rounds and advance to Day 2 (Night of Day 1 only).
+                  <p class="text-[11px] mb-2 leading-relaxed" style="color: var(--text-muted);">
+                    <strong class="text-amber-300">Note:</strong> Complimentary accommodation is already provided for all delegates/teams who qualify for Day 2. Select "Yes" only if you require paid campus accommodation before Day 1 or for non-qualifiers (+₹100 per person).
                   </p>
                   <select id="regAccommodation" class="input-field">
-                    <option value="No — Day Scholar / Own Arrangement">No — Day Scholar / Own Arrangement</option>
-                    <option value="Yes — Required if qualified for Day 2 (Night of Day 1)">Yes — Required if qualified for Day 2 (Night of Day 1)</option>
+                    <option value="No — Day Scholar / Own Arrangement">No — Day Scholar / Own Arrangement (or Day 2 Qualifiers Complimentary)</option>
+                    <option value="Yes — Paid Campus Accommodation (+₹100 / person)">Yes — Paid Campus Accommodation (+₹100 / person)</option>
                   </select>
+                </div>
+
+                <!-- Food / Lunch Arrangement -->
+                <div id="foodOptionSection">
+                  <div id="foodFlagshipNotice" class="p-3.5 rounded-xl border flex items-start gap-3"
+                       style="background: var(--bg-elevated); border-color: var(--border-subtle);">
+                    <span class="text-base flex-shrink-0 mt-0.5">🥗</span>
+                    <div>
+                      <div class="text-xs font-bold uppercase tracking-wider text-emerald-400">Complimentary Food (Lunch) Included</div>
+                      <p class="text-[11px] mt-0.5 leading-relaxed" style="color: var(--text-secondary);">
+                        Complimentary lunch is included for all members in your registered flagship event based on your dietary preference.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div id="foodSpotOptionBox" class="is-hidden p-4 rounded-xl border space-y-2"
+                       style="background: var(--bg-elevated); border-color: var(--gold-border);">
+                    <div class="flex items-center justify-between gap-2">
+                      <label class="block text-xs font-semibold uppercase tracking-wider text-amber-300" for="regSpotFood">
+                        Festival Lunch Option (+₹100)
+                      </label>
+                      <span class="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase" style="background: var(--gold-tint); color: var(--gold-primary);">
+                        Optional Add-on
+                      </span>
+                    </div>
+                    <p class="text-[11px] leading-relaxed" style="color: var(--text-secondary);">
+                      Complimentary lunch is not included for <strong>Reel Making</strong> and <strong>E-Football/PES</strong>. If you would like lunch provided at the festival venue, select your option below for an additional charge of ₹100:
+                    </p>
+                    <select id="regSpotFood" class="input-field text-sm">
+                      <option value="No — No Lunch Required (₹0)">No — No Lunch Required (₹0)</option>
+                      <option value="Yes — Non-Vegetarian Lunch (+₹100)">Yes — Non-Vegetarian Lunch (+₹100)</option>
+                      <option value="Yes — Pure Vegetarian Lunch (+₹100)">Yes — Pure Vegetarian Lunch (+₹100)</option>
+                    </select>
+                  </div>
                 </div>
                 <div>
                   <label class="block text-xs font-semibold uppercase tracking-wider mb-1.5" for="regNotes">
@@ -1000,6 +1034,16 @@
               </div>
 
               <div id="regErrorBanner" class="is-hidden mt-4 p-3.5 rounded-xl text-xs font-semibold bg-red-500/15 border border-red-500/40 text-red-300"></div>
+
+              <!-- Live Fee Calculation Summary Card -->
+              <div id="regLiveFeeCard" class="mt-5 p-4 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                   style="background: var(--bg-elevated); border-color: var(--gold-border);">
+                <div>
+                  <div class="text-[11px] uppercase tracking-wider font-bold" style="color: var(--gold-primary);">Total Registration Fee</div>
+                  <div id="regLiveFeeBreakdown" class="text-xs mt-0.5" style="color: var(--text-secondary);">Select an event to view fee breakdown</div>
+                </div>
+                <div id="regLiveFeeTotal" class="font-display text-2xl font-black text-amber-400 whitespace-nowrap">₹0</div>
+              </div>
 
               <div class="mt-6">
                 <button type="submit" class="btn-gold w-full py-4 text-sm sm:text-base flex items-center justify-center gap-2">
@@ -1895,7 +1939,7 @@
           </div>
           <div class="pt-3">
             <h4 class="font-bold text-sm text-white mb-1">4. Food (Lunch) &amp; Accommodation</h4>
-            <p>Complimentary food (lunch) and accommodation will be provided only to participants of registered flagship events (excluding spot events). Complimentary accommodation is provided to participants/teams who qualify for Day 2. Participants requiring accommodation before Day 1 or for Day 2 can avail it for a nominal fee.</p>
+            <p>Complimentary food (lunch) and accommodation will be provided only to participants of registered flagship events (excluding E-Football/PES and Reel Making). Complimentary accommodation is provided to participants/teams who qualify for Day 2. Participants requiring accommodation before Day 1 or for Day 2 can avail paid campus accommodation for a nominal fee of ₹100 per person. For E-Football/PES and Reel Making, festival lunch is available as an optional add-on for ₹100.</p>
           </div>
           <div class="pt-3">
             <h4 class="font-bold text-sm text-white mb-1">5. Electronic Gadgets &amp; Materials</h4>

@@ -271,8 +271,8 @@ const GENERAL_GUIDELINES = [
     desc: 'All flagship competitions are 2-day events, except Treasure Hunt and IPL Auction (conducted on Day 1), and Business Quiz (conducted on Day 2). Teams failing to report at the specified venue within the stipulated time will be disqualified. Team composition cannot be modified after registration.'
   },
   {
-    title: 'Food & Accommodation',
-    desc: 'Food (complimentary lunch) and accommodation are provided only to participants of registered events (excluding spot events). Complimentary accommodation is provided to participants/teams that qualify for Day 2. Participants requiring accommodation before Day 1 or for Day 2 can avail it for a nominal fee.'
+    title: 'Food (Lunch) & Accommodation',
+    desc: 'Complimentary food (lunch) and accommodation will be provided only to participants of registered flagship events (excluding E-Football/PES and Reel Making). Complimentary accommodation is provided to participants/teams who qualify for Day 2. Participants requiring accommodation before Day 1 or for Day 2 can avail paid campus accommodation for a nominal fee of ₹100 per person. For E-Football/PES and Reel Making, festival lunch is available as an optional add-on for ₹100.'
   },
   {
     title: 'Gadgets & Equipment',

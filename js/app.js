@@ -574,6 +574,92 @@
         checkRosterDuplicates(false);
       }
     }
+
+    // Dynamic visibility for food notices and lead dietary field
+    const foodFlagshipNotice = document.getElementById('foodFlagshipNotice');
+    const foodSpotOptionBox = document.getElementById('foodSpotOptionBox');
+    const leadDietaryFieldWrap = document.getElementById('leadDietaryFieldWrap');
+    const regDietaryEl = document.getElementById('regDietary');
+
+    const isSpot = selectedEventId === 'reel-making' || selectedEventId === 'spot-games';
+
+    if (foodFlagshipNotice && foodSpotOptionBox) {
+      if (isSpot) {
+        foodFlagshipNotice.classList.add('is-hidden');
+        foodSpotOptionBox.classList.remove('is-hidden');
+      } else {
+        foodFlagshipNotice.classList.remove('is-hidden');
+        foodSpotOptionBox.classList.add('is-hidden');
+      }
+    }
+
+    if (leadDietaryFieldWrap && regDietaryEl) {
+      if (isSpot) {
+        leadDietaryFieldWrap.classList.add('is-hidden');
+        regDietaryEl.removeAttribute('required');
+      } else {
+        leadDietaryFieldWrap.classList.remove('is-hidden');
+        regDietaryEl.setAttribute('required', 'required');
+      }
+    }
+
+    updateLiveFeeSummary();
+  }
+
+  function updateLiveFeeSummary() {
+    const liveFeeBreakdownEl = document.getElementById('regLiveFeeBreakdown');
+    const liveFeeTotalEl = document.getElementById('regLiveFeeTotal');
+    if (!liveFeeTotalEl || !liveFeeBreakdownEl) return;
+
+    const chosen = EVENTS_DATA.find((e) => e.id === selectedEventId);
+    if (!chosen) {
+      liveFeeTotalEl.textContent = '₹0';
+      liveFeeBreakdownEl.textContent = 'Select an event above in Step 02 to view fee breakdown';
+      return;
+    }
+
+    const isSpot = chosen.id === 'reel-making' || chosen.id === 'spot-games';
+    const accomEl = document.getElementById('regAccommodation');
+    const isPaidAccom = accomEl && (accomEl.value.includes('Yes') || accomEl.value.includes('Paid'));
+
+    const spotFoodEl = document.getElementById('regSpotFood');
+    const hasSpotFood = isSpot && spotFoodEl && spotFoodEl.value.startsWith('Yes');
+
+    const baseFee = chosen.fee * chosen.maxTeam;
+    const accomFee = isPaidAccom ? (100 * chosen.maxTeam) : 0;
+    const foodFee = hasSpotFood ? 100 : 0;
+    const totalFee = baseFee + accomFee + foodFee;
+
+    let parts = [];
+    if (chosen.maxTeam > 1) {
+      parts.push(`${chosen.title} (₹${chosen.fee} × ${chosen.maxTeam} = ₹${baseFee})`);
+    } else {
+      parts.push(`${chosen.title} (₹${baseFee})`);
+    }
+
+    if (accomFee > 0) {
+      if (chosen.maxTeam > 1) {
+        parts.push(`Paid Stay (${chosen.maxTeam} × ₹100 = ₹${accomFee})`);
+      } else {
+        parts.push(`Paid Stay (₹${accomFee})`);
+      }
+    }
+
+    if (foodFee > 0) {
+      parts.push(`Festival Lunch (₹${foodFee})`);
+    }
+
+    liveFeeTotalEl.textContent = '₹' + totalFee;
+    liveFeeBreakdownEl.textContent = parts.length > 1 ? `${parts.join(' + ')} = ₹${totalFee}` : parts[0];
+  }
+
+  const regAccomEl = document.getElementById('regAccommodation');
+  if (regAccomEl) {
+    regAccomEl.addEventListener('change', updateLiveFeeSummary);
+  }
+  const regSpotFoodEl = document.getElementById('regSpotFood');
+  if (regSpotFoodEl) {
+    regSpotFoodEl.addEventListener('change', updateLiveFeeSummary);
   }
 
   renderRegisterEventCards();
@@ -764,10 +850,6 @@
       document.getElementById('regYear').focus();
       return showRegError('Please select Year of Study for Lead Delegate.');
     }
-    if (!diet) {
-      document.getElementById('regDietary').focus();
-      return showRegError('Please select Dietary Preference for Lead Delegate.');
-    }
     if (!isValidEmail(email)) {
       return showRegError('Please enter a valid email address for Lead Delegate.');
     }
@@ -784,12 +866,34 @@
       return showRegError('Please select a valid event to register.');
     }
 
+    const isSpot = chosenEvent.id === 'reel-making' || chosenEvent.id === 'spot-games';
+    const spotFoodSelect = document.getElementById('regSpotFood');
+    const spotFoodVal = spotFoodSelect ? spotFoodSelect.value : '';
+    const hasSpotFood = isSpot && spotFoodVal.startsWith('Yes');
+
+    let finalLeadDiet = diet;
+    if (isSpot) {
+      if (spotFoodVal.includes('Non-Vegetarian')) {
+        finalLeadDiet = 'Non-Veg (Paid Lunch)';
+      } else if (spotFoodVal.includes('Pure Vegetarian')) {
+        finalLeadDiet = 'Veg (Paid Lunch)';
+      } else {
+        finalLeadDiet = 'No Lunch Required';
+      }
+    } else {
+      if (!diet) {
+        document.getElementById('regDietary').focus();
+        return showRegError('Please select Dietary Preference for Lead Delegate.');
+      }
+      finalLeadDiet = diet;
+    }
+
     // Build and validate full contingent roster
     const normName = (s) => (s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
     const cleanLeadName = normName(name);
 
     const roster = [
-      { index: 1, name: name, email: email, phone: phone, program: finalLeadProgram, year: year, diet: diet, isLead: true }
+      { index: 1, name: name, email: email, phone: phone, program: finalLeadProgram, year: year, diet: finalLeadDiet, isLead: true }
     ];
     const usedNames = new Map();
     usedNames.set(cleanLeadName, 'Lead Delegate (' + name + ')');
@@ -917,8 +1021,29 @@
 
     if (!latestRefId) latestRefId = makeRefId();
 
-    const totalFee = chosenEvent.fee * chosenEvent.maxTeam;
-    const feeBreakdown = chosenEvent.title + (chosenEvent.maxTeam > 1 ? ' (₹' + chosenEvent.fee + ' × ' + chosenEvent.maxTeam + ' members = ₹' + totalFee + ')' : ' (₹' + totalFee + ')');
+    const isPaidAccom = accom.includes('Yes') || accom.includes('Paid');
+    const baseFee = chosenEvent.fee * chosenEvent.maxTeam;
+    const accomFee = isPaidAccom ? (100 * chosenEvent.maxTeam) : 0;
+    const foodFee = hasSpotFood ? 100 : 0;
+    const totalFee = baseFee + accomFee + foodFee;
+
+    let feeParts = [];
+    if (chosenEvent.maxTeam > 1) {
+      feeParts.push(`${chosenEvent.title} (₹${chosenEvent.fee} × ${chosenEvent.maxTeam} members = ₹${baseFee})`);
+    } else {
+      feeParts.push(`${chosenEvent.title} (₹${baseFee})`);
+    }
+    if (accomFee > 0) {
+      if (chosenEvent.maxTeam > 1) {
+        feeParts.push(`Paid Campus Stay (${chosenEvent.maxTeam} persons × ₹100 = ₹${accomFee})`);
+      } else {
+        feeParts.push(`Paid Campus Stay (₹${accomFee})`);
+      }
+    }
+    if (foodFee > 0) {
+      feeParts.push(`Festival Lunch (₹${foodFee})`);
+    }
+    const feeBreakdown = feeParts.length > 1 ? `${feeParts.join(' + ')} = ₹${totalFee}` : feeParts[0];
 
     const upiLink =
       'upi://pay?pa=' + SITE_CONFIG.upiId +
@@ -950,11 +1075,13 @@
     if (passAccomEl) passAccomEl.textContent = accom;
     const passDietEl = document.getElementById('passDiet');
 
-    const vegCount = roster.filter((m) => m.diet === 'Veg').length;
-    const nonVegCount = roster.filter((m) => m.diet === 'Non-Veg').length;
-    const dietarySummary = roster.length > 1
-      ? `${nonVegCount} Non-Veg, ${vegCount} Veg (Lead: ${diet}; ` + roster.slice(1).map((m) => `M${m.index}: ${m.diet}`).join(', ') + ')'
-      : diet;
+    const vegCount = roster.filter((m) => m.diet === 'Veg' || m.diet.includes('Veg')).length;
+    const nonVegCount = roster.filter((m) => m.diet === 'Non-Veg' || m.diet.includes('Non-Veg')).length;
+    const dietarySummary = isSpot
+      ? finalLeadDiet
+      : (roster.length > 1
+          ? `${nonVegCount} Non-Veg, ${vegCount} Veg (Lead: ${finalLeadDiet}; ` + roster.slice(1).map((m) => `M${m.index}: ${m.diet}`).join(', ') + ')'
+          : finalLeadDiet);
     if (passDietEl) passDietEl.textContent = dietarySummary;
 
     const passEventsList = document.getElementById('passEventsList');
@@ -1021,14 +1148,17 @@
       '*ASCEND \'26 — REGISTRATION (PAYMENT SUBMITTED)*',
       'Ref ID: *' + latestRefId + '*',
       'Event: *' + chosenEvent.title + '*',
+      'Fee Breakdown: *' + feeBreakdown + '*',
       'Total Fee: *₹' + totalFee + '*',
       'Institution: *' + college + '*',
       '',
-      '*TEAM ROSTER (' + roster.length + ' Member' + (roster.length > 1 ? 's' : '') + '):*',
-      rosterWaList,
-      '',
+      ...(roster.length > 1 ? [
+        '*TEAM ROSTER (' + roster.length + ' Members):*',
+        rosterWaList,
+        ''
+      ] : []),
       'Accommodation: ' + accom,
-      'Dietary Summary: ' + dietarySummary,
+      'Food / Dietary: ' + dietarySummary,
       'Source: ' + referralSummary,
       notes ? 'Notes: ' + notes : '',
       'UTR / Txn ID: (see screenshot)'

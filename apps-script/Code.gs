@@ -611,7 +611,7 @@ function buildPassPdfHtml_(d) {
             '<li><strong>Identification:</strong> Every participant must present this pass (printed or digital) along with their valid College/University Identity Card at the verification counter.</li>' +
             '<li><strong>Reporting:</strong> Specific event schedules, reporting times, and room allocations will be announced on the official portal (<a href="https://ascend26.vercel.app/" style="color:#92400e; font-weight:700;">ascend26.vercel.app</a>).</li>' +
             '<li><strong>Dress Code:</strong> Formal / business attire is mandatory for all management competitive arenas.</li>' +
-            '<li><strong>Accommodation:</strong> Campus stay is provided exclusively for outstation delegates who qualify in Day 1 elimination rounds and advance to Day 2 (Night of Day 1 only).</li>' +
+            '<li><strong>Food &amp; Accommodation:</strong> Complimentary lunch is provided for registered flagship events (excluding Reel Making and E-Football/PES). Complimentary campus stay is provided for outstation delegates who qualify in Day 1 elimination rounds and advance to Day 2. Paid campus stay is available for outstation delegates at ₹100/person.</li>' +
             '<li><strong>Helpdesk:</strong> For accommodation, travel, or event clarifications, WhatsApp the Desk: <strong>' + esc_(DESK_CONTACT_DISPLAY) + '</strong> (' + esc_(DESK_CONTACT_NAME) + ').</li>' +
           '</ol>' +
         '</div>' +
