@@ -295,8 +295,8 @@ const TEAM_DATA = [
   { name: 'Fathima Rushda', role: 'Joint Convenor', category: 'Core Committee', phoneDisplay: '+91 81378 24644', phoneRaw: '918137824644', photo: 'assets/team/fathima-rushda.png' },
   { name: 'Rohan A', role: 'Finance Lead', category: 'Core Committee', phoneDisplay: '+91 97461 80378', phoneRaw: '919746180378', photo: 'assets/team/rohan-a.png' },
   { name: 'Anagha M V', role: 'Event Manager', category: 'Core Committee', phoneDisplay: '+91 85907 85977', phoneRaw: '918590785977', photo: 'assets/team/anagha-mv.png' },
-  { name: 'Ajay Das (Ajaydas H)', role: 'Promotion Lead', category: 'Core Committee', phoneDisplay: '+91 79071 55174', phoneRaw: '917907155174', photo: 'assets/team/ajay-das.png' },
-  { name: 'Anugrah M (Anugrah A M)', role: 'Invitation Lead', category: 'Core Committee', phoneDisplay: '+91 94970 61719', phoneRaw: '919497061719', photo: 'assets/team/anugrah-m.png' },
+  { name: 'Ajaydas H', role: 'Promotion Lead', category: 'Core Committee', phoneDisplay: '+91 79071 55174', phoneRaw: '917907155174', photo: 'assets/team/ajay-das.png' },
+  { name: 'Anugrah A M', role: 'Invitation Lead', category: 'Core Committee', phoneDisplay: '+91 94970 61719', phoneRaw: '919497061719', photo: 'assets/team/anugrah-m.png' },
   { name: 'Aswathi A K', role: 'Program Co-ordinator', category: 'Core Committee', phoneDisplay: '+91 80863 82375', phoneRaw: '918086382375', photo: 'assets/team/aswathi-ak.png' },
   { name: 'Muhammed Shabeeb K T', role: 'Sponsorship Lead', category: 'Core Committee', phoneDisplay: '+91 97440 11164', phoneRaw: '919744011164', photo: 'assets/team/muhammed-shabeeb.png' },
 
